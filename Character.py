@@ -1,0 +1,169 @@
+from Items import *
+from Constants import *
+
+
+class Character:
+    """"""
+    def __init__(self, name, job, arm1,
+                 arm2, helmet, breastplate, grieves, spells, potions, items):
+        """Creates an instance of the Character class.
+
+        :param name: the name of the character
+        :param job: the character class of the character
+        :param arm1: the 1st armament of the character
+        :param arm2: the 2nd armament of the character
+        :param helmet: the headwear of the character
+        :param breastplate: the chestwear of the character
+        :param grieves: the legwear of the character
+        :param spells: the list of spells the character can cast
+        :param potions: the list of potions the character has
+        :param items: the list of items the character has
+        """
+        # No armament is this Weapon("Bare Hands", 0, Jobs.Any, WpnTypes.BLUNT, 10, Effects.STUN, 20.0, 0)
+        assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
+        assert isinstance(job, Jobs), f"Job expected to be Jobs type, got: {type(job)}"
+        assert isinstance(arm1, Weapon), f"Armament1 expected to be Weapon type, got: {type(arm1)}"
+        assert isinstance(arm2, Weapon), f"Armament2 expected to be Weapon type, got: {type(arm2)}"
+        assert isinstance(helmet, Armor), f"Helmet expected to be Armor type, got: {type(helmet)}"
+        assert isinstance(breastplate, Armor), f"Breastplate expected to be Armor type, got: {type(breastplate)}"
+        assert isinstance(grieves, Armor), f"Grieves expected to be Armor type, got: {type(grieves)}"
+        assert isinstance(spells, list), f"Spells list expected to be list type, got: {type(spells)}"
+        for spell in spells:
+            assert isinstance(spell, Spell), f"Spell element expected to be spell type, got: {type(spell)}"
+        assert isinstance(potions, list), f"Potions list expected to be list type, got: {type(potions)}"
+        for potion in potions:
+            assert isinstance(potion, Potion), f"Potion element expected to be potion type, got: {type(potion)}"
+        assert isinstance(items, list), f"Items list expected to be list type, got: {type(items)}"
+        for item in items:
+            assert isinstance(item, Weapon) or isinstance(item, Armor),\
+                f"Item element expected to be Weapon or Armor type, got: {type(item)}"
+        self.name = name
+        self.job = job
+        self.arm1 = arm1
+        self.arm2 = arm2
+        self.helmet = helmet
+        self.breastplate = breastplate
+        self.grieves = grieves
+        self.spells = spells
+        self.potions = potions
+        self.equipment = items
+
+    def __equip__(self, item):
+        """Equips a specified item to the desired equipment slot
+
+        :param item: the item to be equipped
+        :return: Nothing
+        """
+        assert isinstance(item, Weapon) or isinstance(item, Armor),\
+            f"Item expected to be Weapon or Armor type, got: {type(item)}"
+        if isinstance(item, Weapon):
+            # Equipping a weapon to the armament slot
+            while True:
+                while True:
+                    try:
+                        i = int(input("Which armament slot do you want to equip your weapon into? (1 or 2)"))
+                        assert i == 1 or i == 2
+                        break
+                    except ValueError or AssertionError:
+                        print("The input was not recognized as a valid input. Please input a valid response. "
+                              "Try again...")
+                if i == 1:
+                    if self.arm1 is not None:
+                        while True:
+                            try:
+                                ans = input(f"You already have an armament equipped in this slot. "
+                                            f"Are you sure you want to replace {self.arm1.name} with {item.name}? y/n")
+                                assert ans == "y" or ans == "n"
+                                break
+                            except AssertionError:
+                                print("The input was not recognized as a valid input. Please input a valid response. "
+                                      "Try again...")
+                        if ans == "y":
+                            self.__add_to_inv__(self, self.arm1)
+                            self.arm1 = item
+                        else:
+                            break
+                    else:
+                        self.__add_to_inv__(self, self.arm1)
+                        self.arm1 = item
+                        break
+                else:
+                    if self.arm2 is not None:
+                        while True:
+                            try:
+                                ans = input(f"You already have an armament equipped in this slot. "
+                                            f"Are you sure you want to replace {self.arm2.name} with {item.name}? y/n")
+                                assert ans == "y" or "n"
+                                break
+                            except AssertionError:
+                                print("The input was not recognized as a valid input. Please input a valid response. "
+                                      "Try again...")
+                        if ans == "y":
+                            self.__add_to_inv__(self, self.arm2)
+                            self.arm2 = item
+                        else:
+                            break
+                    else:
+                        self.__add_to_inv__(self, self.arm2)
+                        self.arm2 = item
+                        break
+        else:
+            # Equipping an armor piece to an armor slot
+            while True:
+                if item.armor_type is ArmorPieces.HELMET:
+                    if self.helmet is not None:
+                        while True:
+                            try:
+                                ans = input(f"You already have a helmet equipped. Are you sure you want to replace "
+                                            f"{self.helmet.name} with {item.name}? y/n")
+                                assert ans == "y" or ans == "n"
+                                break
+                            except AssertionError:
+                                print("The input was not recognized as a valid input. Please input a valid response. "
+                                      "Try again...")
+                        if ans == "y":
+                            self.__add_to_inv__(self, self.helmet)
+                            self.helmet = item
+                            break
+                    else:
+                        self.__add_to_inv__(self, self.helmet)
+                        self.helmet = item
+                        break
+                elif item.armor_type is ArmorPieces.BREASTPLATE:
+                    if self.breastplate is not None:
+                        while True:
+                            try:
+                                ans = input(f"You already have a breastplate equipped. Are you sure you want to replace "
+                                            f"{self.breastplate.name} with {item.name}? y/n")
+                                assert ans == "y" or ans == "n"
+                                break
+                            except AssertionError:
+                                print("The input was not recognized as a valid input. Please input a valid response. "
+                                      "Try again...")
+                        if ans == "y":
+                            self.__add_to_inv__(self, self.breastplate)
+                            self.breastplate = item
+                            break
+                    else:
+                        self.__add_to_inv__(self, self.breastplate)
+                        self.breastplate = item
+                        break
+                else:
+                    if self.grieves is not None:
+                        while True:
+                            try:
+                                ans = input(f"You already have grieves equipped. Are you sure you want to replace "
+                                            f"{self.grieves.name} with {item.name}? y/n")
+                                assert ans == "y" or ans == "n"
+                                break
+                            except AssertionError:
+                                print("The input was not recognized as a valid input. Please input a valid response. "
+                                      "Try again...")
+                        if ans == "y":
+                            self.__add_to_inv__(self, self.grieves)
+                            self.grieves = item
+                            break
+                    else:
+                        self.__add_to_inv__(self, self.grieves)
+                        self.grieves = item
+                        break
