@@ -9,11 +9,10 @@ class Jobs(Enum):
 
 class WpnTypes(Enum):
     NONE = -1
-    SHARP = 0
+    SLASH = 0
     BLUNT = 1
-    SHIELD = 2
-    RANGED = 3
-    STAFF = 4
+    PIERCE = 2
+    STAFF = 3
 
 
 class Effects(Enum):
@@ -40,3 +39,4 @@ class ArmorPieces(Enum):
     HELMET = 0
     BREASTPLATE = 1
     GRIEVES = 2
+    SHIELD = 3
