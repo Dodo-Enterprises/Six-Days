@@ -3,7 +3,8 @@ from Constants import *
 
 class Weapon:
     """Weapon data type that holds all the relevant information for all weapon items."""
-    def __init__(self, name, cost, job, wpn_type, damage, effect=Effects.NONE, effect_chance=100.0, effect_amt=0):
+    def __init__(self, name, cost, job, wpn_type, phy_damage, effect=Effects.NONE, effect_chance=100.0, effect_amt=0,
+                 mag_damage=0):
         """Creates the Weapon instance.
 
         Keyword arguments:
@@ -20,18 +21,20 @@ class Weapon:
         assert isinstance(cost, int), f"Cost expected to be Integer type, got: {type(cost)}"
         assert isinstance(job, Jobs), f"Job expected to be Jobs type, got: {type(job)}"
         assert isinstance(wpn_type, WpnTypes), f"Weapon_Type expected to be Wpn_Types type, got: {type(wpn_type)}"
-        assert isinstance(damage, int), f"Damage expected to be Integer type, got: {type(damage)}"
+        assert isinstance(phy_damage, int), f"Damage expected to be Integer type, got: {type(phy_damage)}"
         assert isinstance(effect, Effects), f"Effect expected to be Effects type, got: {type(effect)}"
         assert isinstance(effect_chance, float), f"Effect_Chance expected to be Float type, got: {type(effect_chance)}"
         assert isinstance(effect_amt, int), f"Effect_Amount expected to be integer type, got: {type(effect_amt)}"
+        assert isinstance(mag_damage, int), f"Magical Damage expected to be integer type, got: {type(mag_damage)}"
         self.name = name
         self.cost = cost
         self.job = job
         self.wpn_type = wpn_type
-        self.damage = damage
+        self.damage = phy_damage
         self.effect = effect
         self.effect_chance = effect_chance
         self.effect_amt = effect_amt
+        self.mag_damage = mag_damage
 
 
 class Armor:
