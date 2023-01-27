@@ -4,6 +4,7 @@ from Constants import *
 
 class Character:
     """"""
+    type_advantage = 2
     def __init__(self, name, job, arm1,
                  arm2, helmet, breastplate, grieves, spells, potions, items):
         """Creates an instance of the Character class.
@@ -167,3 +168,77 @@ class Character:
                         self.__add_to_inv__(self, self.grieves)
                         self.grieves = item
                         break
+
+    def __add_to_inv__(self, item):
+        """Adds the specified item or list/tuple of items into the inventory
+
+        :param item: the specified item to be added into inventory
+        :return:
+        """
+        if isinstance(item, list) or isinstance(item, tuple):
+            for i in item:
+                assert isinstance(i, Weapon) or isinstance(i, Armor) or isinstance(i, Spell) or isinstance(i, Potion), \
+                    f"The item expected to be Weapon, Armor, Spell, or Potion type, got: {type(item)}"
+                if isinstance(i, Weapon) or isinstance(i, Armor):
+                    self.equipment.append(i)
+                elif isinstance(i,Spell):
+                    self.spells.append(i)
+                else:
+                    self.potions.append(i)
+        assert isinstance(item, Weapon) or isinstance(item, Armor) or isinstance(item, Spell) \
+               or isinstance(item, Potion), f"The item expected to be Weapon, Armor, " \
+                                            f"Spell, or Potion type, got: {type(item)}"
+        if isinstance(item, Weapon) or isinstance(item, Armor):
+            self.equipment.append(item)
+        elif isinstance(item, Spell):
+            self.spells.append(item)
+        else:
+            self.potions.append(item)
+
+    def __phy_attack__(self, weapon, defender):
+        """Enacts a physical attack on the specified defender with the specified weapon.
+
+        :param weapon: the specific weapon that the character uses to attack
+        :param defender: the character that is being attacked
+        :return: the damage done to the character and how much health they have left in a tuple
+        """
+        assert isinstance(weapon, Weapon), f"Weapon expected to be Weapon type, got: {type(weapon)}"
+        assert isinstance(defender, Character), f"Defender expected to be Character type, got: {type(defender)}"
+        # Calculating the advantage the attacker gets
+        helmet_adv = False
+        breastplate_adv = False
+        grieves_adv = False
+        if self.job == Jobs.WARRIOR:
+            match weapon.wpn_type:
+                case WpnTypes.BLUNT:
+                    if defender.helmet.armor_type == ArmorTypes.PLATE:
+                        helmet_adv = True
+                    if defender.breastplate.armor_type == ArmorTypes.PLATE:
+                        breastplate_adv = True
+                    if defender.grieves.armor_type == ArmorTypes.PLATE:
+                        grieves_adv = True
+                case WpnTypes.SLASH:
+                    if defender.helmet.armor_type == ArmorTypes.LEATHER:
+                        helmet_adv = True
+                    if defender.breastplate.armor_type == ArmorTypes.LEATHER:
+                        breastplate_adv = True
+                    if defender.grieves.armor_type == ArmorTypes.LEATHER:
+                        grieves_adv = True
+                case WpnTypes.PIERCE:
+                    if defender.helmet.armor_type == ArmorTypes.CHAIN:
+                        helmet_adv = True
+                    if defender.breastplate.armor_type == ArmorTypes.CHAIN:
+                        breastplate_adv = True
+                    if defender.grieves.armor_type == ArmorTypes.CHAIN:
+                        grieves_adv = True
+                case WpnTypes.STAFF:
+                    if defender.helmet.armor_type == ArmorTypes.PLATE:
+                        helmet_adv = True
+                    if defender.breastplate.armor_type == ArmorTypes.PLATE:
+                        breastplate_adv = True
+                    if defender.grieves.armor_type == ArmorTypes.PLATE:
+                        grieves_adv = True
+        #TODO Finish the attack function
+
+    def __mag_attack__(self, staff, spell, defender):
+        pass
