@@ -39,4 +39,4 @@ class ArmorPieces(Enum):
     HELMET = 0
     BREASTPLATE = 1
     GRIEVES = 2
-    SHIELD = 3
+    # SHIELD = 3

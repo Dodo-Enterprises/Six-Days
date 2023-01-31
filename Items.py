@@ -30,7 +30,7 @@ class Weapon:
         self.cost = cost
         self.job = job
         self.wpn_type = wpn_type
-        self.damage = phy_damage
+        self.phy_damage = phy_damage
         self.effect = effect
         self.effect_chance = effect_chance
         self.effect_amt = effect_amt
