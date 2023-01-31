@@ -5,7 +5,8 @@ from Constants import *
 class Character:
     """"""
     type_advantage = 2
-    def __init__(self, name, job, arm1,
+
+    def __init__(self, name, health, job, arm1,
                  arm2, helmet, breastplate, grieves, spells, potions, items):
         """Creates an instance of the Character class.
 
@@ -22,6 +23,7 @@ class Character:
         """
         # No armament is this Weapon("Bare Hands", 0, Jobs.Any, WpnTypes.BLUNT, 10, Effects.STUN, 20.0, 0)
         assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
+        assert isinstance(health, float), f"Health expected to be float type, got: {type(health)}"
         assert isinstance(job, Jobs), f"Job expected to be Jobs type, got: {type(job)}"
         assert isinstance(arm1, Weapon), f"Armament1 expected to be Weapon type, got: {type(arm1)}"
         assert isinstance(arm2, Weapon), f"Armament2 expected to be Weapon type, got: {type(arm2)}"
@@ -39,6 +41,7 @@ class Character:
             assert isinstance(item, Weapon) or isinstance(item, Armor),\
                 f"Item element expected to be Weapon or Armor type, got: {type(item)}"
         self.name = name
+        self.health = health
         self.job = job
         self.arm1 = arm1
         self.arm2 = arm2
@@ -181,7 +184,7 @@ class Character:
                     f"The item expected to be Weapon, Armor, Spell, or Potion type, got: {type(item)}"
                 if isinstance(i, Weapon) or isinstance(i, Armor):
                     self.equipment.append(i)
-                elif isinstance(i,Spell):
+                elif isinstance(i, Spell):
                     self.spells.append(i)
                 else:
                     self.potions.append(i)
@@ -196,6 +199,7 @@ class Character:
             self.potions.append(item)
 
     def __phy_attack__(self, weapon, defender):
+        # TODO add effects
         """Enacts a physical attack on the specified defender with the specified weapon.
 
         :param weapon: the specific weapon that the character uses to attack
@@ -238,7 +242,42 @@ class Character:
                         breastplate_adv = True
                     if defender.grieves.armor_type == ArmorTypes.PLATE:
                         grieves_adv = True
-        #TODO Finish the attack function
+        # Calculating the attack done on defender
+        # TODO finish the effect section
+        if weapon.effect == Effects.NONE and defender.helmet.effect == Effects.NONE and defender.breastplate.effect\
+                == Effects.NONE and defender.grieves.effect == Effects.NONE:
+            if helmet_adv:
+                helmet_dmg = float((Character.type_advantage * weapon.phy_damage * defender.helmet.phy_neg / 100)
+                                   + (weapon.mag_damage * defender.helmet.magic_neg / 100))
+            else:
+                helmet_dmg = float((weapon.phy_damage * defender.helmet.phy_neg / 100)
+                                   + (weapon.mag_damage * defender.helmet.magic_neg / 100))
+            if breastplate_adv:
+                breastplate_dmg = float((Character.type_advantage * weapon.phy_damage * defender.breastplate.phy_neg / 100)
+                                        + (weapon.mag_damage * defender.helmet.magic_neg / 100))
+            else:
+                breastplate_dmg = float((weapon.phy_damage * defender.breastplate.phy_neg / 100)
+                                        + (weapon.mag_damage * defender.helmet.magic_neg / 100))
+            if grieves_adv:
+                grieves_dmg = float((Character.type_advantage * weapon.phy_damage * defender.grieves.phy_neg / 100)
+                                    + (weapon.mag_damage * defender.helmet.magic_neg / 100))
+            else:
+                grieves_dmg = float((weapon.phy_damage * defender.grieves.phy_neg / 100)
+                                    + (weapon.mag_damage * defender.helmet.magic_neg / 100))
+            total_dmg = round(float(helmet_dmg + breastplate_dmg + grieves_dmg), 2)
+            defender.__hurt__(total_dmg)
+            return total_dmg, defender.health
 
     def __mag_attack__(self, staff, spell, defender):
-        pass
+        """Enacts a magical attack with the specified spell and staff against the defender
+
+        :param staff: The staff the attacker is using
+        :param spell: The spell the Attacker is using
+        :param defender: The specified defender
+        :return: the damage done to the character and how much health they have left in a tuple
+        """
+
+    def __hurt__(self, dmg):
+        assert isinstance(dmg, float), f"Expected Damage to be float type, got: {type(dmg)}"
+        self.health -= dmg
+        return self.health
