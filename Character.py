@@ -38,7 +38,7 @@ class Character:
             assert isinstance(potion, Potion), f"Potion element expected to be potion type, got: {type(potion)}"
         assert isinstance(items, list), f"Items list expected to be list type, got: {type(items)}"
         for item in items:
-            assert isinstance(item, Weapon) or isinstance(item, Armor),\
+            assert isinstance(item, Weapon) or isinstance(item, Armor), \
                 f"Item element expected to be Weapon or Armor type, got: {type(item)}"
         self.name = name
         self.health = health
@@ -58,7 +58,7 @@ class Character:
         :param item: the item to be equipped
         :return: Nothing
         """
-        assert isinstance(item, Weapon) or isinstance(item, Armor),\
+        assert isinstance(item, Weapon) or isinstance(item, Armor), \
             f"Item expected to be Weapon or Armor type, got: {type(item)}"
         if isinstance(item, Weapon):
             # Equipping a weapon to the armament slot
@@ -137,8 +137,9 @@ class Character:
                     if self.breastplate is not None:
                         while True:
                             try:
-                                ans = input(f"You already have a breastplate equipped. Are you sure you want to replace "
-                                            f"{self.breastplate.name} with {item.name}? y/n")
+                                ans = input(
+                                    f"You already have a breastplate equipped. Are you sure you want to replace "
+                                    f"{self.breastplate.name} with {item.name}? y/n")
                                 assert ans == "y" or ans == "n"
                                 break
                             except AssertionError:
@@ -244,7 +245,7 @@ class Character:
                         grieves_adv = True
         # Calculating the attack done on defender
         # TODO finish the effect section
-        if weapon.effect == Effects.NONE and defender.helmet.effect == Effects.NONE and defender.breastplate.effect\
+        if weapon.effect == Effects.NONE and defender.helmet.effect == Effects.NONE and defender.breastplate.effect \
                 == Effects.NONE and defender.grieves.effect == Effects.NONE:
             if helmet_adv:
                 helmet_dmg = float((Character.type_advantage * weapon.phy_damage * defender.helmet.phy_neg / 100)
@@ -253,8 +254,9 @@ class Character:
                 helmet_dmg = float((weapon.phy_damage * defender.helmet.phy_neg / 100)
                                    + (weapon.mag_damage * defender.helmet.magic_neg / 100))
             if breastplate_adv:
-                breastplate_dmg = float((Character.type_advantage * weapon.phy_damage * defender.breastplate.phy_neg / 100)
-                                        + (weapon.mag_damage * defender.helmet.magic_neg / 100))
+                breastplate_dmg = float(
+                    (Character.type_advantage * weapon.phy_damage * defender.breastplate.phy_neg / 100)
+                    + (weapon.mag_damage * defender.helmet.magic_neg / 100))
             else:
                 breastplate_dmg = float((weapon.phy_damage * defender.breastplate.phy_neg / 100)
                                         + (weapon.mag_damage * defender.helmet.magic_neg / 100))
@@ -264,7 +266,7 @@ class Character:
             else:
                 grieves_dmg = float((weapon.phy_damage * defender.grieves.phy_neg / 100)
                                     + (weapon.mag_damage * defender.helmet.magic_neg / 100))
-            total_dmg = round(float(helmet_dmg + breastplate_dmg + grieves_dmg), 2)
+            total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
             defender.__hurt__(total_dmg)
             return total_dmg, defender.health
 
@@ -276,6 +278,19 @@ class Character:
         :param defender: The specified defender
         :return: the damage done to the character and how much health they have left in a tuple
         """
+        assert isinstance(staff, Weapon), f"Staff expected to be Weapon type, got {type(staff)}"
+        assert staff.wpn_type == WpnTypes.STAFF, f"Staff expected to be a staff, got {staff.wpn_type}"
+        assert isinstance(spell, Spell), f"Spell expected to be Spell type, got {type(spell)}"
+        assert isinstance(defender, Character), f"Defender expected to be Character type, got {type(defender)}"
+        # TODO finish the effect section
+        if staff.effect == Effects.NONE and defender.helmet.effect == Effects.NONE and defender.breastplate.effect \
+                == Effects.NONE and defender.grieves.effect == Effects.NONE:
+            helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
+            breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
+            grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
+            total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
+            defender.__hurt__(total_dmg)
+            return total_dmg, defender.health
 
     def __hurt__(self, dmg):
         assert isinstance(dmg, float), f"Expected Damage to be float type, got: {type(dmg)}"
