@@ -20,7 +20,7 @@ class Effects(Enum):
     BURN = 0
     FREEZE = 1
     STUN = 2
-    POISON = 3
+    LIFESTEAL = 3
     HEALTH = 4
     STRENGTH = 5
     DEFENSE = 6
@@ -35,7 +35,7 @@ class ArmorTypes(Enum):
 
 
 class ArmorPieces(Enum):
-    NONE = -1
+    # NONE = -1
     HELMET = 0
     BREASTPLATE = 1
     GRIEVES = 2

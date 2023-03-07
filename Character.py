@@ -1,3 +1,5 @@
+from random import random
+
 from Items import *
 from Constants import *
 
@@ -5,9 +7,14 @@ from Constants import *
 class Character:
     """"""
     type_advantage = 2
+    def_arm = Weapon("Bare Hands", 0, Jobs.ANY, WpnTypes.BLUNT, 10, effect=Effects.STUN, effect_chance=20.0,
+                     effect_amt=0)
+    def_helmet = Armor("Bare Head", 0, Jobs.ANY, 1, 1, ArmorTypes.NONE, ArmorPieces.HELMET)
+    def_breastplate = Armor("Bare Chest", 0, Jobs.ANY, 1, 1, ArmorTypes.NONE, ArmorPieces.BREASTPLATE)
+    def_grieves = Armor("Bare Legs", 0, Jobs.ANY, 1, 1, ArmorTypes.NONE, ArmorPieces.GRIEVES)
 
-    def __init__(self, name, health, job, arm1,
-                 arm2, helmet, breastplate, grieves, spells, potions, items):
+    def __init__(self, name, health, job, spells, potions, items, arm1=def_arm,
+                 arm2=def_arm, helmet=def_helmet, breastplate=def_breastplate, grieves=def_grieves):
         """Creates an instance of the Character class.
 
         :param name: the name of the character
@@ -21,7 +28,6 @@ class Character:
         :param potions: the list of potions the character has
         :param items: the list of items the character has
         """
-        # No armament is this Weapon("Bare Hands", 0, Jobs.Any, WpnTypes.BLUNT, 10, Effects.STUN, 20.0, 0)
         assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
         assert isinstance(health, float), f"Health expected to be float type, got: {type(health)}"
         assert isinstance(job, Jobs), f"Job expected to be Jobs type, got: {type(job)}"
@@ -72,7 +78,7 @@ class Character:
                         print("The input was not recognized as a valid input. Please input a valid response. "
                               "Try again...")
                 if i == 1:
-                    if self.arm1 is not None:
+                    if self.arm1 != Character.def_arm:
                         while True:
                             try:
                                 ans = input(f"You already have an armament equipped in this slot. "
@@ -88,11 +94,10 @@ class Character:
                         else:
                             break
                     else:
-                        self.__add_to_inv__(self, self.arm1)
                         self.arm1 = item
                         break
                 else:
-                    if self.arm2 is not None:
+                    if self.arm2 != Character.def_arm:
                         while True:
                             try:
                                 ans = input(f"You already have an armament equipped in this slot. "
@@ -108,14 +113,13 @@ class Character:
                         else:
                             break
                     else:
-                        self.__add_to_inv__(self, self.arm2)
                         self.arm2 = item
                         break
         else:
             # Equipping an armor piece to an armor slot
             while True:
                 if item.armor_type is ArmorPieces.HELMET:
-                    if self.helmet is not None:
+                    if self.helmet != Character.def_helmet:
                         while True:
                             try:
                                 ans = input(f"You already have a helmet equipped. Are you sure you want to replace "
@@ -130,11 +134,10 @@ class Character:
                             self.helmet = item
                             break
                     else:
-                        self.__add_to_inv__(self, self.helmet)
                         self.helmet = item
                         break
                 elif item.armor_type is ArmorPieces.BREASTPLATE:
-                    if self.breastplate is not None:
+                    if self.breastplate != Character.def_breastplate:
                         while True:
                             try:
                                 ans = input(
@@ -150,11 +153,10 @@ class Character:
                             self.breastplate = item
                             break
                     else:
-                        self.__add_to_inv__(self, self.breastplate)
                         self.breastplate = item
                         break
                 else:
-                    if self.grieves is not None:
+                    if self.grieves != Character.def_grieves:
                         while True:
                             try:
                                 ans = input(f"You already have grieves equipped. Are you sure you want to replace "
@@ -169,9 +171,23 @@ class Character:
                             self.grieves = item
                             break
                     else:
-                        self.__add_to_inv__(self, self.grieves)
                         self.grieves = item
                         break
+
+    def __unequip__(self, slot):
+        assert slot == "arm1" or slot == "arm2" or slot == "helmet" or slot == "breastplate" or slot == "grieves", \
+            f"slot expected to be a valid equipment slot, got: {slot}"
+        match slot:
+            case "arm1":
+                self.__equip__(self, Character.def_arm)
+            case "arm2":
+                self.__equip__(self, Character.def_arm)
+            case "helmet":
+                self.__equip__(self, Character.def_helmet)
+            case "breastplate":
+                self.__equip__(self, Character.def_breastplate)
+            case "grieves":
+                self.__equip__(self, Character.def_grieves)
 
     def __add_to_inv__(self, item):
         """Adds the specified item or list/tuple of items into the inventory
@@ -200,7 +216,6 @@ class Character:
             self.potions.append(item)
 
     def __phy_attack__(self, weapon, defender):
-        # TODO add effects
         """Enacts a physical attack on the specified defender with the specified weapon.
 
         :param weapon: the specific weapon that the character uses to attack
@@ -244,29 +259,66 @@ class Character:
                     if defender.grieves.armor_type == ArmorTypes.PLATE:
                         grieves_adv = True
         # Calculating the attack done on defender
-        # TODO finish the effect section
-        if weapon.effect == Effects.NONE and defender.helmet.effect == Effects.NONE and defender.breastplate.effect \
-                == Effects.NONE and defender.grieves.effect == Effects.NONE:
-            if helmet_adv:
-                helmet_dmg = float((Character.type_advantage * weapon.phy_damage * defender.helmet.phy_neg / 100)
-                                   + (weapon.mag_damage * defender.helmet.magic_neg / 100))
+        if self.job == Jobs.WARRIOR:
+            if weapon.effect != Effects.NONE and random() <= weapon.effect_chance:
+                if helmet_adv:
+                    helmet_dmg = float((Character.type_advantage * weapon.phy_damage * defender.helmet.phy_neg)
+                                       + (weapon.mag_damage * defender.helmet.magic_neg))
+                else:
+                    helmet_dmg = float((weapon.phy_damage * defender.helmet.phy_neg)
+                                       + (weapon.mag_damage * defender.helmet.magic_neg))
+                if breastplate_adv:
+                    breastplate_dmg = float(
+                        (Character.type_advantage * weapon.phy_damage * defender.breastplate.phy_neg)
+                        + (weapon.mag_damage * defender.helmet.magic_neg))
+                else:
+                    breastplate_dmg = float((weapon.phy_damage * defender.breastplate.phy_neg)
+                                            + (weapon.mag_damage * defender.helmet.magic_neg))
+                if grieves_adv:
+                    grieves_dmg = float((Character.type_advantage * weapon.phy_damage * defender.grieves.phy_neg)
+                                        + (weapon.mag_damage * defender.helmet.magic_neg))
+                else:
+                    grieves_dmg = float((weapon.phy_damage * defender.grieves.phy_neg)
+                                        + (weapon.mag_damage * defender.helmet.magic_neg))
+                total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
+                defender.__hurt__(total_dmg)
+                if weapon.effect != Effects.LIFESTEAL:
+                    defender.__afflict__(weapon.effect, weapon.effect_amt)
+                    return total_dmg, defender.health
+                else:
+                    self.health += total_dmg * weapon.effect_amt
+                    return total_dmg, defender.health
             else:
-                helmet_dmg = float((weapon.phy_damage * defender.helmet.phy_neg / 100)
-                                   + (weapon.mag_damage * defender.helmet.magic_neg / 100))
-            if breastplate_adv:
-                breastplate_dmg = float(
-                    (Character.type_advantage * weapon.phy_damage * defender.breastplate.phy_neg / 100)
-                    + (weapon.mag_damage * defender.helmet.magic_neg / 100))
-            else:
-                breastplate_dmg = float((weapon.phy_damage * defender.breastplate.phy_neg / 100)
-                                        + (weapon.mag_damage * defender.helmet.magic_neg / 100))
-            if grieves_adv:
-                grieves_dmg = float((Character.type_advantage * weapon.phy_damage * defender.grieves.phy_neg / 100)
-                                    + (weapon.mag_damage * defender.helmet.magic_neg / 100))
-            else:
-                grieves_dmg = float((weapon.phy_damage * defender.grieves.phy_neg / 100)
-                                    + (weapon.mag_damage * defender.helmet.magic_neg / 100))
-            total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
+                if helmet_adv:
+                    helmet_dmg = float((Character.type_advantage * weapon.phy_damage * defender.helmet.phy_neg)
+                                       + (weapon.mag_damage * defender.helmet.magic_neg))
+                else:
+                    helmet_dmg = float((weapon.phy_damage * defender.helmet.phy_neg)
+                                       + (weapon.mag_damage * defender.helmet.magic_neg))
+                if breastplate_adv:
+                    breastplate_dmg = float(
+                        (Character.type_advantage * weapon.phy_damage * defender.breastplate.phy_neg)
+                        + (weapon.mag_damage * defender.helmet.magic_neg))
+                else:
+                    breastplate_dmg = float((weapon.phy_damage * defender.breastplate.phy_neg)
+                                            + (weapon.mag_damage * defender.helmet.magic_neg))
+                if grieves_adv:
+                    grieves_dmg = float((Character.type_advantage * weapon.phy_damage * defender.grieves.phy_neg)
+                                        + (weapon.mag_damage * defender.helmet.magic_neg))
+                else:
+                    grieves_dmg = float((weapon.phy_damage * defender.grieves.phy_neg)
+                                        + (weapon.mag_damage * defender.helmet.magic_neg))
+                total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
+                defender.__hurt__(total_dmg)
+                return total_dmg, defender.health
+        else:
+            helmet_dmg = float((weapon.phy_damage * defender.helmet.phy_neg) +
+                               (weapon.mag_damage * defender.helmet.magic_neg))
+            breastplate_dmg = float((weapon.phy_damage * defender.breastplate.phy_neg)
+                                    + (weapon.mag_damage * defender.helmet.magic_neg))
+            grieves_dmg = float((weapon.phy_damage * defender.grieves.phy_neg)
+                                + (weapon.mag_damage * defender.helmet.magic_neg))
+            total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg) / Character.type_advantage, 2)
             defender.__hurt__(total_dmg)
             return total_dmg, defender.health
 
@@ -282,17 +334,32 @@ class Character:
         assert staff.wpn_type == WpnTypes.STAFF, f"Staff expected to be a staff, got {staff.wpn_type}"
         assert isinstance(spell, Spell), f"Spell expected to be Spell type, got {type(spell)}"
         assert isinstance(defender, Character), f"Defender expected to be Character type, got {type(defender)}"
+        assert staff is self.arm1 or staff is self.arm2, "staff expected to be an equipped armament"
         # TODO finish the effect section
-        if staff.effect == Effects.NONE and defender.helmet.effect == Effects.NONE and defender.breastplate.effect \
-                == Effects.NONE and defender.grieves.effect == Effects.NONE:
-            helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
-            breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
-            grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
-            total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
-            defender.__hurt__(total_dmg)
-            return total_dmg, defender.health
+        if self.job == Jobs.MAGE:
+            if staff.effect == Effects.NONE and defender.helmet.effect == Effects.NONE and defender.breastplate.effect \
+                    == Effects.NONE and defender.grieves.effect == Effects.NONE:
+                helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
+                breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
+                grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
+                total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
+                defender.__hurt__(total_dmg)
+                return total_dmg, defender.health
+        else:
+            if staff.effect == Effects.NONE and defender.helmet.effect == Effects.NONE and defender.breastplate.effect \
+                    == Effects.NONE and defender.grieves.effect == Effects.NONE:
+                helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
+                breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
+                grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
+                total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg) / Character.type_advantage, 2)
+                defender.__hurt__(total_dmg)
+                return total_dmg, defender.health
 
     def __hurt__(self, dmg):
         assert isinstance(dmg, float), f"Expected Damage to be float type, got: {type(dmg)}"
         self.health -= dmg
         return self.health
+
+    def __open_inv__(self):
+        """Displays the inventory information"""
+
