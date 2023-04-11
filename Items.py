@@ -13,7 +13,7 @@ class Weapon:
         job -- the character class that this item is most effective for
         wpn_type -- the type of weapon it is
         damage -- the default damage this weapon does
-        effect -- the specific effect this weapon causes
+        effect -- the specific effect this weapon causes (can't be applied to staffs)
         effect_chance -- the percentage of teh effect being activated
         effect_amt -- the amount of effect the effect causes
         """

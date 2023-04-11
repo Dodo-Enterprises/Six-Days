@@ -12,6 +12,7 @@ class Character:
     def_helmet = Armor("Bare Head", 0, Jobs.ANY, 1, 1, ArmorTypes.NONE, ArmorPieces.HELMET)
     def_breastplate = Armor("Bare Chest", 0, Jobs.ANY, 1, 1, ArmorTypes.NONE, ArmorPieces.BREASTPLATE)
     def_grieves = Armor("Bare Legs", 0, Jobs.ANY, 1, 1, ArmorTypes.NONE, ArmorPieces.GRIEVES)
+    effect_duration = 3
 
     def __init__(self, name, health, job, spells, potions, items, arm1=def_arm,
                  arm2=def_arm, helmet=def_helmet, breastplate=def_breastplate, grieves=def_grieves):
@@ -57,6 +58,7 @@ class Character:
         self.spells = spells
         self.potions = potions
         self.equipment = items
+        self.status = {}
 
     def __equip__(self, item):
         """Equips a specified item to the desired equipment slot
@@ -332,33 +334,40 @@ class Character:
         """
         assert isinstance(staff, Weapon), f"Staff expected to be Weapon type, got {type(staff)}"
         assert staff.wpn_type == WpnTypes.STAFF, f"Staff expected to be a staff, got {staff.wpn_type}"
+        assert staff.effect == Effects.NONE, f"Staff expected to not have any effects, got {staff.effect}"
         assert isinstance(spell, Spell), f"Spell expected to be Spell type, got {type(spell)}"
         assert isinstance(defender, Character), f"Defender expected to be Character type, got {type(defender)}"
         assert staff is self.arm1 or staff is self.arm2, "staff expected to be an equipped armament"
-        # TODO finish the effect section
         if self.job == Jobs.MAGE:
-            if staff.effect == Effects.NONE and defender.helmet.effect == Effects.NONE and defender.breastplate.effect \
-                    == Effects.NONE and defender.grieves.effect == Effects.NONE:
-                helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
-                breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
-                grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
-                total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
-                defender.__hurt__(total_dmg)
-                return total_dmg, defender.health
+            helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
+            breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
+            grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
+            total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
+            defender.__hurt__(total_dmg)
+            return total_dmg, defender.health
         else:
-            if staff.effect == Effects.NONE and defender.helmet.effect == Effects.NONE and defender.breastplate.effect \
-                    == Effects.NONE and defender.grieves.effect == Effects.NONE:
-                helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
-                breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
-                grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
-                total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg) / Character.type_advantage, 2)
-                defender.__hurt__(total_dmg)
-                return total_dmg, defender.health
+            helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
+            breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
+            grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
+            total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg) / Character.type_advantage, 2)
+            defender.__hurt__(total_dmg)
+            return total_dmg, defender.health
 
     def __hurt__(self, dmg):
         assert isinstance(dmg, float), f"Expected Damage to be float type, got: {type(dmg)}"
         self.health -= dmg
         return self.health
+
+    def __afflict__(self, effect, effect_amt):
+        assert isinstance(effect, Effects), f"Expected an effect type, got: {type(effect)}"
+        assert isinstance(int, effect_amt), f"effect_amt is expected to be int type, got {type(effect_amt)}"
+        for key in self.status:
+            if effect == key:
+                self.status.pop(key)
+                self.status.update({effect: (effect_amt, Character.effect_duration)})
+                return None
+        self.status.update({effect: (effect_amt, Character.effect_duration)})
+        return None
 
     def __open_inv__(self):
         """Displays the inventory information"""
