@@ -15,7 +15,7 @@ class Character:
     effect_duration = 3
 
     def __init__(self, name, health, job, spells, potions, items, arm1=def_arm,
-                 arm2=def_arm, helmet=def_helmet, breastplate=def_breastplate, grieves=def_grieves):
+                 arm2=def_arm, helmet=def_helmet, breastplate=def_breastplate, grieves=def_grieves, is_player=False):
         """Creates an instance of the Character class.
 
         :param name: the name of the character
@@ -47,6 +47,7 @@ class Character:
         for item in items:
             assert isinstance(item, Weapon) or isinstance(item, Armor), \
                 f"Item element expected to be Weapon or Armor type, got: {type(item)}"
+
         self.name = name
         self.health = health
         self.job = job
@@ -59,6 +60,7 @@ class Character:
         self.potions = potions
         self.equipment = items
         self.status = {}
+        self.is_player = is_player
 
     def __equip__(self, item):
         """Equips a specified item to the desired equipment slot

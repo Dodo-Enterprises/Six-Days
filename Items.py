@@ -72,7 +72,8 @@ class Armor:
 
 class Spell:
     """Spell data type that holds all the relevant information for all spells."""
-    def __init__(self, name, cost, mana_cost, mag_damage, is_AOE, effect=Effects.NONE, effect_chance=100.0, effect_amt=0):
+    def __init__(self, name, cost, mana_cost, mag_damage, is_area_of_effect_damage, effect=Effects.NONE,
+                 effect_chance=100.0, effect_amt=0):
         """Creates the Spell instance.
 
         Keyword arguments:
@@ -89,15 +90,16 @@ class Spell:
         assert isinstance(cost, int), f"Cost expected to be Integer type, got: {type(cost)}"
         assert isinstance(mana_cost, int), f"Mana_cost expected to be Integer type, got: {type(mana_cost)}"
         assert isinstance(mag_damage, int), f"Damage expected to be Integer type, got: {type(mag_damage)}"
-        assert isinstance(is_AOE, bool), f"Is_AOE expected to be Boolean type, got: {type(is_AOE)}"
+        assert isinstance(is_area_of_effect_damage, bool), f"Is_AOE expected to be Boolean type, " \
+                                                           f"got: {type(is_area_of_effect_damage)}"
         assert isinstance(effect, Effects), f"Effect expected to be Effects type, got: {type(effect)}"
         assert isinstance(effect_chance, float), f"Effect_Chance expected to be Float type, got: {type(effect_chance)}"
         assert isinstance(effect_amt, int), f"Effect_Amount expected to be integer type, got: {type(effect_amt)}"
         self.name = name
         self.cost = cost
-        self.mana_cost - mana_cost
+        self.mana_cost = mana_cost
         self.mag_damage = mag_damage
-        self.is_AOE = is_AOE
+        self.is_AOE = is_area_of_effect_damage
         self.effect = effect
         self.effect_chance = effect_chance
         self.effect_amt = effect_amt
