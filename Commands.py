@@ -7,6 +7,3 @@ class Commands(Enum):
     EQUIP = "equip"
     UNEQUIP = "unequip"
     ATTACK = "atk"
-
-# Luke's comment h
-
