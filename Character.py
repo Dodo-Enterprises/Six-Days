@@ -371,6 +371,6 @@ class Character:
         self.status.update({effect: (effect_amt, Character.effect_duration)})
         return None
 
-    def __open_inv__(self):
+    def __open_inventory__(self):
         """Displays the inventory information"""
 
