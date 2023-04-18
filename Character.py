@@ -62,7 +62,7 @@ class Character:
         self.status = {}
         self.is_player = is_player
 
-    def __equip__(self, item):
+    def equip(self, item):
         """Equips a specified item to the desired equipment slot
 
         :param item: the item to be equipped
@@ -93,7 +93,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.__add_to_inv__(self, self.arm1)
+                            self.add_to_inv(self, self.arm1)
                             self.arm1 = item
                         else:
                             break
@@ -112,7 +112,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.__add_to_inv__(self, self.arm2)
+                            self.add_to_inv(self, self.arm2)
                             self.arm2 = item
                         else:
                             break
@@ -134,7 +134,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.__add_to_inv__(self, self.helmet)
+                            self.add_to_inv(self, self.helmet)
                             self.helmet = item
                             break
                     else:
@@ -153,7 +153,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.__add_to_inv__(self, self.breastplate)
+                            self.add_to_inv(self, self.breastplate)
                             self.breastplate = item
                             break
                     else:
@@ -171,29 +171,29 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.__add_to_inv__(self, self.grieves)
+                            self.add_to_inv(self, self.grieves)
                             self.grieves = item
                             break
                     else:
                         self.grieves = item
                         break
 
-    def __unequip__(self, slot):
+    def unequip(self, slot):
         assert slot == "arm1" or slot == "arm2" or slot == "helmet" or slot == "breastplate" or slot == "grieves", \
             f"slot expected to be a valid equipment slot, got: {slot}"
         match slot:
             case "arm1":
-                self.__equip__(self, Character.def_arm)
+                self.equip(self, Character.def_arm)
             case "arm2":
-                self.__equip__(self, Character.def_arm)
+                self.equip(self, Character.def_arm)
             case "helmet":
-                self.__equip__(self, Character.def_helmet)
+                self.equip(self, Character.def_helmet)
             case "breastplate":
-                self.__equip__(self, Character.def_breastplate)
+                self.equip(self, Character.def_breastplate)
             case "grieves":
-                self.__equip__(self, Character.def_grieves)
+                self.equip(self, Character.def_grieves)
 
-    def __add_to_inv__(self, item):
+    def add_to_inv(self, item):
         """Adds the specified item or list/tuple of items into the inventory
 
         :param item: the specified item to be added into inventory
@@ -219,7 +219,7 @@ class Character:
         else:
             self.potions.append(item)
 
-    def __phy_attack__(self, weapon, defender):
+    def phy_attack(self, weapon, defender):
         """Enacts a physical attack on the specified defender with the specified weapon.
 
         :param weapon: the specific weapon that the character uses to attack
@@ -285,9 +285,9 @@ class Character:
                     grieves_dmg = float((weapon.phy_damage * defender.grieves.phy_neg)
                                         + (weapon.mag_damage * defender.helmet.magic_neg))
                 total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
-                defender.__hurt__(total_dmg)
+                defender.hurt(total_dmg)
                 if weapon.effect != Effects.LIFESTEAL:
-                    defender.__afflict__(weapon.effect, weapon.effect_amt)
+                    defender.afflict(weapon.effect, weapon.effect_amt)
                     return total_dmg, defender.health
                 else:
                     self.health += total_dmg * weapon.effect_amt
@@ -313,7 +313,7 @@ class Character:
                     grieves_dmg = float((weapon.phy_damage * defender.grieves.phy_neg)
                                         + (weapon.mag_damage * defender.helmet.magic_neg))
                 total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
-                defender.__hurt__(total_dmg)
+                defender.hurt(total_dmg)
                 return total_dmg, defender.health
         else:
             helmet_dmg = float((weapon.phy_damage * defender.helmet.phy_neg) +
@@ -323,10 +323,10 @@ class Character:
             grieves_dmg = float((weapon.phy_damage * defender.grieves.phy_neg)
                                 + (weapon.mag_damage * defender.helmet.magic_neg))
             total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg) / Character.type_advantage, 2)
-            defender.__hurt__(total_dmg)
+            defender.hurt(total_dmg)
             return total_dmg, defender.health
 
-    def __mag_attack__(self, staff, spell, defender):
+    def mag_attack(self, staff, spell, defender):
         """Enacts a magical attack with the specified spell and staff against the defender
 
         :param staff: The staff the attacker is using
@@ -345,22 +345,22 @@ class Character:
             breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
             grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
             total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
-            defender.__hurt__(total_dmg)
+            defender.hurt(total_dmg)
             return total_dmg, defender.health
         else:
             helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
             breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
             grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
             total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg) / Character.type_advantage, 2)
-            defender.__hurt__(total_dmg)
+            defender.hurt(total_dmg)
             return total_dmg, defender.health
 
-    def __hurt__(self, dmg):
+    def hurt(self, dmg):
         assert isinstance(dmg, float), f"Expected Damage to be float type, got: {type(dmg)}"
         self.health -= dmg
         return self.health
 
-    def __afflict__(self, effect, effect_amt):
+    def afflict(self, effect, effect_amt):
         assert isinstance(effect, Effects), f"Expected an effect type, got: {type(effect)}"
         assert isinstance(int, effect_amt), f"effect_amt is expected to be int type, got {type(effect_amt)}"
         for key in self.status:
@@ -371,6 +371,6 @@ class Character:
         self.status.update({effect: (effect_amt, Character.effect_duration)})
         return None
 
-    def __open_inventory__(self):
+    def open_inventory(self):
         """Displays the inventory information"""
 
