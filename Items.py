@@ -3,8 +3,8 @@ from Constants import *
 
 class Weapon:
     """Weapon data type that holds all the relevant information for all weapon items."""
-    def __init__(self, name, cost, job, wpn_type, phy_damage, effect=Effects.NONE, effect_chance=100.0, effect_amt=0,
-                 mag_damage=0):
+    def __init__(self, name, cost, job, wpn_type, phy_damage, mag_damage=0, effect=Effects.NONE, effect_chance=100.0,
+                 effect_amt=0):
         """Creates the Weapon instance.
 
         Keyword arguments:
