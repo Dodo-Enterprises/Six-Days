@@ -1,6 +1,6 @@
-from pathlib import Path
 from Character import Character
 from Constants import *
+from Items import *
 import os
 import random
 
@@ -10,7 +10,10 @@ class BattleSystem:
     An instance of this class is created for every battle. This class handles all interactions of players and allies
     against enemies.
     """
-    def __init__(self, players_team, enemies, run_difficulty=50):
+    _path_to_battle_instances_file = os.getcwd() + "\\Battle_Presets.txt"
+
+    def __init__(self, players_team: list[Character], enemies: list[Character], loot: list[Item] = None,
+                 run_difficulty: int = 50):
         """"""
         assert isinstance(players_team, list), f"Players-team expected to be a list type, got: {type(players_team)}"
         assert isinstance(enemies, list), f"Enemies expected to be a list type, got: {type(enemies)}"
@@ -23,15 +26,15 @@ class BattleSystem:
         assert players_team[0].is_player, f"The first character in players_team should be the player, " \
                                           f"got: {players_team[0].name}"
         assert isinstance(run_difficulty, int), f"Run_difficulty expected to be int type, got: {type(run_difficulty)}"
-        assert run_difficulty <= 100 and run_difficulty >= 0, f"Run_difficulty expected to be inbetween " \
-                                                              f"the number 0 to 100, got: {run_difficulty}"
+        assert 100 >= run_difficulty >= 0, f"Run_difficulty expected to be inbetween " \
+                                           f"the number 0 to 100, got: {run_difficulty}"
 
         self.players_team = players_team
         self.enemies = enemies
         self.player = players_team[0]
         self.round = 0
         self.battle_ongoing = True
-        self.run_difficulty = float(run_difficulty/100)
+        self.run_difficulty = float(run_difficulty / 100)
 
     def start(self):
         """"""
@@ -106,16 +109,13 @@ class BattleSystem:
 
     def _cast_spell(self):
         """"""
-        #TODO magic attack
+        # TODO magic attack
 
     def _run(self):
         """"""
         if random.random() <= self.run_difficulty:
             return True
         return False
-
-
-
 
     def _player_team_action(self):
         """"""
@@ -129,7 +129,7 @@ class BattleSystem:
                             all_defeated = False
                     if all_defeated:
                         return False
-            #TODO magic attack
+            # TODO magic attack
 
     def _enemies_action(self):
         """"""
@@ -138,21 +138,31 @@ class BattleSystem:
                 target = random.randint(0, len(self.players_team))
                 if enemy.phy_attack(enemy.arm1, self.players_team[target])[1] <= 0 and self.player.health <= 0:
                     return False
-            #TODO magic attack
-
-
-class BattleLoader:
-    """
-    This class will load preset scenarios from file to create battle instances.
-    """
-    path_to_battle_instances_file = os.getcwd() + "\\Battle_instances.txt"
+            # TODO magic attack
 
     @classmethod
-    def load_battle_from_file(cls, player, battle_index):
+    def load_battle_from_file(cls, player: Character, battle_index: int):
         assert isinstance(player, Character), f"Player expected to be a Character type, got: {type(player)}"
         assert player.is_player, "Player expected to be the main player not a character."
         assert isinstance(battle_index, int) and battle_index >= 0, f"Battle_index expected to be a positive integer " \
                                                                     f"type, got: {type(battle_index)}"
-        with open(cls.path_to_battle_instances_file, 'r') as f:
-            data = f.read().split("\n")[battle_index - 1]
-        #TODO process data and create an actual battle instance and Utilize the weapon and armour database
+
+        allies = [player]
+        enemies = []
+
+        with open(cls._path_to_battle_instances_file, 'r') as f:
+            data = f.read().splitlines()[battle_index - 1]
+            data = data.split(" ")
+            allies_present = False
+            if data[0] != "null":
+                allies_str_list = data[0].split(",")
+                allies_present = True
+            enemies_str_list = data[1].split(",")
+            if allies_present:
+                for ally in allies_str_list:
+                    allies.append(Character.load_character_from_file(ally))
+            for enemy in enemies_str_list:
+                enemies.append(Character.load_character_from_file(enemy))
+            run_difficulty = int(data[2])
+
+            return BattleSystem(allies, enemies, run_difficulty=run_difficulty)

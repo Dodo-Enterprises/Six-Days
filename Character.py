@@ -1,28 +1,30 @@
 from random import random
-
 from Items import *
 from Constants import *
+import os
 
 
 class Character:
     """"""
+    _path_to_character_preset_file = os.getcwd() + "\\Character_Presets.txt"
     type_advantage = 2
-    def_arm = Weapon("Bare Hands", 0, Jobs.ANY, WpnTypes.BLUNT, 10, effect=Effects.STUN, effect_chance=20.0,
+    def_arm = Weapon("Bare Hands", 0, Jobs.WARRIOR, WpnTypes.BLUNT, 10, effect=Effects.STUN, effect_chance=20.0,
                      effect_amt=0)
-    def_helmet = Armor("Bare Head", 0, Jobs.ANY, 1, 1, ArmorTypes.NONE, ArmorPieces.HELMET)
-    def_breastplate = Armor("Bare Chest", 0, Jobs.ANY, 1, 1, ArmorTypes.NONE, ArmorPieces.BREASTPLATE)
-    def_grieves = Armor("Bare Legs", 0, Jobs.ANY, 1, 1, ArmorTypes.NONE, ArmorPieces.GRIEVES)
+    def_helmet = Armor("Bare Head", 0, Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.HELMET)
+    def_breastplate = Armor("Bare Chest", 0, Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.BREASTPLATE)
+    def_grieves = Armor("Bare Legs", 0, Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.GRIEVES)
     effect_duration = 3
 
-    def __init__(self, name, health, job, spells, potions, items, arm1=def_arm,
-                 arm2=def_arm, helmet=def_helmet, breastplate=def_breastplate, grieves=def_grieves, is_player=False):
+    def __init__(self, name: str, health: int, job: Jobs, spells: list[Spell], potions: dict[Potion, int],
+                 items: dict[Item, int], arm1: Weapon = def_arm, arm2: Weapon = def_arm, helmet: Armor = def_helmet,
+                 breastplate: Armor = def_breastplate, grieves: Armor = def_grieves, is_player: bool = False):
         """Creates an instance of the Character class.
 
-        :param name: the name of the character
-        :param job: the character class of the character
+        :param name: the character's name
+        :param job: the character's class
         :param arm1: the 1st armament of the character
         :param arm2: the 2nd armament of the character
-        :param helmet: the headwear of the character
+        :param helmet: the headgear of the character
         :param breastplate: the chestwear of the character
         :param grieves: the legwear of the character
         :param spells: the list of spells the character can cast
@@ -30,7 +32,7 @@ class Character:
         :param items: the list of items the character has
         """
         assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
-        assert isinstance(health, float), f"Health expected to be float type, got: {type(health)}"
+        assert isinstance(health, int), f"Health expected to be float type, got: {type(health)}"
         assert isinstance(job, Jobs), f"Job expected to be Jobs type, got: {type(job)}"
         assert isinstance(arm1, Weapon), f"Armament1 expected to be Weapon type, got: {type(arm1)}"
         assert isinstance(arm2, Weapon), f"Armament2 expected to be Weapon type, got: {type(arm2)}"
@@ -38,15 +40,18 @@ class Character:
         assert isinstance(breastplate, Armor), f"Breastplate expected to be Armor type, got: {type(breastplate)}"
         assert isinstance(grieves, Armor), f"Grieves expected to be Armor type, got: {type(grieves)}"
         assert isinstance(spells, list), f"Spells list expected to be list type, got: {type(spells)}"
-        for spell in spells:
-            assert isinstance(spell, Spell), f"Spell element expected to be spell type, got: {type(spell)}"
-        assert isinstance(potions, list), f"Potions list expected to be list type, got: {type(potions)}"
-        for potion in potions:
-            assert isinstance(potion, Potion), f"Potion element expected to be potion type, got: {type(potion)}"
-        assert isinstance(items, list), f"Items list expected to be list type, got: {type(items)}"
-        for item in items:
-            assert isinstance(item, Weapon) or isinstance(item, Armor), \
-                f"Item element expected to be Weapon or Armor type, got: {type(item)}"
+        if len(spells) != 0:
+            for spell in spells:
+                assert isinstance(spell, Spell), f"Spell element expected to be spell type, got: {type(spell)}"
+        assert isinstance(potions, dict), f"Potions list expected to be dictionary type, got: {type(potions)}"
+        if len(potions.values()) != 0:
+            for potion in potions.values():
+                assert isinstance(potion, Potion), f"Potion element expected to be potion type, got: {type(potion)}"
+        assert isinstance(items, dict), f"Items list expected to be dict type, got: {type(items)}"
+        if len(items.values()) != 0:
+            for item in items.values():
+                assert isinstance(item, Weapon) or isinstance(item, Armor), \
+                    f"Item element expected to be Weapon or Armor type, got: {type(item)}"
 
         self.name = name
         self.health = health
@@ -58,7 +63,7 @@ class Character:
         self.grieves = grieves
         self.spells = spells
         self.potions = potions
-        self.equipment = items
+        self.items = items
         self.status = {}
         self.is_player = is_player
 
@@ -93,7 +98,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.add_to_inv(self, self.arm1)
+                            self.add_to_inventory(self, self.arm1)
                             self.arm1 = item
                         else:
                             break
@@ -112,7 +117,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.add_to_inv(self, self.arm2)
+                            self.add_to_inventory(self, self.arm2)
                             self.arm2 = item
                         else:
                             break
@@ -134,7 +139,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.add_to_inv(self, self.helmet)
+                            self.add_to_inventory(self, self.helmet)
                             self.helmet = item
                             break
                     else:
@@ -153,7 +158,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.add_to_inv(self, self.breastplate)
+                            self.add_to_inventory(self, self.breastplate)
                             self.breastplate = item
                             break
                     else:
@@ -171,7 +176,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.add_to_inv(self, self.grieves)
+                            self.add_to_inventory(self, self.grieves)
                             self.grieves = item
                             break
                     else:
@@ -193,7 +198,7 @@ class Character:
             case "grieves":
                 self.equip(self, Character.def_grieves)
 
-    def add_to_inv(self, item):
+    def add_to_inventory(self, item):
         """Adds the specified item or list/tuple of items into the inventory
 
         :param item: the specified item to be added into inventory
@@ -203,21 +208,21 @@ class Character:
             for i in item:
                 assert isinstance(i, Weapon) or isinstance(i, Armor) or isinstance(i, Spell) or isinstance(i, Potion), \
                     f"The item expected to be Weapon, Armor, Spell, or Potion type, got: {type(item)}"
-                if isinstance(i, Weapon) or isinstance(i, Armor):
-                    self.equipment.append(i)
+                if isinstance(i, Weapon) or isinstance(i, Armor) or isinstance(i, Item):
+                    self.items[i] = self.items[i] + 1 if i in self.items else 1
                 elif isinstance(i, Spell):
                     self.spells.append(i)
                 else:
-                    self.potions.append(i)
+                    self.potions[i] = self.items[i] + 1 if i in self.items else 1
         assert isinstance(item, Weapon) or isinstance(item, Armor) or isinstance(item, Spell) \
                or isinstance(item, Potion), f"The item expected to be Weapon, Armor, " \
                                             f"Spell, or Potion type, got: {type(item)}"
         if isinstance(item, Weapon) or isinstance(item, Armor):
-            self.equipment.append(item)
+            self.items[item] = self.items[item] + 1 if item in self.items else 1
         elif isinstance(item, Spell):
             self.spells.append(item)
         else:
-            self.potions.append(item)
+            self.potions[item] = self.items[item] + 1 if item in self.items else 1
 
     def phy_attack(self, weapon, defender):
         """Enacts a physical attack on the specified defender with the specified weapon.
@@ -357,7 +362,7 @@ class Character:
 
     def hurt(self, dmg):
         assert isinstance(dmg, float), f"Expected Damage to be float type, got: {type(dmg)}"
-        self.health -= dmg
+        self.health = int(round(float(self.health) - dmg))
         return self.health
 
     def afflict(self, effect, effect_amt):
@@ -373,4 +378,30 @@ class Character:
 
     def open_inventory(self):
         """Displays the inventory information"""
+        # TODO
 
+    @classmethod
+    def load_character_from_file(cls, character_name: str):
+        """Loads the preset character from file to create a specific Character instance.
+
+        :param character_name:
+        :return: A Character instance that is specified by the character_name argument.
+        """
+        with open(cls._path_to_character_preset_file, 'r') as f:
+            lines = f.read().splitlines()
+            character_arguments = []
+            for line in lines:
+                character_arguments.append(line.split(", "))
+            first_item = [i[0] for i in character_arguments]
+            assert character_name in first_item, \
+                f"{character_name} does not exist in Character_Presets.txt"
+            character_arguments = character_arguments[first_item.index(character_name)]
+            return Character(character_arguments[0], int(character_arguments[1]), Jobs(character_arguments[2]),
+                             [Spell.load_spell_from_file(i) for i in character_arguments[3][1:-1].split(",")],
+                             Potion.stack_potions(
+                                 [Potion.load_potion_from_file(i) for i in character_arguments[4][1:-1]]), {},
+                             arm1=Weapon.load_weapon_from_file(character_arguments[5]),
+                             arm2=Weapon.load_weapon_from_file(character_arguments[6]),
+                             helmet=Armor.load_armor_from_file(character_arguments[7]),
+                             breastplate=Armor.load_armor_from_file(character_arguments[8]),
+                             grieves=Armor.load_armor_from_file(character_arguments[9]))

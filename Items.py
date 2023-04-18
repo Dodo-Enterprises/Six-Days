@@ -1,10 +1,25 @@
 from Constants import *
+import os
+
+
+class Item:
+    """Item data type that holds all relevant information for misc. items"""
+    def __init__(self, name: str, cost: int = 0):
+        """Creates the Item instances
+        """
+        assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
+        assert isinstance(cost, int) and cost >= 0, f"Cost expected to be a positive Integer, " \
+                                                    f"got: {type(cost)} with a value {cost}"
+        self.name = name
+        self.cost = cost
 
 
 class Weapon:
     """Weapon data type that holds all the relevant information for all weapon items."""
-    def __init__(self, name, cost, job, wpn_type, phy_damage, mag_damage=0, effect=Effects.NONE, effect_chance=100.0,
-                 effect_amt=0):
+    _path_to_character_preset_file = os.getcwd() + "\\Weapons.txt"
+
+    def __init__(self, name: str, cost: int, job: Jobs, wpn_type: WpnTypes, phy_damage: int, mag_damage: int = 0,
+                 effect: Effects = Effects.NONE, effect_chance: int = 100, effect_amt: int = 0):
         """Creates the Weapon instance.
 
         Keyword arguments:
@@ -18,7 +33,8 @@ class Weapon:
         effect_amt -- the amount of effect the effect causes
         """
         assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
-        assert isinstance(cost, int), f"Cost expected to be Integer type, got: {type(cost)}"
+        assert isinstance(cost, int) and cost >= 0, f"Cost expected to be a positive Integer type, " \
+                                                    f"got: {type(cost)} with a value {cost}"
         assert isinstance(job, Jobs), f"Job expected to be Jobs type, got: {type(job)}"
         assert isinstance(wpn_type, WpnTypes), f"Weapon_Type expected to be Wpn_Types type, got: {type(wpn_type)}"
         assert isinstance(phy_damage, int), f"Damage expected to be Integer type, got: {type(phy_damage)}"
@@ -32,14 +48,22 @@ class Weapon:
         self.wpn_type = wpn_type
         self.phy_damage = phy_damage
         self.effect = effect
-        self.effect_chance = float(effect_chance / 100)
-        self.effect_amt = float(effect_amt / 100)
+        self.effect_chance = float(effect_chance) / 100
+        self.effect_amt = float(effect_amt) / 100
         self.mag_damage = mag_damage
+
+    @classmethod
+    def load_weapon_from_file(cls, weapon_name: str):
+        """Returns a weapon instance of the specified weapon."""
+        # TODO
 
 
 class Armor:
     """Weapon data type that holds all the relevant information for all weapon items."""
-    def __init__(self, name, cost, job, phy_neg, magic_neg, armor_type, armor_piece):
+    _path_to_character_preset_file = os.getcwd() + "\\Armor_Pieces.txt"
+
+    def __init__(self, name: str, cost: int, job: Jobs, phy_neg: int, magic_neg: int, armor_type: ArmorTypes,
+                 armor_piece: ArmorPieces):
         """Creates the Armor Instance.
 
         Keyword arguments:
@@ -69,11 +93,18 @@ class Armor:
         self.magic_neg = float(magic_neg / 100)
         self.armor_type = armor_type
 
+    @classmethod
+    def load_armor_from_file(cls, armor_name: str):
+        """Returns an armor instance of the specified armor."""
+        # TODO
+
 
 class Spell:
     """Spell data type that holds all the relevant information for all spells."""
-    def __init__(self, name, cost, mana_cost, mag_damage, is_area_of_effect_damage, effect=Effects.NONE,
-                 effect_chance=100.0, effect_amt=0):
+    _path_to_character_preset_file = os.getcwd() + "\\Spells.txt"
+
+    def __init__(self, name: str, cost: int, mana_cost: int, mag_damage: int, is_area_of_effect_damage: bool,
+                 effect: Effects = Effects.NONE, effect_chance: int = 100, effect_amt: int = 0):
         """Creates the Spell instance.
 
         Keyword arguments:
@@ -101,13 +132,20 @@ class Spell:
         self.mag_damage = mag_damage
         self.is_AOE = is_area_of_effect_damage
         self.effect = effect
-        self.effect_chance = effect_chance
+        self.effect_chance = float(effect_chance) / 100
         self.effect_amt = effect_amt
+
+    @classmethod
+    def load_spell_from_file(cls, spell_name: str):
+        """Loads a spell from the spells.txt file and returns it as a spell instance."""
+        # TODO
 
 
 class Potion:
     """Potion data type that holds all the relevant information for all potions."""
-    def __init__(self, name, cost, effect, effect_amt, effect_chance=100.0):
+    _path_to_character_preset_file = os.getcwd() + "\\Potions.txt"
+
+    def __init__(self, name: str, cost: int, effect: Effects, effect_amt: int, effect_chance: int = 100):
         """Creates the Potion instance.
 
         Keyword arguments:
@@ -125,5 +163,15 @@ class Potion:
         self.name = name
         self.cost = cost
         self.effect = effect
-        self.effect_chance = effect_chance
+        self.effect_chance = float(effect_chance) / 100
         self.effect_amt = effect_amt
+
+    @classmethod
+    def load_potion_from_file(cls, potion_name: str):
+        """Loads a potion from the potions.txt file and returns it as a potion instance."""
+        # TODO
+
+    @classmethod
+    def stack_potions(cls, potions: list):
+        """Turns a list of potions into a dictionary."""
+        # TODO
