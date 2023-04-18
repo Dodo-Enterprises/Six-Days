@@ -1,7 +1,5 @@
-from pathlib import Path
 from Character import Character
 from Constants import *
-import os
 import random
 
 
@@ -33,7 +31,7 @@ class BattleSystem:
         self.battle_ongoing = True
         self.run_difficulty = float(run_difficulty/100)
 
-    def start(self):
+    def __start(self):
         """"""
         while self.battle_ongoing:
             if not self._player_action():
@@ -63,7 +61,7 @@ class BattleSystem:
                 case "s":
                     self._cast_spell()
                 case "i":
-                    self.player.open_inventory()
+                    self.player.__open_inventory__()
                 case "r":
                     if self._run():
                         return False
@@ -99,9 +97,9 @@ class BattleSystem:
             except AssertionError:
                 print("The input was not recognized as a valid input. Please input a valid response. try again...")
         if armament == 1:
-            self.player.phy_attack(self.player.arm1, self.enemies[target - 1])
+            self.player.__phy_attack__(self.player.arm1, self.enemies[target-1])
             return True
-        self.player.phy_attack(self.player.arm2, self.enemies[target - 1])
+        self.player.__phy_attack__(self.player.arm2, self.enemies[target-1])
         return True
 
     def _cast_spell(self):
@@ -122,7 +120,7 @@ class BattleSystem:
         for ally in self.players_team:
             if ally.job == Jobs.WARRIOR:
                 target = random.randint(0, len(self.enemies))
-                if ally.phy_attack(ally.arm1, self.enemies[target])[1] <= 0:
+                if ally.__phy_attack__(ally.arm1, self.enemies[target])[1] <= 0:
                     all_defeated = True
                     for enemy in self.enemies:
                         if enemy.health > 0:
@@ -136,7 +134,7 @@ class BattleSystem:
         for enemy in self.enemies:
             if enemy.job == Jobs.WARRIOR:
                 target = random.randint(0, len(self.players_team))
-                if enemy.phy_attack(enemy.arm1, self.players_team[target])[1] <= 0 and self.player.health <= 0:
+                if enemy.__phy_attack__(enemy.arm1, self.players_team[target])[1] <= 0 and self.player.health <= 0:
                     return False
             #TODO magic attack
 
@@ -145,14 +143,3 @@ class BattleLoader:
     """
     This class will load preset scenarios from file to create battle instances.
     """
-    path_to_battle_instances_file = os.getcwd() + "\\Battle_instances.txt"
-
-    @classmethod
-    def load_battle_from_file(cls, player, battle_index):
-        assert isinstance(player, Character), f"Player expected to be a Character type, got: {type(player)}"
-        assert player.is_player, "Player expected to be the main player not a character."
-        assert isinstance(battle_index, int) and battle_index >= 0, f"Battle_index expected to be a positive integer " \
-                                                                    f"type, got: {type(battle_index)}"
-        with open(cls.path_to_battle_instances_file, 'r') as f:
-            data = f.read().split("\n")[battle_index - 1]
-        #TODO process data and create an actual battle instance and Utilize the weapon and armour database
