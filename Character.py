@@ -1,4 +1,6 @@
 from random import random
+
+from Commands import Commands
 from Items import *
 from Constants import *
 import os
@@ -8,7 +10,7 @@ class Character:
     """"""
     _path_to_character_preset_file = os.getcwd() + "\\Character_Presets.txt"
     type_advantage = 2
-    def_arm = Weapon("Bare Hands", 0, Jobs.WARRIOR, WpnTypes.BLUNT, 10, effect=Effects.STUN, effect_chance=20.0,
+    def_arm = Weapon("Bare Hands", 0, Jobs.WARRIOR, WpnTypes.BLUNT, 10, effect=Effects.STUN, effect_chance=20,
                      effect_amt=0)
     def_helmet = Armor("Bare Head", 0, Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.HELMET)
     def_breastplate = Armor("Bare Chest", 0, Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.BREASTPLATE)
@@ -73,8 +75,8 @@ class Character:
         :param item: the item to be equipped
         :return: Nothing
         """
-        assert isinstance(item, Weapon) or isinstance(item, Armor), \
-            f"Item expected to be Weapon or Armor type, got: {type(item)}"
+        assert isinstance(item, Weapon) or isinstance(item, Armor) or isinstance(item, str), \
+            f"Item expected to be Weapon, Armor, or string type, got: {type(item)}"
         if isinstance(item, Weapon):
             # Equipping a weapon to the armament slot
             while True:
@@ -124,6 +126,10 @@ class Character:
                     else:
                         self.arm2 = item
                         break
+        elif isinstance(item, str):
+            assert True if item in [i.name for i in self.items.keys()] else False, \
+                f"That item does not exist in your inventory."
+            # TODO equip that item
         else:
             # Equipping an armor piece to an armor slot
             while True:
@@ -188,15 +194,25 @@ class Character:
             f"slot expected to be a valid equipment slot, got: {slot}"
         match slot:
             case "arm1":
-                self.equip(self, Character.def_arm)
+                if self.arm1 != Character.def_arm:
+                    self.add_to_inventory(self.arm1)
+                self.arm1 = Character.def_arm
             case "arm2":
-                self.equip(self, Character.def_arm)
+                if self.arm2 != Character.def_arm:
+                    self.add_to_inventory(self.arm2)
+                self.arm2 = Character.def_arm
             case "helmet":
-                self.equip(self, Character.def_helmet)
+                if self.helmet != Character.def_helmet:
+                    self.add_to_inventory(self.helmet)
+                self.helmet = Character.def_helmet
             case "breastplate":
-                self.equip(self, Character.def_breastplate)
+                if self.breastplate != Character.def_breastplate:
+                    self.add_to_inventory(self.breastplate)
+                self.breastplate = Character.def_breastplate
             case "grieves":
-                self.equip(self, Character.def_grieves)
+                if self.grieves != Character.def_grieves:
+                    self.add_to_inventory(self.grieves)
+                self.grieves = Character.def_grieves
 
     def add_to_inventory(self, item):
         """Adds the specified item or list/tuple of items into the inventory
@@ -206,23 +222,25 @@ class Character:
         """
         if isinstance(item, list) or isinstance(item, tuple):
             for i in item:
-                assert isinstance(i, Weapon) or isinstance(i, Armor) or isinstance(i, Spell) or isinstance(i, Potion), \
-                    f"The item expected to be Weapon, Armor, Spell, or Potion type, got: {type(item)}"
+                assert isinstance(i, Weapon) or isinstance(i, Armor) or isinstance(i, Spell) or isinstance(i, Potion)\
+                       or isinstance(i, Item), f"The item expected to be Weapon, Armor, Spell, Potion, or Item type, " \
+                                               f"got: {type(item)}"
                 if isinstance(i, Weapon) or isinstance(i, Armor) or isinstance(i, Item):
-                    self.items[i] = self.items[i] + 1 if i in self.items else 1
+                    self.items[i] = self.items[i] + 1 if i in self.items.items() else 1
                 elif isinstance(i, Spell):
                     self.spells.append(i)
                 else:
-                    self.potions[i] = self.items[i] + 1 if i in self.items else 1
+                    self.potions[i] = self.potions[i] + 1 if i in self.potions.items() else 1
+            return
         assert isinstance(item, Weapon) or isinstance(item, Armor) or isinstance(item, Spell) \
                or isinstance(item, Potion), f"The item expected to be Weapon, Armor, " \
                                             f"Spell, or Potion type, got: {type(item)}"
-        if isinstance(item, Weapon) or isinstance(item, Armor):
-            self.items[item] = self.items[item] + 1 if item in self.items else 1
+        if isinstance(item, Weapon) or isinstance(item, Armor) or isinstance(item, Item):
+            self.items[item] = self.items[item] + 1 if item in self.items.items() else 1
         elif isinstance(item, Spell):
             self.spells.append(item)
         else:
-            self.potions[item] = self.items[item] + 1 if item in self.items else 1
+            self.potions[item] = self.potions[item] + 1 if item in self.potions.items() else 1
 
     def phy_attack(self, weapon, defender):
         """Enacts a physical attack on the specified defender with the specified weapon.
@@ -378,7 +396,39 @@ class Character:
 
     def open_inventory(self):
         """Displays the inventory information"""
-        # TODO
+        display_items_dict = sorted({key.name: self.items[key] for key in self.items})
+        display_potions_dict = sorted({key.name: self.potions[key] for key in self.potions})
+        print(f"Potions: {display_potions_dict}")
+        print(f"Items: {display_items_dict}")
+        still_accessing_inv = True
+        cmd = []
+        while still_accessing_inv:
+            cmd = input().split(" ")
+            try:
+                assert cmd[0] in Commands, f"Command expected to be of approved type, got: {cmd[0]}"
+            except AssertionError:
+                print("Try again.")
+                continue
+            match cmd[0]:
+                case Commands.HELP:
+                    print(f"list of commands:\n{Commands.HELP}\n{Commands.EQUIP}\n{Commands.UNEQUIP}\n{Commands.USE}\n"
+                          f"{Commands.TRASH}\n{Commands.EXIT}")
+                    continue
+                case Commands.EQUIP:
+                    try:
+                        self.equip(cmd[1])
+                    except AssertionError:
+                        print(f"Invalid command. Try again.")
+                        continue
+                case Commands.UNEQUIP:
+                    # TODO
+                case Commands.USE:
+                    # TODO
+                case Commands.TRASH:
+                    # TODO
+                case Commands.EXIT:
+                    still_accessing_inv = False
+        return
 
     @classmethod
     def load_character_from_file(cls, character_name: str):
