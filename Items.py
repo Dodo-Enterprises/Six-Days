@@ -1,3 +1,4 @@
+from Character import Character
 from Constants import *
 import os
 
@@ -163,8 +164,14 @@ class Potion:
         self.name = name
         self.cost = cost
         self.effect = effect
-        self.effect_chance = float(effect_chance) / 100
+        self.effect_chance = effect_chance
         self.effect_amt = effect_amt
+
+    def use(self, character: Character):
+        """Applies the potions effect to the player"""
+        character.afflict(self.effect, self.effect_amt, self.effect_chance)
+
+
 
     @classmethod
     def load_potion_from_file(cls, potion_name: str):
