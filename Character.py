@@ -1,8 +1,7 @@
-from random import random
-
 from Commands import Commands
 from Items import *
 from Constants import *
+import random
 import os
 
 
@@ -102,10 +101,12 @@ class Character:
                         if ans == "y":
                             self.add_to_inventory(self, self.arm1)
                             self.arm1 = item
+                            self.remove_from_inventory(item)
                         else:
                             break
                     else:
                         self.arm1 = item
+                        self.remove_from_inventory(item)
                         break
                 else:
                     if self.arm2 != Character.def_arm:
@@ -121,15 +122,20 @@ class Character:
                         if ans == "y":
                             self.add_to_inventory(self, self.arm2)
                             self.arm2 = item
+                            self.remove_from_inventory(item)
                         else:
                             break
                     else:
                         self.arm2 = item
+                        self.remove_from_inventory(item)
                         break
         elif isinstance(item, str):
             assert True if item in [i.name for i in self.items.keys()] else False, \
                 f"That item does not exist in your inventory."
-            # TODO equip that item
+            name_instance_dict = {i.name: i for i in self.items.keys()}
+            for key, value in name_instance_dict:
+                if item == key:
+                    self.equip(value)
         else:
             # Equipping an armor piece to an armor slot
             while True:
@@ -147,9 +153,11 @@ class Character:
                         if ans == "y":
                             self.add_to_inventory(self, self.helmet)
                             self.helmet = item
+                            self.remove_from_inventory(item)
                             break
                     else:
                         self.helmet = item
+                        self.remove_from_inventory(item)
                         break
                 elif item.armor_type is ArmorPieces.BREASTPLATE:
                     if self.breastplate != Character.def_breastplate:
@@ -166,9 +174,11 @@ class Character:
                         if ans == "y":
                             self.add_to_inventory(self, self.breastplate)
                             self.breastplate = item
+                            self.remove_from_inventory(item)
                             break
                     else:
                         self.breastplate = item
+                        self.remove_from_inventory(item)
                         break
                 else:
                     if self.grieves != Character.def_grieves:
@@ -184,9 +194,11 @@ class Character:
                         if ans == "y":
                             self.add_to_inventory(self, self.grieves)
                             self.grieves = item
+                            self.remove_from_inventory(item)
                             break
                     else:
                         self.grieves = item
+                        self.remove_from_inventory(item)
                         break
 
     def unequip(self, slot):
@@ -241,6 +253,21 @@ class Character:
             self.spells.append(item)
         else:
             self.potions[item] = self.potions[item] + 1 if item in self.potions.items() else 1
+
+    def remove_from_inventory(self, item):
+        """Removes the specified item from the player's inventory"""
+        assert isinstance(item, Item) and isinstance(item, Weapon) and isinstance(item, Armor) and \
+               isinstance(item, Potion) and isinstance(item, Spell), f"Item expected to be of Item, Weapon, Armor, " \
+                                                                     f"Potion, or Spell type, got: {type(item)}"
+        for key, value in self.items:
+            if item != key:
+                continue
+            if value > 1:
+                self.items[key] = value - 1
+                return True
+            del self.items[key]
+            return True
+        return False
 
     def phy_attack(self, weapon, defender):
         """Enacts a physical attack on the specified defender with the specified weapon.
@@ -383,26 +410,30 @@ class Character:
         self.health = int(round(float(self.health) - dmg))
         return self.health
 
-    def afflict(self, effect, effect_amt):
+    def afflict(self, effect: Effects, effect_amt: int, effect_chance: int):
         assert isinstance(effect, Effects), f"Expected an effect type, got: {type(effect)}"
-        assert isinstance(int, effect_amt), f"effect_amt is expected to be int type, got {type(effect_amt)}"
+        assert isinstance(effect_amt, int), f"effect_amt is expected to be int type, got {type(effect_amt)}"
+        assert isinstance(effect_chance, int), f"Effect_chance expected to be int type, got {type(effect_chance)}"
+        if random.randint(1, 100) > effect_chance:
+            return
         for key in self.status:
             if effect == key:
-                self.status.pop(key)
+                del self.status[key]
                 self.status.update({effect: (effect_amt, Character.effect_duration)})
-                return None
+                return
         self.status.update({effect: (effect_amt, Character.effect_duration)})
-        return None
+        return
 
     def open_inventory(self):
-        """Displays the inventory information"""
+        """Displays the inventory information.
+
+        :return True if player used a potion. False if they did not.
+        """
         display_items_dict = sorted({key.name: self.items[key] for key in self.items})
         display_potions_dict = sorted({key.name: self.potions[key] for key in self.potions})
         print(f"Potions: {display_potions_dict}")
         print(f"Items: {display_items_dict}")
-        still_accessing_inv = True
-        cmd = []
-        while still_accessing_inv:
+        while True:
             cmd = input().split(" ")
             try:
                 assert cmd[0] in Commands, f"Command expected to be of approved type, got: {cmd[0]}"
@@ -417,18 +448,50 @@ class Character:
                 case Commands.EQUIP:
                     try:
                         self.equip(cmd[1])
+                        continue
                     except AssertionError:
-                        print(f"Invalid command. Try again.")
+                        print("Invalid command. Please specify a valid item in your inventory to equip.")
                         continue
                 case Commands.UNEQUIP:
-                    # TODO
+                    try:
+                        self.unequip(cmd[1])
+                    except AssertionError:
+                        print("Invalid command. Please specify which slot you would like to unequip. "
+                              "Valid inputs are arm1, arm2, helmet, breastplate, and grieves.")
+                        continue
                 case Commands.USE:
-                    # TODO
+                    name_potion_dict = {i.name: i for i in self.potions.keys()}
+                    if cmd[1] in name_potion_dict:
+                        for key in self.potions.keys():
+                            if name_potion_dict[cmd[1]] == key:
+                                key.use(self)
+                                return True
+                        continue
+                    print(f"{cmd[1]} does not exist in you potion inventory.")
                 case Commands.TRASH:
-                    # TODO
+                    name_item_dict = {i.name: i for i in self.items.keys()}
+                    name_potion_dict = {i.name: i for i in self.potions.keys()}
+                    try:
+                        assert cmd[1] in name_item_dict or cmd[1] in name_potion_dict, \
+                            f"{cmd[1]} not in items or potions. Try again."
+                    except AssertionError:
+                        print("Invalid command. Try again.")
+                        continue
+                    if cmd[1] in name_item_dict:
+                        for key in self.items.keys():
+                            if name_item_dict[cmd[1]] != key:
+                                continue
+                            del self.items[key]
+                            break
+                    else:
+                        for key in self.potions.keys():
+                            if name_potion_dict[cmd[1]] != key:
+                                continue
+                            del self.potions[key]
+                            break
                 case Commands.EXIT:
-                    still_accessing_inv = False
-        return
+                    break
+        return False
 
     @classmethod
     def load_character_from_file(cls, character_name: str):
