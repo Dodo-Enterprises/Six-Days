@@ -1,5 +1,4 @@
 from Character import Character
-from Constants import *
 from Items import *
 import os
 import random
@@ -10,7 +9,7 @@ class BattleSystem:
     An instance of this class is created for every battle. This class handles all interactions of players and allies
     against enemies.
     """
-    _path_to_battle_instances_file = os.getcwd() + "\\Battle_Presets.txt"
+    _path_to_battle_instances_file = os.getcwd() + "\\Battle_Instances.txt"
 
     def __init__(self, players_team: list[Character], enemies: list[Character], loot: list[Item] = None,
                  run_difficulty: int = 50):
@@ -39,12 +38,16 @@ class BattleSystem:
     def start(self):
         """"""
         while self.battle_ongoing:
+            print("Player's Turn")
             if not self._player_action():
                 self.battle_ongoing = False
-            if not self._player_team_action():
-                self.battle_ongoing = False
+            if len(self.players_team) > 1:
+                print("Allies Turn")
+            self._player_team_action()
+            print("Enemy's Turn")
             if not self._enemies_action():
                 self.battle_ongoing = False
+        print("Battle Over")
 
     def _player_action(self):
         """"""
@@ -71,6 +74,7 @@ class BattleSystem:
                     if self._run():
                         return False
                     action_undecided = False
+        return True
 
     def _attack(self):
         """"""
@@ -121,7 +125,7 @@ class BattleSystem:
         """"""
         for ally in self.players_team:
             if ally.job == Jobs.WARRIOR:
-                target = random.randint(0, len(self.enemies))
+                target = random.randrange(0, len(self.enemies))
                 if ally.phy_attack(ally.arm1, self.enemies[target])[1] <= 0:
                     all_defeated = True
                     for enemy in self.enemies:
@@ -135,10 +139,13 @@ class BattleSystem:
         """"""
         for enemy in self.enemies:
             if enemy.job == Jobs.WARRIOR:
-                target = random.randint(0, len(self.players_team))
+                target = random.randrange(0, len(self.players_team))
+                print(target)
                 if enemy.phy_attack(enemy.arm1, self.players_team[target])[1] <= 0 and self.player.health <= 0:
+                    print("Game Over")
                     return False
             # TODO magic attack
+        return True
 
     @classmethod
     def load_battle_from_file(cls, player: Character, battle_index: int):

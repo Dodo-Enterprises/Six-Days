@@ -1,4 +1,5 @@
-from Character import Character
+
+#import Character
 from Constants import *
 import os
 
@@ -17,10 +18,10 @@ class Item:
 
 class Weapon:
     """Weapon data type that holds all the relevant information for all weapon items."""
-    _path_to_character_preset_file = os.getcwd() + "\\Weapons.txt"
+    _path_to_weapons_preset_file = os.getcwd() + "\\Weapons.txt"
 
     def __init__(self, name: str, cost: int, job: Jobs, wpn_type: WpnTypes, phy_damage: int, mag_damage: int = 0,
-                 effect: Effects = Effects.NONE, effect_chance: int = 100, effect_amt: int = 0):
+                 effect: Effects = Effects.NONE, effect_chance: float = 1.0, effect_amt: int = 0):
         """Creates the Weapon instance.
 
         Keyword arguments:
@@ -30,7 +31,7 @@ class Weapon:
         wpn_type -- the type of weapon it is
         damage -- the default damage this weapon does
         effect -- the specific effect this weapon causes (can't be applied to staffs)
-        effect_chance -- the percentage of teh effect being activated
+        effect_chance -- the percentage of the effect being activated
         effect_amt -- the amount of effect the effect causes
         """
         assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
@@ -50,18 +51,28 @@ class Weapon:
         self.phy_damage = phy_damage
         self.effect = effect
         self.effect_chance = float(effect_chance) / 100
-        self.effect_amt = float(effect_amt) / 100
+        self.effect_amt = effect_amt
         self.mag_damage = mag_damage
 
     @classmethod
     def load_weapon_from_file(cls, weapon_name: str):
         """Returns a weapon instance of the specified weapon."""
-        # TODO
+        with open(cls._path_to_weapons_preset_file, 'r') as f:
+            lines = f.read().splitlines()
+            weapon_arguments = []
+            for line in lines:
+                weapon_arguments.append(line.split(", "))
+            first_item = [i[0] for i in weapon_arguments]
+            assert weapon_name in first_item, f"{weapon_name} does not exist in Weapons.txt"
+            weapon_arguments = weapon_arguments[first_item.index(weapon_name)]
+            return Weapon(weapon_arguments[0], int(weapon_arguments[1]), Jobs[weapon_arguments[2]],
+                          WpnTypes[weapon_arguments[3]], int(weapon_arguments[4]), effect=Effects[weapon_arguments[5]],
+                          effect_chance=float(weapon_arguments[6]), effect_amt=int(weapon_arguments[7]))
 
 
 class Armor:
     """Weapon data type that holds all the relevant information for all weapon items."""
-    _path_to_character_preset_file = os.getcwd() + "\\Armor_Pieces.txt"
+    _path_to_armor_preset_file = os.getcwd() + "\\Armor_Pieces.txt"
 
     def __init__(self, name: str, cost: int, job: Jobs, phy_neg: int, magic_neg: int, armor_type: ArmorTypes,
                  armor_piece: ArmorPieces):
@@ -97,15 +108,25 @@ class Armor:
     @classmethod
     def load_armor_from_file(cls, armor_name: str):
         """Returns an armor instance of the specified armor."""
-        # TODO
+        with open(cls._path_to_armor_preset_file, 'r') as f:
+            lines = f.read().splitlines()
+            armor_arguments = []
+            for line in lines:
+                armor_arguments.append(line.split(", "))
+            first_item = [i[0] for i in armor_arguments]
+            assert armor_name in first_item, \
+                f"{armor_name} does not exist in Character_Presets.txt"
+            armor_arguments = armor_arguments[first_item.index(armor_name)]
+            return Armor(armor_arguments[0], int(armor_arguments[1]), Jobs[armor_arguments[2]], int(armor_arguments[3]),
+                         int(armor_arguments[4]), ArmorTypes[armor_arguments[5]], ArmorPieces[armor_arguments[6]])
 
 
 class Spell:
     """Spell data type that holds all the relevant information for all spells."""
-    _path_to_character_preset_file = os.getcwd() + "\\Spells.txt"
+    _path_to_spell_preset_file = os.getcwd() + "\\Spells.txt"
 
     def __init__(self, name: str, cost: int, mana_cost: int, mag_damage: int, is_area_of_effect_damage: bool,
-                 effect: Effects = Effects.NONE, effect_chance: int = 100, effect_amt: int = 0):
+                 effect: Effects = Effects.NONE, effect_chance: float = 1.0, effect_amt: int = 0):
         """Creates the Spell instance.
 
         Keyword arguments:
@@ -133,20 +154,31 @@ class Spell:
         self.mag_damage = mag_damage
         self.is_AOE = is_area_of_effect_damage
         self.effect = effect
-        self.effect_chance = float(effect_chance) / 100
+        self.effect_chance = effect_chance
         self.effect_amt = effect_amt
 
     @classmethod
     def load_spell_from_file(cls, spell_name: str):
         """Loads a spell from the spells.txt file and returns it as a spell instance."""
-        # TODO
+        with open(cls._path_to_spell_preset_file, 'r') as f:
+            lines = f.read().splitlines()
+            spell_arguments = []
+            for line in lines:
+                spell_arguments.append(line.split(", "))
+            first_item = [i[0] for i in spell_arguments]
+            assert spell_name in first_item, \
+                f"{spell_name} does not exist in Character_Presets.txt"
+            spell_arguments = spell_arguments[first_item.index(spell_name)]
+            return Spell(spell_arguments[0], int(spell_arguments[1]), int(spell_arguments[2]), int(spell_arguments[3]),
+                         bool(spell_arguments[4]), effect=Effects[spell_arguments[5]],
+                         effect_chance=float(spell_arguments[6]), effect_amt=int(spell_arguments[7]))
 
 
 class Potion:
     """Potion data type that holds all the relevant information for all potions."""
-    _path_to_character_preset_file = os.getcwd() + "\\Potions.txt"
+    _path_to_potion_preset_file = os.getcwd() + "\\Potions.txt"
 
-    def __init__(self, name: str, cost: int, effect: Effects, effect_amt: int, effect_chance: int = 100):
+    def __init__(self, name: str, cost: int, effect: Effects, effect_amt: int, effect_chance: float = 1):
         """Creates the Potion instance.
 
         Keyword arguments:
@@ -167,16 +199,24 @@ class Potion:
         self.effect_chance = effect_chance
         self.effect_amt = effect_amt
 
-    def use(self, character: Character):
+    def use(self, character):
         """Applies the potions effect to the player"""
         character.afflict(self.effect, self.effect_amt, self.effect_chance)
-
-
 
     @classmethod
     def load_potion_from_file(cls, potion_name: str):
         """Loads a potion from the potions.txt file and returns it as a potion instance."""
-        # TODO
+        with open(cls._path_to_potion_preset_file, 'r') as f:
+            lines = f.read().splitlines()
+            potion_arguments = []
+            for line in lines:
+                potion_arguments.append(line.split(", "))
+            first_item = [i[0] for i in potion_arguments]
+            assert potion_name in first_item, \
+                f"{potion_name} does not exist in Character_Presets.txt"
+            potion_arguments = potion_arguments[first_item.index(potion_name)]
+            return Potion(potion_arguments[0], int(potion_arguments[1]), Effects[potion_arguments[2]],
+                          effect_chance=float(potion_arguments[3]), effect_amt=int(potion_arguments[4]))
 
     @classmethod
     def stack_potions(cls, potions: list):

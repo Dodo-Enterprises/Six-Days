@@ -9,7 +9,7 @@ class Character:
     """"""
     _path_to_character_preset_file = os.getcwd() + "\\Character_Presets.txt"
     type_advantage = 2
-    def_arm = Weapon("Bare Hands", 0, Jobs.WARRIOR, WpnTypes.BLUNT, 10, effect=Effects.STUN, effect_chance=20,
+    def_arm = Weapon("Bare Hands", 0, Jobs.WARRIOR, WpnTypes.BLUNT, 10, effect=Effects.STUN, effect_chance=0.2,
                      effect_amt=0)
     def_helmet = Armor("Bare Head", 0, Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.HELMET)
     def_breastplate = Armor("Bare Chest", 0, Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.BREASTPLATE)
@@ -314,7 +314,7 @@ class Character:
                         grieves_adv = True
         # Calculating the attack done on defender
         if self.job == Jobs.WARRIOR:
-            if weapon.effect != Effects.NONE and random() <= weapon.effect_chance:
+            if weapon.effect != Effects.NONE and random.random() <= weapon.effect_chance:
                 if helmet_adv:
                     helmet_dmg = float((Character.type_advantage * weapon.phy_damage * defender.helmet.phy_neg)
                                        + (weapon.mag_damage * defender.helmet.magic_neg))
@@ -337,7 +337,7 @@ class Character:
                 total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
                 defender.hurt(total_dmg)
                 if weapon.effect != Effects.LIFESTEAL:
-                    defender.afflict(weapon.effect, weapon.effect_amt)
+                    defender.afflict(weapon.effect, weapon.effect_chance, weapon.effect_amt)
                     return total_dmg, defender.health
                 else:
                     self.health += total_dmg * weapon.effect_amt
@@ -410,11 +410,11 @@ class Character:
         self.health = int(round(float(self.health) - dmg))
         return self.health
 
-    def afflict(self, effect: Effects, effect_amt: int, effect_chance: int):
+    def afflict(self, effect: Effects, effect_chance: float, effect_amt: int):
         assert isinstance(effect, Effects), f"Expected an effect type, got: {type(effect)}"
         assert isinstance(effect_amt, int), f"effect_amt is expected to be int type, got {type(effect_amt)}"
-        assert isinstance(effect_chance, int), f"Effect_chance expected to be int type, got {type(effect_chance)}"
-        if random.randint(1, 100) > effect_chance:
+        assert isinstance(effect_chance, float), f"Effect_chance expected to be float type, got {type(effect_chance)}"
+        if random.randint(1, 100) > effect_chance * 100:
             return
         for key in self.status:
             if effect == key:
@@ -500,6 +500,7 @@ class Character:
         :param character_name:
         :return: A Character instance that is specified by the character_name argument.
         """
+        #TODO Fix potion and spell loading
         with open(cls._path_to_character_preset_file, 'r') as f:
             lines = f.read().splitlines()
             character_arguments = []
@@ -509,12 +510,20 @@ class Character:
             assert character_name in first_item, \
                 f"{character_name} does not exist in Character_Presets.txt"
             character_arguments = character_arguments[first_item.index(character_name)]
-            return Character(character_arguments[0], int(character_arguments[1]), Jobs(character_arguments[2]),
-                             [Spell.load_spell_from_file(i) for i in character_arguments[3][1:-1].split(",")],
-                             Potion.stack_potions(
-                                 [Potion.load_potion_from_file(i) for i in character_arguments[4][1:-1]]), {},
+            return Character(character_arguments[0], int(character_arguments[1]), Jobs[character_arguments[2]],
+                             [],
+                             {}, {},
                              arm1=Weapon.load_weapon_from_file(character_arguments[5]),
                              arm2=Weapon.load_weapon_from_file(character_arguments[6]),
                              helmet=Armor.load_armor_from_file(character_arguments[7]),
                              breastplate=Armor.load_armor_from_file(character_arguments[8]),
                              grieves=Armor.load_armor_from_file(character_arguments[9]))
+            #return Character(character_arguments[0], int(character_arguments[1]), Jobs[character_arguments[2]],
+            #                 [Spell.load_spell_from_file(i) for i in character_arguments[3][1:-1].split(",")],
+            #                 Potion.stack_potions(
+            #                     [Potion.load_potion_from_file(i) for i in character_arguments[4][1:-1]]), {},
+            #                 arm1=Weapon.load_weapon_from_file(character_arguments[5]),
+            #                 arm2=Weapon.load_weapon_from_file(character_arguments[6]),
+            #                 helmet=Armor.load_armor_from_file(character_arguments[7]),
+            #                 breastplate=Armor.load_armor_from_file(character_arguments[8]),
+            #                 grieves=Armor.load_armor_from_file(character_arguments[9]))
