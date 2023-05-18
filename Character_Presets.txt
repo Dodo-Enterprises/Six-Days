@@ -1,0 +1,5 @@
+# Allies
+Villager, 80, NONE, [], {}, Knife (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
+
+# Enemies
+Goblin, 60, WARRIOR, [], {}, Wooden Club (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers

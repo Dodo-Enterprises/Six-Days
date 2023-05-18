@@ -2,9 +2,11 @@ from enum import Enum
 
 
 class Commands(Enum):
-    LIST_COMMANDS = "cmds"
+    HELP = "help"
     OPEN_INVENTORY = "inv"
     EQUIP = "equip"
     UNEQUIP = "unequip"
     ATTACK = "atk"
-#test
+    TRASH = "trash"
+    USE = "use"
+    EXIT = "exit"

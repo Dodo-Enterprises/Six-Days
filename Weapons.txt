@@ -1,0 +1,10 @@
+# Slash Weapons
+
+# Blunt Weapons
+Bare Hands, 0, WARRIOR, BLUNT, 10, STUN, 0.2, 0
+Wooden Club (L), 5, WARRIOR, BLUNT, 20, STUN, 30, 0
+
+# Pierce Weapons
+Knife (L), 10, WARRIOR, PIERCE, 20, NONE, 100, 0
+
+# Staffs

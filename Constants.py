@@ -2,41 +2,42 @@ from enum import Enum
 
 
 class Jobs(Enum):
-    ANY = -1
-    WARRIOR = 0
-    MAGE = 1
+    ANY = "ANY"
+    NONE = "NONE"
+    WARRIOR = "WARRIOR"
+    MAGE = "MAGE"
 
 
 class WpnTypes(Enum):
-    NONE = -1
-    SLASH = 0
-    BLUNT = 1
-    PIERCE = 2
-    STAFF = 3
+    NONE = "NONE"
+    SLASH = "SLASH"
+    BLUNT = "BLUNT"
+    PIERCE = "PIERCE"
+    STAFF = "STAFF"
 
 
 class Effects(Enum):
-    NONE = -1
-    BURN = 0
-    FREEZE = 1
-    STUN = 2
-    LIFESTEAL = 3
-    HEALTH = 4
-    STRENGTH = 5
-    DEFENSE = 6
-    MAGIC = 7
+    NONE = "NONE"
+    BURN = "BURN"
+    FREEZE = "FREEZE"
+    STUN = "STUN"
+    LIFESTEAL = "LIFESTEAL"
+    HEALTH = "HEALTH"
+    STRENGTH = "STRENGTH"
+    DEFENSE = "DEFENSE"
+    MAGIC = "MAGIC"
 
 
 class ArmorTypes(Enum):
-    NONE = -1
-    LEATHER = 0
-    CHAIN = 1
-    PLATE = 2
+    NONE = "NONE"
+    LEATHER = "LEATHER"
+    CHAIN = "CHAIN"
+    PLATE = "PLATE"
 
 
 class ArmorPieces(Enum):
-    # NONE = -1
-    HELMET = 0
-    BREASTPLATE = 1
-    GRIEVES = 2
-    # SHIELD = 3
+    # NONE = "NONE"
+    HELMET = "HELMET"
+    BREASTPLATE = "BREASTPLATE"
+    GRIEVES = "GRIEVES"
+    # SHIELD = "SHIELD"
