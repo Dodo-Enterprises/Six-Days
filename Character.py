@@ -436,30 +436,33 @@ class Character:
         while True:
             cmd = input().split(" ")
             try:
-                assert cmd[0] in Commands, f"Command expected to be of approved type, got: {cmd[0]}"
+                assert cmd[0] in Commands._value2member_map_, f"Command expected to be of approved type, got: {cmd[0]}"
             except AssertionError:
-                print("Try again.")
+                print("Invalid command, Please try again.")
+                print(f"list of helpful commands:\n{Commands.HELP.value}\n{Commands.EQUIP.value}"
+                      f"\n{Commands.UNEQUIP.value}\n{Commands.USE.value}\n{Commands.TRASH.value}"
+                      f"\n{Commands.EXIT.value}")
                 continue
             match cmd[0]:
-                case Commands.HELP:
-                    print(f"list of commands:\n{Commands.HELP}\n{Commands.EQUIP}\n{Commands.UNEQUIP}\n{Commands.USE}\n"
-                          f"{Commands.TRASH}\n{Commands.EXIT}")
+                case Commands.HELP.value:
+                    print(f"list of commands:\n{Commands.HELP.value}\n{Commands.EQUIP.value}\n{Commands.UNEQUIP.value}"
+                          f"\n{Commands.USE.value}\n{Commands.TRASH.value}\n{Commands.EXIT.value}")
                     continue
-                case Commands.EQUIP:
+                case Commands.EQUIP.value:
                     try:
                         self.equip(cmd[1])
                         continue
                     except AssertionError:
                         print("Invalid command. Please specify a valid item in your inventory to equip.")
                         continue
-                case Commands.UNEQUIP:
+                case Commands.UNEQUIP.value:
                     try:
                         self.unequip(cmd[1])
                     except AssertionError:
                         print("Invalid command. Please specify which slot you would like to unequip. "
                               "Valid inputs are arm1, arm2, helmet, breastplate, and grieves.")
                         continue
-                case Commands.USE:
+                case Commands.USE.value:
                     name_potion_dict = {i.name: i for i in self.potions.keys()}
                     if cmd[1] in name_potion_dict:
                         for key in self.potions.keys():
@@ -468,7 +471,7 @@ class Character:
                                 return True
                         continue
                     print(f"{cmd[1]} does not exist in you potion inventory.")
-                case Commands.TRASH:
+                case Commands.TRASH.value:
                     name_item_dict = {i.name: i for i in self.items.keys()}
                     name_potion_dict = {i.name: i for i in self.potions.keys()}
                     try:
@@ -489,7 +492,7 @@ class Character:
                                 continue
                             del self.potions[key]
                             break
-                case Commands.EXIT:
+                case Commands.EXIT.value:
                     break
         return False
 
