@@ -1,1 +1,1 @@
-Print("The land of Ostrania")
+print("The land of Ostrania")
