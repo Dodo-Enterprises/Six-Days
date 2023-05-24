@@ -6,27 +6,23 @@ import os
 
 class Item:
     """Item data type that holds all relevant information for misc. items"""
-    def __init__(self, name: str, cost: int = 0):
+    def __init__(self, name: str):
         """Creates the Item instances
         """
         assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
-        assert isinstance(cost, int) and cost >= 0, f"Cost expected to be a positive Integer, " \
-                                                    f"got: {type(cost)} with a value {cost}"
         self.name = name
-        self.cost = cost
 
 
 class Weapon:
     """Weapon data type that holds all the relevant information for all weapon items."""
     _path_to_weapons_preset_file = os.getcwd() + "\\Weapons.txt"
 
-    def __init__(self, name: str, cost: int, job: Jobs, wpn_type: WpnTypes, phy_damage: int, mag_damage: int = 0,
+    def __init__(self, name: str, job: Jobs, wpn_type: WpnTypes, phy_damage: int, mag_damage: int = 0,
                  effect: Effects = Effects.NONE, effect_chance: float = 1.0, effect_amt: int = 0):
         """Creates the Weapon instance.
 
         Keyword arguments:
         name -- the name of this item
-        cost -- the value of this item in currency
         job -- the character class that this item is most effective for
         wpn_type -- the type of weapon it is
         damage -- the default damage this weapon does
@@ -35,8 +31,6 @@ class Weapon:
         effect_amt -- the amount of effect the effect causes
         """
         assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
-        assert isinstance(cost, int) and cost >= 0, f"Cost expected to be a positive Integer type, " \
-                                                    f"got: {type(cost)} with a value {cost}"
         assert isinstance(job, Jobs), f"Job expected to be Jobs type, got: {type(job)}"
         assert isinstance(wpn_type, WpnTypes), f"Weapon_Type expected to be Wpn_Types type, got: {type(wpn_type)}"
         assert isinstance(phy_damage, int), f"Damage expected to be Integer type, got: {type(phy_damage)}"
@@ -45,7 +39,6 @@ class Weapon:
         assert isinstance(effect_amt, int), f"Effect_Amount expected to be integer type, got: {type(effect_amt)}"
         assert isinstance(mag_damage, int), f"Magical Damage expected to be integer type, got: {type(mag_damage)}"
         self.name = name
-        self.cost = cost
         self.job = job
         self.wpn_type = wpn_type
         self.phy_damage = phy_damage
@@ -65,8 +58,9 @@ class Weapon:
             first_item = [i[0] for i in weapon_arguments]
             assert weapon_name in first_item, f"{weapon_name} does not exist in Weapons.txt"
             weapon_arguments = weapon_arguments[first_item.index(weapon_name)]
-            return Weapon(weapon_arguments[0], int(weapon_arguments[1]), Jobs[weapon_arguments[2]],
-                          WpnTypes[weapon_arguments[3]], int(weapon_arguments[4]), effect=Effects[weapon_arguments[5]],
+            return Weapon(weapon_arguments[0], Jobs[weapon_arguments[1]],
+                          WpnTypes[weapon_arguments[2]], int(weapon_arguments[3]), mag_damage=int(weapon_arguments[4]),
+                          effect=Effects(weapon_arguments[5]),
                           effect_chance=float(weapon_arguments[6]), effect_amt=int(weapon_arguments[7]))
 
 
@@ -74,13 +68,12 @@ class Armor:
     """Weapon data type that holds all the relevant information for all weapon items."""
     _path_to_armor_preset_file = os.getcwd() + "\\Armor_Pieces.txt"
 
-    def __init__(self, name: str, cost: int, job: Jobs, phy_neg: int, magic_neg: int, armor_type: ArmorTypes,
+    def __init__(self, name: str, job: Jobs, phy_neg: int, magic_neg: int, armor_type: ArmorTypes,
                  armor_piece: ArmorPieces):
         """Creates the Armor Instance.
 
         Keyword arguments:
         name -- the name of this item
-        cost -- the value of this item in currency
         job -- the character class that this item is most effective for
         phy_neg -- the amount of physical damage absorbed by the armor piece
         magic_neg -- the amount of magical damage absorbed by the armor piece
@@ -88,7 +81,6 @@ class Armor:
         armor_piece -- the type of armor piece it is (Helmet, breastplate, and grieves)
         """
         assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
-        assert isinstance(cost, int), f"Cost expected to be Integer type, got: {type(cost)}"
         assert isinstance(job, Jobs), f"Job expected to be Jobs type, got: {type(job)}"
         assert isinstance(phy_neg, int), f"Physical_Negation expected to be Integer type, got: {type(phy_neg)}"
         assert phy_neg > 0, f"phy_neg expected to be a non-zero and non-negative number, got: {phy_neg}"
@@ -99,7 +91,6 @@ class Armor:
         assert isinstance(armor_piece, ArmorPieces),\
             f"Armor_pieces expected to be ArmorPieces type, got: {type(armor_piece)}"
         self.name = name
-        self.cost = cost
         self.job = job
         self.phy_neg = float(phy_neg / 100)
         self.magic_neg = float(magic_neg / 100)
@@ -117,22 +108,20 @@ class Armor:
             assert armor_name in first_item, \
                 f"{armor_name} does not exist in Character_Presets.txt"
             armor_arguments = armor_arguments[first_item.index(armor_name)]
-            return Armor(armor_arguments[0], int(armor_arguments[1]), Jobs[armor_arguments[2]], int(armor_arguments[3]),
-                         int(armor_arguments[4]), ArmorTypes[armor_arguments[5]], ArmorPieces[armor_arguments[6]])
+            return Armor(armor_arguments[0], Jobs[armor_arguments[1]], int(armor_arguments[2]),
+                         int(armor_arguments[3]), ArmorTypes[armor_arguments[4]], ArmorPieces[armor_arguments[5]])
 
 
 class Spell:
     """Spell data type that holds all the relevant information for all spells."""
     _path_to_spell_preset_file = os.getcwd() + "\\Spells.txt"
 
-    def __init__(self, name: str, cost: int, mana_cost: int, mag_damage: int, is_area_of_effect_damage: bool,
+    def __init__(self, name: str, mag_damage: int, is_area_of_effect_damage: bool,
                  effect: Effects = Effects.NONE, effect_chance: float = 1.0, effect_amt: int = 0):
         """Creates the Spell instance.
 
         Keyword arguments:
         name -- the name of this item
-        cost -- the value of this item in currency
-        mana_cost -- the amount of mana expended in casting this spell
         damage -- the default damage this spell does
         is_AOE -- does the spell afflict damage over all enemies
         effect -- the specific effect this spell causes.
@@ -140,8 +129,6 @@ class Spell:
         effect_amt -- the amount of effect the effect causes
         """
         assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
-        assert isinstance(cost, int), f"Cost expected to be Integer type, got: {type(cost)}"
-        assert isinstance(mana_cost, int), f"Mana_cost expected to be Integer type, got: {type(mana_cost)}"
         assert isinstance(mag_damage, int), f"Damage expected to be Integer type, got: {type(mag_damage)}"
         assert isinstance(is_area_of_effect_damage, bool), f"Is_AOE expected to be Boolean type, " \
                                                            f"got: {type(is_area_of_effect_damage)}"
@@ -149,8 +136,6 @@ class Spell:
         assert isinstance(effect_chance, float), f"Effect_Chance expected to be Float type, got: {type(effect_chance)}"
         assert isinstance(effect_amt, int), f"Effect_Amount expected to be integer type, got: {type(effect_amt)}"
         self.name = name
-        self.cost = cost
-        self.mana_cost = mana_cost
         self.mag_damage = mag_damage
         self.is_AOE = is_area_of_effect_damage
         self.effect = effect
@@ -171,32 +156,29 @@ class Spell:
             assert spell_name in first_item, \
                 f"{spell_name} does not exist in Character_Presets.txt"
             spell_arguments = spell_arguments[first_item.index(spell_name)]
-            return Spell(spell_arguments[0], int(spell_arguments[1]), int(spell_arguments[2]), int(spell_arguments[3]),
-                         bool(spell_arguments[4]), effect=Effects[spell_arguments[5]],
-                         effect_chance=float(spell_arguments[6]), effect_amt=int(spell_arguments[7]))
+            return Spell(spell_arguments[0], int(spell_arguments[1]),
+                         bool(spell_arguments[2]), effect=Effects[spell_arguments[3]],
+                         effect_chance=float(spell_arguments[4]), effect_amt=int(spell_arguments[5]))
 
 
 class Potion:
     """Potion data type that holds all the relevant information for all potions."""
     _path_to_potion_preset_file = os.getcwd() + "\\Potions.txt"
 
-    def __init__(self, name: str, cost: int, effect: Effects, effect_amt: int, effect_chance: float = 1):
+    def __init__(self, name: str, effect: Effects, effect_amt: int, effect_chance: float = 1):
         """Creates the Potion instance.
 
         Keyword arguments:
         name -- the name of this item
-        cost -- the value of this item in currency
         effect -- the specific effect this potion causes
         effect_chance -- the percentage of teh effect being activated
         effect_amt -- the amount of effect the effect causes
         """
         assert isinstance(name, str), f"Name expected to be string type, got: {type(name)}"
-        assert isinstance(cost, int), f"Cost expected to be Integer type, got: {type(cost)}"
         assert isinstance(effect, Effects), f"Effect expected to be Effects type, got: {type(effect)}"
         assert isinstance(effect_chance, float), f"Effect_Chance expected to be Float type, got: {type(effect_chance)}"
         assert isinstance(effect_amt, int), f"Effect_Amount expected to be integer type, got: {type(effect_amt)}"
         self.name = name
-        self.cost = cost
         self.effect = effect
         self.effect_chance = effect_chance
         self.effect_amt = effect_amt
@@ -217,8 +199,8 @@ class Potion:
             assert potion_name in first_item, \
                 f"{potion_name} does not exist in Character_Presets.txt"
             potion_arguments = potion_arguments[first_item.index(potion_name)]
-            return Potion(potion_arguments[0], int(potion_arguments[1]), Effects[potion_arguments[2]],
-                          effect_chance=float(potion_arguments[3]), effect_amt=int(potion_arguments[4]))
+            return Potion(potion_arguments[0], Effects[potion_arguments[1]],
+                          effect_chance=float(potion_arguments[2]), effect_amt=int(potion_arguments[3]))
 
     @classmethod
     def stack_potions(cls, potions: list):
