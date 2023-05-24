@@ -1,2 +1,1 @@
-#This is the main file where code will be run
-#Testing
+Print("The land of Ostrania")
