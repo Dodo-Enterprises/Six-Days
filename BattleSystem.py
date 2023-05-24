@@ -34,19 +34,25 @@ class BattleSystem:
         self.round = 0
         self.battle_ongoing = True
         self.run_difficulty = float(run_difficulty / 100)
+        self.loot = loot
 
     def start(self):
         """"""
         while self.battle_ongoing:
             print("Player's Turn")
-            if not self._player_action():
-                self.battle_ongoing = False
+            match self._player_action():
+                case 1:
+                    self.battle_ongoing = False
+                case 2:
+                    self.battle_ongoing = False
             if len(self.players_team) > 1:
                 print("Allies Turn")
-            self._player_team_action()
+                if not self._player_team_action():
+                    self.battle_ongoing = False
             print("Enemy's Turn")
             if not self._enemies_action():
                 self.battle_ongoing = False
+            self._effects_applied()
         print("Battle Over")
 
     def _player_action(self):
@@ -64,17 +70,20 @@ class BattleSystem:
                     print("The input was not recognized as a valid input. Please input a valid response. ry again...")
             match action:
                 case "a":
-                    if self._attack():
-                        action_undecided = False
+                    value = self._attack()
+                    if value == 2:
+                        return 1
+                    elif value == 3:
+                        return 3
                 case "s":
                     self._cast_spell()
                 case "i":
                     self.player.open_inventory()
                 case "r":
                     if self._run():
-                        return False
+                        return 2
                     action_undecided = False
-        return True
+        return 3
 
     def _attack(self):
         """"""
@@ -85,9 +94,10 @@ class BattleSystem:
                 assert armament == "1" or armament == "2" or armament == "b"
                 break
             except AssertionError:
-                print("The input was not recognized as a valid input. Please input a valid response. ry again...")
+                print("The input was not recognized as a valid input. Please input a valid response. try again...")
         if armament == "b":
-            return False
+            return
+        armament = int(armament)
         while True:
             try:
                 print("Which enemy would you like to attack?")
@@ -99,21 +109,65 @@ class BattleSystem:
                 print(enemy_team)
                 target = input("")
                 if target == "b":
-                    return False
-                target = int(target)
+                    return 1
+                target = int(target) - 1
                 assert target in range(i)
                 break
-            except AssertionError:
+            except AssertionError or ValueError:
                 print("The input was not recognized as a valid input. Please input a valid response. try again...")
         if armament == 1:
-            self.player.phy_attack(self.player.arm1, self.enemies[target - 1])
-            return True
-        self.player.phy_attack(self.player.arm2, self.enemies[target - 1])
-        return True
+            if self.player.phy_attack(self.player.arm1, self.enemies[target])[1] <= 0:
+                self.enemies.remove(self.enemies[target - 1])
+        if self.player.phy_attack(self.player.arm2, self.enemies[target])[1] <= 0:
+            self.enemies.remove(self.enemies[target - 1])
+        if len(self.enemies) == 0:
+            return 2
+        return 3
 
     def _cast_spell(self):
         """"""
-        # TODO magic attack
+        if not self.player.spells:
+            print("You have no spells to cast.")
+            return 1
+        while True:
+            try:
+                print("Which spell would you like to cast?")
+                i = 1
+                spells = ''
+                for spell in self.player.spells:
+                    spells += f"{spell.name} ({i})"
+                    i += 1
+                spell_to_cast = input()
+                assert int(spell_to_cast) - 1 in range(i) or spell_to_cast == "b"
+                break
+            except AssertionError or ValueError:
+                print("The input was not recognized as a valid input. Please input a valid response. try again...")
+        if spell_to_cast == "b":
+            return 1
+        while True:
+            try:
+                print("Which enemy would you like to attack?")
+                enemy_team = ""
+                i = 1
+                for enemy in self.enemies:
+                    enemy_team += f"{enemy.name} with {enemy.health}hp ({i}) "
+                    i += 1
+                print(enemy_team)
+                target = input("")
+                if target == "b":
+                    return 1
+                target = int(target) - 1
+                assert target in range(i)
+                break
+            except AssertionError or ValueError:
+                print("The input was not recognized as a valid input. Please input a valid response. try again...")
+        if self.player.arm1.wpn_type == WpnTypes.STAFF:
+            self.player.mag_attack(self.player.arm1, Spell.load_spell_from_file(spell_to_cast), self.enemies[target])
+        elif self.player.arm2.wpn_type == WpnTypes.STAFF:
+            self.player.mag_attack(self.player.arm2, Spell.load_spell_from_file(spell_to_cast), self.enemies[target])
+        if len(self.enemies) == 0:
+            return 2
+        return 3
 
     def _run(self):
         """"""
@@ -127,25 +181,43 @@ class BattleSystem:
             if ally.job == Jobs.WARRIOR:
                 target = random.randrange(0, len(self.enemies))
                 if ally.phy_attack(ally.arm1, self.enemies[target])[1] <= 0:
-                    all_defeated = True
-                    for enemy in self.enemies:
-                        if enemy.health > 0:
-                            all_defeated = False
-                    if all_defeated:
-                        return False
-            # TODO magic attack
+                    self.enemies.remove(self.enemies[target])
+                if len(self.enemies) == 0:
+                    return False
+            else:
+                target = random.randrange(0, len(self.enemies))
+                if ally.mag_attack(ally.arm1, ally.spells[0], self.enemies[target])[1] <= 0:
+                    self.enemies.remove(self.enemies[target])
+                if len(self.enemies) == 0:
+                    return False
+        enemy_team = ""
+        i = 1
+        for enemy in self.enemies:
+            enemy_team += f"{enemy.name} with {enemy.health}hp ({i}) "
+            i += 1
+        print(enemy_team)
+        return True
 
     def _enemies_action(self):
         """"""
         for enemy in self.enemies:
             if enemy.job == Jobs.WARRIOR:
                 target = random.randrange(0, len(self.players_team))
-                print(target)
-                if enemy.phy_attack(enemy.arm1, self.players_team[target])[1] <= 0 and self.player.health <= 0:
+                enemy.phy_attack(enemy.arm1, self.players_team[target])
+                if self.player.health <= 0:
                     print("Game Over")
                     return False
-            # TODO magic attack
+            else:
+                target = random.randrange(0, len(self.players_team))
+                enemy.mag_attack(enemy.arm1, enemy.spells[0], self.players_team[target])
+                if self.player.health <= 0:
+                    print("Game Over")
+                    return False
         return True
+
+    def _effects_applied(self):
+        """"""
+        # TODO
 
     @classmethod
     def load_battle_from_file(cls, player: Character, battle_index: int):

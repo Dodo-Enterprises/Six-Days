@@ -42,8 +42,12 @@ class Character:
         assert isinstance(grieves, Armor), f"Grieves expected to be Armor type, got: {type(grieves)}"
         assert isinstance(spells, list), f"Spells list expected to be list type, got: {type(spells)}"
         if len(spells) != 0:
-            for spell in spells:
-                assert isinstance(spell, Spell), f"Spell element expected to be spell type, got: {type(spell)}"
+            if spells[0] is None:
+                self.spells = []
+            else:
+                for spell in spells:
+                    assert isinstance(spell, Spell), f"Spell element expected to be spell type, got: {type(spell)}"
+                self.spells = spells
         assert isinstance(potions, dict), f"Potions list expected to be dictionary type, got: {type(potions)}"
         if len(potions.values()) != 0:
             for potion in potions.values():
@@ -427,7 +431,7 @@ class Character:
     def open_inventory(self):
         """Displays the inventory information.
 
-        :return True if player used a potion. False if they did not.
+        return True if player used a potion. False if they did not.
         """
         display_items_dict = sorted({key.name: self.items[key] for key in self.items})
         display_potions_dict = sorted({key.name: self.potions[key] for key in self.potions})
@@ -436,30 +440,33 @@ class Character:
         while True:
             cmd = input().split(" ")
             try:
-                assert cmd[0] in Commands, f"Command expected to be of approved type, got: {cmd[0]}"
+                assert cmd[0] in Commands._value2member_map_, f"Command expected to be of approved type, got: {cmd[0]}"
             except AssertionError:
-                print("Try again.")
+                print("Invalid command, Please try again.")
+                print(f"list of helpful commands:\n{Commands.HELP.value}\n{Commands.EQUIP.value}"
+                      f"\n{Commands.UNEQUIP.value}\n{Commands.USE.value}\n{Commands.TRASH.value}"
+                      f"\n{Commands.EXIT.value}")
                 continue
             match cmd[0]:
-                case Commands.HELP:
-                    print(f"list of commands:\n{Commands.HELP}\n{Commands.EQUIP}\n{Commands.UNEQUIP}\n{Commands.USE}\n"
-                          f"{Commands.TRASH}\n{Commands.EXIT}")
+                case Commands.HELP.value:
+                    print(f"list of commands:\n{Commands.HELP.value}\n{Commands.EQUIP.value}\n{Commands.UNEQUIP.value}"
+                          f"\n{Commands.USE.value}\n{Commands.TRASH.value}\n{Commands.EXIT.value}")
                     continue
-                case Commands.EQUIP:
+                case Commands.EQUIP.value:
                     try:
                         self.equip(cmd[1])
                         continue
                     except AssertionError:
                         print("Invalid command. Please specify a valid item in your inventory to equip.")
                         continue
-                case Commands.UNEQUIP:
+                case Commands.UNEQUIP.value:
                     try:
                         self.unequip(cmd[1])
                     except AssertionError:
                         print("Invalid command. Please specify which slot you would like to unequip. "
                               "Valid inputs are arm1, arm2, helmet, breastplate, and grieves.")
                         continue
-                case Commands.USE:
+                case Commands.USE.value:
                     name_potion_dict = {i.name: i for i in self.potions.keys()}
                     if cmd[1] in name_potion_dict:
                         for key in self.potions.keys():
@@ -468,7 +475,7 @@ class Character:
                                 return True
                         continue
                     print(f"{cmd[1]} does not exist in you potion inventory.")
-                case Commands.TRASH:
+                case Commands.TRASH.value:
                     name_item_dict = {i.name: i for i in self.items.keys()}
                     name_potion_dict = {i.name: i for i in self.potions.keys()}
                     try:
@@ -489,7 +496,7 @@ class Character:
                                 continue
                             del self.potions[key]
                             break
-                case Commands.EXIT:
+                case Commands.EXIT.value:
                     break
         return False
 
@@ -500,7 +507,6 @@ class Character:
         :param character_name:
         :return: A Character instance that is specified by the character_name argument.
         """
-        #TODO Fix potion and spell loading
         with open(cls._path_to_character_preset_file, 'r') as f:
             lines = f.read().splitlines()
             character_arguments = []
@@ -511,19 +517,11 @@ class Character:
                 f"{character_name} does not exist in Character_Presets.txt"
             character_arguments = character_arguments[first_item.index(character_name)]
             return Character(character_arguments[0], int(character_arguments[1]), Jobs[character_arguments[2]],
-                             [],
-                             {}, {},
+                             [Spell.load_spell_from_file(i) for i in character_arguments[3][1:-1].split(",")],
+                             Potion.stack_potions(
+                                 [Potion.load_potion_from_file(i) for i in character_arguments[4][1:-1]]), {},
                              arm1=Weapon.load_weapon_from_file(character_arguments[5]),
                              arm2=Weapon.load_weapon_from_file(character_arguments[6]),
                              helmet=Armor.load_armor_from_file(character_arguments[7]),
                              breastplate=Armor.load_armor_from_file(character_arguments[8]),
                              grieves=Armor.load_armor_from_file(character_arguments[9]))
-            #return Character(character_arguments[0], int(character_arguments[1]), Jobs[character_arguments[2]],
-            #                 [Spell.load_spell_from_file(i) for i in character_arguments[3][1:-1].split(",")],
-            #                 Potion.stack_potions(
-            #                     [Potion.load_potion_from_file(i) for i in character_arguments[4][1:-1]]), {},
-            #                 arm1=Weapon.load_weapon_from_file(character_arguments[5]),
-            #                 arm2=Weapon.load_weapon_from_file(character_arguments[6]),
-            #                 helmet=Armor.load_armor_from_file(character_arguments[7]),
-            #                 breastplate=Armor.load_armor_from_file(character_arguments[8]),
-            #                 grieves=Armor.load_armor_from_file(character_arguments[9]))
