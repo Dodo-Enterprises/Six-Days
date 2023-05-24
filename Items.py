@@ -160,6 +160,8 @@ class Spell:
     @classmethod
     def load_spell_from_file(cls, spell_name: str):
         """Loads a spell from the spells.txt file and returns it as a spell instance."""
+        if spell_name == "":
+            return None
         with open(cls._path_to_spell_preset_file, 'r') as f:
             lines = f.read().splitlines()
             spell_arguments = []
@@ -221,4 +223,21 @@ class Potion:
     @classmethod
     def stack_potions(cls, potions: list):
         """Turns a list of potions into a dictionary."""
-        # TODO
+        potion_dict = {}
+        potion_list = potions
+        while len(potion_list) > 0:
+            amount = 1
+            potion_temp = potion_list[0]
+            del(potion_list[0])
+            if len(potion_list) == 0:
+                potion_dict.update([(potion_temp, amount)])
+                return potion_dict
+            i = 1
+            for potion in potion_list:
+                if potion_temp == potion:
+                    del(potion_list[i])
+                    amount += 1
+                i += 1
+            potion_dict.update([(potion_temp, amount)])
+        return potion_dict
+

@@ -42,8 +42,12 @@ class Character:
         assert isinstance(grieves, Armor), f"Grieves expected to be Armor type, got: {type(grieves)}"
         assert isinstance(spells, list), f"Spells list expected to be list type, got: {type(spells)}"
         if len(spells) != 0:
-            for spell in spells:
-                assert isinstance(spell, Spell), f"Spell element expected to be spell type, got: {type(spell)}"
+            if spells[0] is None:
+                self.spells = []
+            else:
+                for spell in spells:
+                    assert isinstance(spell, Spell), f"Spell element expected to be spell type, got: {type(spell)}"
+                self.spells = spells
         assert isinstance(potions, dict), f"Potions list expected to be dictionary type, got: {type(potions)}"
         if len(potions.values()) != 0:
             for potion in potions.values():
@@ -427,7 +431,7 @@ class Character:
     def open_inventory(self):
         """Displays the inventory information.
 
-        :return True if player used a potion. False if they did not.
+        return True if player used a potion. False if they did not.
         """
         display_items_dict = sorted({key.name: self.items[key] for key in self.items})
         display_potions_dict = sorted({key.name: self.potions[key] for key in self.potions})
@@ -503,7 +507,6 @@ class Character:
         :param character_name:
         :return: A Character instance that is specified by the character_name argument.
         """
-        #TODO Fix potion and spell loading
         with open(cls._path_to_character_preset_file, 'r') as f:
             lines = f.read().splitlines()
             character_arguments = []
@@ -514,19 +517,11 @@ class Character:
                 f"{character_name} does not exist in Character_Presets.txt"
             character_arguments = character_arguments[first_item.index(character_name)]
             return Character(character_arguments[0], int(character_arguments[1]), Jobs[character_arguments[2]],
-                             [],
-                             {}, {},
+                             [Spell.load_spell_from_file(i) for i in character_arguments[3][1:-1].split(",")],
+                             Potion.stack_potions(
+                                 [Potion.load_potion_from_file(i) for i in character_arguments[4][1:-1]]), {},
                              arm1=Weapon.load_weapon_from_file(character_arguments[5]),
                              arm2=Weapon.load_weapon_from_file(character_arguments[6]),
                              helmet=Armor.load_armor_from_file(character_arguments[7]),
                              breastplate=Armor.load_armor_from_file(character_arguments[8]),
                              grieves=Armor.load_armor_from_file(character_arguments[9]))
-            #return Character(character_arguments[0], int(character_arguments[1]), Jobs[character_arguments[2]],
-            #                 [Spell.load_spell_from_file(i) for i in character_arguments[3][1:-1].split(",")],
-            #                 Potion.stack_potions(
-            #                     [Potion.load_potion_from_file(i) for i in character_arguments[4][1:-1]]), {},
-            #                 arm1=Weapon.load_weapon_from_file(character_arguments[5]),
-            #                 arm2=Weapon.load_weapon_from_file(character_arguments[6]),
-            #                 helmet=Armor.load_armor_from_file(character_arguments[7]),
-            #                 breastplate=Armor.load_armor_from_file(character_arguments[8]),
-            #                 grieves=Armor.load_armor_from_file(character_arguments[9]))
