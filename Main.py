@@ -1,4 +1,5 @@
 print("The land of Ostrania. A wonderful, vibrant land made by a high deity, Kangmar. ")
+print("Kangmar gave this land to three kings to rule peacefully. ")
 print("")
 print("")
 print("")
@@ -18,4 +19,10 @@ print("")
 print("")
 print("")
 print("")
+print("")
+print("")
+print("")
+print("")
+
+
 
