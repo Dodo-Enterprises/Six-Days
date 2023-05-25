@@ -1,3 +1,9 @@
 Health (L), HEALTH, 90, 30
 Health (M), HEALTH, 90, 60
 Health (H), HEALTH, 100, 100
+Strength (L), STRENGTH, 90, 10
+Strength (M), STRENGTH, 90, 20
+Strength (H), STRENGTH, 90, 30
+Defense (L), DEFENSE, 90, 10
+Defense (M), DEFENSE, 90, 20
+Defense (H), DEFENSE, 90, 30

@@ -1,4 +1,4 @@
-Villager Goblin,Goblin
+Villager Goblin,Goblin 80
 Villager,Villager,Village Goblin
 NONE Demon_(L),Crystal_Golem,Demon_(L)
 NONE Crystal_Golem,Elite_Crystal_Golem
