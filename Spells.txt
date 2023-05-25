@@ -1,6 +1,6 @@
 Fireball, 5, True, BURN, 50, 10
 Fireblast, 15, True, BURN, 100, 10
-Icespear, 25, False, STUN, 10, 0
+Icespear, 40, False, STUN, 10, 0
 Lightingbolt, 20, False, STUN, 30, 0
 Shotgun, 15, True, BURN, 100, 10
 Rifle, 40, False, BURN, 100, 10
