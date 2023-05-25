@@ -2,7 +2,9 @@
 from BattleSystem import BattleSystem
 from Character import *
 
-player = Character("Bob", 120, Jobs.WARRIOR, [], {}, {},
-                   arm1=Weapon("Knife (H)", Jobs.WARRIOR, WpnTypes.PIERCE, 80), is_player=True)
+#player = Character("Bob", 120, Jobs.WARRIOR, [], {}, {}, arm1=Weapon("Knife (H)", Jobs.WARRIOR, WpnTypes.PIERCE, 80), is_player=True)
 #BattleSystem.load_battle_from_file(player, 1).start()
-BattleSystem.load_battle_from_file(player, 5).start()
+
+player = Character("Jajawawa", 200, Jobs.ANY,
+
+BattleSystem.load_battle_from_file(player, 2).start()

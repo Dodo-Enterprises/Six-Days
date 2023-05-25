@@ -1,7 +1,7 @@
 # Allies
 Villager, 80, WARRIOR, [], {}, Knife (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
 
-James, 200, WARRIOR, [], {Health (M): 3}, Electric Spear (H), Electric Spear (H), Chain Helmet, Chain Tunic, Chain Trouser
+James, 200, WARRIOR, [], {Health (M),Health (M),Health (M)}, Electric Spear (H), Electric Spear (H), Chain Helmet, Chain Tunic, Chain Trouser
 
 Gravriel-Utters, 10000, ANY, [Shotgun,Rifle], {}, Gun (H), Silver Sword (M), Bare Head, Coat, Suit Pants
 
@@ -30,4 +30,4 @@ Dragon, 200, ANY, [Lightingbolt], {}, Nice Wooden Staff (M), Dragon Claw (M), Sc
 
 Fortissax, 600, ANY, [Death bolt,Lightingbolt,Dragonbreath], {}, Staff of Dragon Lord (H), Lighting Claw (H), Scale Helmet, Scale Chest, Scale Legs
 
-Clockyll_Tymdal_(Boss), 1200, ANY [Disappear!,Freeze!,Burn!], {Health (H): 4}, Sword Of Kangmar (H), Staff Of King (H), Helmet Of King, Breastplate Of King, Grieve Of King
+Clockyll_Tymdal_(Boss), 1200, ANY [Disappear!,Freeze!,Burn!], {Health (H),Health (H),Health (H),Health (H)}, Sword Of Kangmar (H), Staff Of King (H), Helmet Of King, Breastplate Of King, Grieve Of King

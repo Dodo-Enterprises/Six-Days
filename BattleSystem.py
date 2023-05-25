@@ -40,7 +40,7 @@ class BattleSystem:
                         player_won = True
                         break
             else:
-                del self.player.status[Effects.STUN, (0, Character.effect_duration)]
+                del self.player.status[Effects.STUN]
             if len(self.players_team) > 1:
                 print("Allies Turn")
                 if not self._player_team_action():
