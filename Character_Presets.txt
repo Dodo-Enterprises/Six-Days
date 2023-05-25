@@ -28,8 +28,6 @@ GravrielUtters, 200, ANY, [Shotgun], {}, Gun(H), Silver Sword (M), Bare Head, Co
 
 Dragon, 200, ANY, [Lightingbolt], {}, Nice Wooden Staff (M), Dragon Claw (M), Scale Helmet, Scale Chest, Scale Legs
 
-Dragon?, 1000, ANY, [???], {}, Staff of Dragon Lord (H), Staff of Dragon Lord (H), Scale Helmet, Scale Chest, Scale Legs
-
 Fortissax, 600, ANY, [Death bolt,Lightingbolt,Dragonbreath], {}, Staff of Dragon Lord (H), Lighting Claw (H), Scale Helmet, Scale Chest, Scale Legs
 
 Clockyll_Tymdal_(Boss), 1200, ANY [Disappear!,Freeze!,Burn!], {Health (H): 4}, Sword Of Kangmar (H), Staff Of King (H), Helmet Of King, Breastplate Of King, Grieve Of King
