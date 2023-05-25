@@ -220,15 +220,23 @@ class BattleSystem:
         for ally in self.players_team:
             if ally.is_player:
                 continue
+            print(f"{ally.name} has {ally.health} health.")
+            if Effects.STUN in ally.status.keys():
+                print(f"{ally.name} was stunned.")
+                continue
             if ally.job == Jobs.WARRIOR:
                 target = random.randrange(0, len(self.enemies))
-                if ally.phy_attack(ally.arm1, self.enemies[target])[1] <= 0:
+                result = ally.phy_attack(ally.arm1, self.enemies[target])
+                print(f"{ally.name} dealt {result[0]} points of damage to {self.enemies[target].name}")
+                if result[1] <= 0:
                     self.enemies.remove(self.enemies[target])
                 if len(self.enemies) == 0:
                     return False
             else:
                 target = random.randrange(0, len(self.enemies))
-                if ally.mag_attack(ally.arm1, ally.spells[0], self.enemies[target])[1] <= 0:
+                result = ally.mag_attack(ally.arm1, ally.spells[0], self.enemies[target])
+                print(f"{ally.name} dealt {result[0]} points of damage to {self.enemies[target].name}")
+                if result[1] <= 0:
                     self.enemies.remove(self.enemies[target])
                 if len(self.enemies) == 0:
                     return False
@@ -243,6 +251,9 @@ class BattleSystem:
     def _enemies_action(self):
         """"""
         for enemy in self.enemies:
+            if Effects.STUN in enemy.status.keys():
+                print(f"{enemy.name} was stunned.")
+                continue
             if enemy.job == Jobs.WARRIOR:
                 target = random.randrange(0, len(self.players_team))
                 result = enemy.phy_attack(enemy.arm1, self.players_team[target])
