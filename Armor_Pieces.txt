@@ -22,24 +22,24 @@ Chain Trouser, ANY, 35, 20, CHAIN, GRIEVES
 # Plate Grieves
 
 # Helmets
-Bare Head, ANY, 1, 1, NONE, HELMET
+Bare Head, ANY, 100, 100, NONE, HELMET
 Stone Head, ANY, 10, 10, PLATE, HELMET
 Magic Helmet, MAGE, 20, 40, LEATHER, HELMET
 Scale Helmet, ANY, 20, 20, PLATE, HELMET
 Helmet Of King, ANY, 30, 30, PLATE, HELMET
 
 # Breastplates
-Bare Chest, ANY, 1, 1, NONE, BREASTPLATE
+Bare Chest, ANY, 100, 100, NONE, BREASTPLATE
 Stone Chest, ANY, 10, 10, PLATE, BREASTPLATE
 Magic Chest, MAGE, 20, 40, LEATHER, BREASTPLATE
 Scale Chest, ANY, 20, 20, PLATE, BREASTPLATE
-Coat, ANY, 0, 0, LEATHER, BREASTPLATE
+Coat, ANY, 50, 50, LEATHER, BREASTPLATE
 Breastplate Of King, ANY, 30, 30, PLATE, BREASTPLATE
 
 # Grieves
-Bare Legs, ANY, 1, 1, NONE, GRIEVES
+Bare Legs, ANY, 100, 100, NONE, GRIEVES
 Stone Legs, ANY, 10, 10, PLATE, GRIEVES
 Magic Legs, MAGE, 20, 40, LEATHER, GRIEVES
 Scale Legs, ANY, 20,20, PLATE, GRIEVES
-Suit Pants, ANY, 0, 0, LEATHER, GRIEVES
+Suit Pants, ANY, 50, 50, LEATHER, GRIEVES
 Grieve Of King, ANY, 30, 30, PLATE, GRIEVES
