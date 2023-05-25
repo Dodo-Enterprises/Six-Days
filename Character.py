@@ -579,6 +579,7 @@ class Character:
             assert character_name in first_item, \
                 f"{character_name} does not exist in Character_Presets.txt"
             character_arguments = character_arguments[first_item.index(character_name)]
+            print(character_arguments)
             return Character(character_arguments[0], int(character_arguments[1]), Jobs[character_arguments[2]],
                              [Spell.load_spell_from_file(i) for i in character_arguments[3][1:-1].split(",")],
                              Potion.stack_potions(
