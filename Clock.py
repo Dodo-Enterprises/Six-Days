@@ -1,4 +1,6 @@
-import Character
+from Character import Character
+from BattleSystem import BattleSystem
+from Items import *
 class Clock:
       """"""
 
@@ -7,13 +9,13 @@ class Clock:
 
       def start(self):
             """
-
-            :return: player
+  #IMPORTANT Also need to add specific weapons for the mage class after winning a fight
+        # and all armor for both classes. Add whatever you think is appropriate.
+        #Also change the range if need be. I don't know the numbers. This is for the rest going on
+            :return: True if beat game
             """
 
-            #All the code for the clock
-            # arc
-
+            #All the code for the clock arc
             print("\nYou enter the Clock Kingdom. Everything looks peaceful and no demons are attacking the kingdom. "
             "\nYou see a city in the distance. You walk towards the city doubting what is going on here. ")
             input()
@@ -74,21 +76,43 @@ class Clock:
             "\nCitizen 1: I don’t want to die!"
             "\nCitizen 2: Leave me alone!")
             input()
-            print("Soon, screaming and sorrow fill every corner of the city. Every street of the city turns into a river of blood. "
+            print("Soon, screaming and sorrow fill every corner of the city. "
+            "\nEvery street of the city turns into a river of blood. "
             "\nWith rage, you decided to kill every demon. ")
             input()
-            #Battle against 5 demons in a row?
+            #Battle 8
+            #Three demons at the same time
+            if BattleSystem.load_battle_from_file(self.player, 8).start():
+                  self.player.add_to_inventory([Potion.load_potion_from_file("Health (M)") for i in range(5)])
+                  print("You Won")
+                  print("Player received a Potions(M)")
+            else:
+                  print("You Lose")
+                  return False
             print("Knights and wizards of Clock Kingdom also start to fight against demons. "
-            "\nAll the knights and wizards were so strong that they were able to kill every demon that invaded the kingdom. "
-            "\nThe knights made a defense line to protect the citizens and the wizards created traps for upcoming attacks.")
+            "\nAll the knights and wizards were so strong that they were able "
+            "\nto kill every demon that invaded the kingdom. "
+            "\nThe knights made a defense line to protect the citizens "
+            "\nand the wizards created traps for upcoming attacks.")
             input()
             print("The next day, you see more demons charging into the Clock Kingdom along with dragons from the sky. "
             "\nAmong them, you see a gigantic dragon with three heads on it. "
             "\nOne of its heads was cut out and its skin was ruined by unknown magic.")
             input()
-            #Battle against a dragon
+            #Battle 9 against 2 dragons
+            if BattleSystem.load_battle_from_file(self.player, 9).start():
+                  self.player.add_to_inventory([Weapon.load_weapon_from_file("Dragon Claw (M)") for i in range(5)])
+                  print("You Won")
+                  print("Player received a Dragon Claw (M)")
+            else:
+                  print("You Lose")
+                  return False
+            print("Player received Dragon Scale Armor")
+            input()
             print("The dragons were so strong that knights and wizards of the clock kingdom died one by one. "
             "\nThe gigantic dragon attacks the player ")
+            #Battle 10 ???
+            #Battle
             input()
             #Loses this battle
             print("You see the man with the black coat with a weird magic wand that you didn’t see before. "
@@ -125,7 +149,8 @@ class Clock:
             print("???: You haven’t forgotten have you? You cannot die, my friend. "
             "\nI changed you with my power and my power is over everything. Let’s start again.")
             input()
-            print("??? takes his sword out and it shines with bright blue light. The light started to devour everything nearby.")
+            print("??? takes his sword out and it shines with bright blue light. "
+                  "\nThe light started to devour everything nearby.")
             input()
             print("When the light starts to devour you, you see Muriel and she teleports you out of the kingdom.")
             input()
@@ -138,11 +163,13 @@ class Clock:
             input()
             print("Now you re-enter the kingdom")
             input()
-            print("You enter the Clock Kingdom. Everything looks peaceful and none of the demons are attacking the kingdom. "
-            "\nYou see the city from a far distance. "
-            "\nYou walk towards the city hoping the peace last forever…")
+            print("You enter the Clock Kingdom. "
+                  "\nEverything looks peaceful and none of the demons are attacking the kingdom. "
+                  "\nYou see the city from a far distance. "
+                  "\nYou walk towards the city hoping the peace last forever…")
             input()
-            print("In the city, all people are happy and in the marketplace, there are no poor or disabled begging for money. ")
+            print("In the city, all people are happy and in the marketplace, "
+                  "\nthere are no poor or disabled begging for money. ")
             input()
             print("At the marketplace, a man with a black coat bumps into you. "
             "\nThe man smells like a dead body and has bandages everywhere on his body. "
@@ -167,43 +194,72 @@ class Clock:
                         case "2":
                               print("I will help you end the loop")
                               input()
-                              print("Man: You don’t know what you are talking about. If you know anything about this loop, prove it to me.")
+                              print("Man: You don’t know what you are talking about. "
+                                    "\nIf you know anything about this loop, prove it to me.")
                               input()
                               break
-            #Fight against man
-            print("Man: You have artifacts of the kings. Interesting, you want the artifact of Clockyll Tymdal. "
-            "\nWell, then you can at least survive his magic.")
+            #Battle 11 Fight against man
+            if BattleSystem.load_battle_from_file(self.player, 11).start():
+                  print("You Won")
+            else:
+                  print("You Lose")
+                  return False
+            input()
+            print("Man: You have the artifacts of the kings. Interesting, you want the artifact of Clockyll Tymdal. "
+                  "\nWell, then you can at least survive his magic.")
             input()
             print("The only way to kill him is by using the dragon's heart which gives "
-            "\nthe special power of the dragon to whoever eats it. But whoever eats it will die in an hour.")
+                  "\nthe special power of the dragon to whoever eats it. But whoever eats it will die in an hour.")
             input()
-            print("Help me kill the dragon then we can end to loop. If so, the artifact will be yours eventually.")
+            print("Help me kill the dragon then we can end to loop. If so, the artifact will be yours eventually."
+                  "\nHere take this sword")
+            self.player.add_to_inventory([Weapon.load_weapon_from_file("Death Sword (H)") for i in range(5)])
+            print("Player received a Death Sword")
             input()
             print("By the way, my name is Gavriel Utterson. See you in two days. ")
             input()
             print("After meeting Gavriel Utterson, you visited the nearest hotel and spend a night there.")
             input()
-            print("The next day, as you were walking down the street, you see the sky turn dark and blood started to rain. "
-            "\nDemons rush into the city and start to kill every person.")
+            print("The next day, as you were walking down the street, "
+                  "\nyou see the sky turn dark and blood started to rain. "
+                  "\nDemons rush into the city and start to kill every person.")
             input()
             print("Boy 1: Help! "
-            "\nCitizen 1: I don’t want to die "
-            "\nCitizen 2: Leave me alone! ")
+                  "\nCitizen 1: I don’t want to die "
+                  "\nCitizen 2: Leave me alone! ")
             input()
             print("Soon, the screaming and sorrow fill the city. Every street in the city turns into a river of blood. "
             "\nYou see many bodies of people everywhere in the city. ")
+            # Battle 12 (Grab 8th battle)
+            # Three demons at the same time
+            if BattleSystem.load_battle_from_file(self.player, 12).start():
+                  print("You Won")
+            else:
+                  print("You Lose")
+                  return False
             input()
             print("Knights and wizards of the Clock Kingdom also start to fight against demons. "
             "\nAll the knights and wizards were strong enough that "
             "\nthey were able to kill every demon that invaded the kingdom. ")
             input()
-            print("The Knights made a defense line to protect citizens and the wizards created traps for upcoming attacks.")
+            print("The Knights made a defense line to protect citizens and the "
+                  "\nwizards created traps for upcoming attacks.")
             print("\nThe next day, you see more demons charging to the Clock Kingdom along with dragons from the sky. "
             "\nFortissax also appeared with other dragons.")
             input()
-            print("Gavriel Utterson joins and Fortissax flies down to you throwing lightning bolts that have the power of death.")
+            print("Gavriel Utterson joins and Fortissax flies down to you "
+                  "/nthrowing lightning bolts that have the power of death.")
             input()
-            #2nd Battle against Fortissax this time with ally
+            #2nd Battle against Fortissax this time with ally (Battle 13)
+            if BattleSystem.load_battle_from_file(self.player, 13).start():
+                  self.player.add_to_inventory([Weapon.load_weapon_from_file("Lightning Claw (H)") for i in range(5)])
+                  print("Player received a Lightning Claw (H)")
+            else:
+                  print("You Lose")
+                  return False
+            print("\nPlayer received Staff of Dragon Lord and"
+                  "\nLightning Claw!")
+            input()
             print("Fortissax falls down to the ground.")
             input()
             print("Gavriel Utterson: I… I… made it happen. "
@@ -214,7 +270,15 @@ class Clock:
             input()
             print("Gavriel Utterson: Clockyll Tymdal…")
             input()
-            #Boss Battle with ally
+            #Batte (14) It's the Boss with ally
+            if BattleSystem.load_battle_from_file(self.player, 14).start():
+                  self.player.add_to_inventory([Weapon.load_weapon_from_file("Sword of Kangmar (H)") for i in range(5)])
+                  print("You Won")
+                  print("Player received a Sword of Kangmar (H)")
+            else:
+                  print("You Lose")
+                  return False
+            input()
             print("Gavriel Utterson used the power of Fortissax.")
             input()
             print("Clockyll: That may kill me but can you even attack me? ")
@@ -258,3 +322,6 @@ class Clock:
             input()
             print("Muriel: Good luck and save Ostrania!")
             input()
+
+
+            return self.player()

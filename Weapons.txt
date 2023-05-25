@@ -1,7 +1,7 @@
 # Slash Weapons
 Knife (L), WARRIOR, SLASH, 10, 0, NONE, 100, 0
 Sword (L), WARRIOR, SLASH, 20, 0, NONE, 100, 0
-Dragon Claw (M), WARRIOR, SLASH, 30, 0, NONE, 100, 0
+Dragon Claw(M), WARRIOR, SLASH, 30, 0, NONE, 100, 0
 Silver Sword (M), WARRIOR, SLASH, 45, 0, NONE, 100, 0
 Death Sword (H), ANY, SLASH, 10, 10, DEATHTOUCH, 30, 0
 Lighting Claw (H), WARRIOR, SLASH, 40, 0, STUN, 20, 0
@@ -16,7 +16,7 @@ Stone Hammer (M), WARRIOR, BLUNT, 30, 0, STUN, 10, 0
 
 # Pierce Weapons
 Electric Spear (L), WARRIOR, PIERCE, 30, 30, STUN, 50, 0
-Electric Spear (M), WARRIOR, PIERCE, 15, 20, STUN, 20, 0
+Electric Spear  (M), WARRIOR, PIERCE, 15, 20, STUN, 20, 0
 
 # Staffs
 Wooden Staff (L), MAGE, STAFF, 0, 10, NONE, 100, 0

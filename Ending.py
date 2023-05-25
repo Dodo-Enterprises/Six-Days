@@ -1,14 +1,25 @@
 
 
 
-
-
-
-
-
-print("You then make your way to the demon kings lair")
+print("\nWith all three artifacts at your disposal, "
+      "\nyou make your way to the demon kings lair killing off every servant of him in the process")
 input()
-print("")
+print("The Demon King taunts you")
+input()
+print("Demon King: What! How did a lowly human get in here!"
+      "\nDo you have a death wish!"
+      "\nI will feed you to my dogs, "
+      "\nyou worthless little nothing!")
+input()
+print("\nWait! A-Are those Ragmar's Artifacts!"
+      "\nNO! WAIT! STOP! DON'T KILL ME!")
+input()
+print("YOU DEFEAT THE DEMON KING!")
+input()
+print("You hear a loud voice")
+input()
+print("???:YOU DID IT!")
+input()
 print("After vanquishing the demon king, JajaWawa became a legendary hero in the nation of Ostrania."
       "\nThe High Deity, Kangmar even returned back to its great land. ")
 input()

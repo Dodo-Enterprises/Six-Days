@@ -1,4 +1,6 @@
-import Character
+from Character import Character
+from BattleSystem import BattleSystem
+from Items import *
 class Mecha:
     """"""
 
@@ -7,7 +9,9 @@ class Mecha:
 
     def start(self):
         """
-
+  #IMPORTANT--- Also need to add specific weapons for the mage class after winning a fight
+        # and all armor for both classes. Add whatever you think is appropriate.
+        # Also change the range if need be. I don't know the numbers. This is for the rest going on
         :return: player
         """
         print("\nYou enter the Mecha Kingdom. "
@@ -109,7 +113,24 @@ class Mecha:
         print("Let me help you so that I may avenge John and Peter. You started to walk with James to the king’s watch tower. "
             "\nYou are attacked by cyberized guards!")
         input()
-        '#Three Battles will occur here'
+        #Battle 4
+        if BattleSystem.load_battle_from_file(self.player, 4).start():
+            self.player.add_to_inventory([Weapon.load_weapon_from_file("Electric Spear (M)") for i in range(5)])
+            print("You Won")
+            print("Player received an Electric Spear(M)")
+        else:
+            print("You Lose")
+            return False
+        input()
+        #Battle 5
+        if BattleSystem.load_battle_from_file(self.player, 5).start():
+            self.player.add_to_inventory([Potion.load_potion_from_file("Health (L)") for i in range(5)])
+            print("You Won")
+            print("Player received Potions(L)")
+        else:
+            print("You Lose")
+            return False
+        input()
         print("After a while, you finally make it to the king’s tower. "
             "\nIn front of the tower, there are many guards protecting the watchtower.")
         input()
@@ -118,8 +139,8 @@ class Mecha:
         print("James jumps into the middle of the guards. Then James starts to run away. "
             "\nMost of the guards start to follow James and only a few guards remain at the entrance.")
         input()
-        '#Battle Against Two Guards'
-        print("After fighting against the guards, you enter the king’s watch tower. "
+        print("After you leave John with the guards, "
+            "\nyou evade the remaining guards and enter the king’s watch tower. "
             "\nThe tower is very tall that you cannot see the end of it. ")
         input()
         print("At the top of the tower, you finally meet the king.")
@@ -127,7 +148,12 @@ class Mecha:
         print("Wingard Levioso: You are finally here the man with flesh. "
             "\nYou will die like everyone in the town who tried to help you! ")
         input()
-        '#Boss Battle'
+        #Battle 6 (Boss)
+        if BattleSystem.load_battle_from_file(self.player, 6).start():
+                print("You Won, or did you?")
+        else:
+            print("You Lose")
+            return False
         print("You stab your weapon into Wingard Levioso’s heart. However, Wingard Levioso remains alive. ")
         input()
         print("Wingard Levioso: Did you think you could kill me? There’s no flesh nor blood within this cloak to kill. "
@@ -144,7 +170,15 @@ class Mecha:
         print("Wingard Levioso: You think your friend can run away from my army? "
             "\nEveryone who helps you will die along with you. ")
         input()
-        'Boss Battle 2'
+        #Boss. Battle #7
+        if BattleSystem.load_battle_from_file(self.player, 7).start():
+            self.player.add_to_inventory([Weapon.load_weapon_from_file("Silver Sword (M)") for i in range(5)])
+            print("You Won")
+            print("Player received a Silver Sword (M)")
+        else:
+            print("You Lose")
+            return False
+        input()
         print("Wingard Levioso: No, no. Why was my idea not unstoppable? Why? ")
         input()
         print("You took The Armor of Construction from Wingard Levioso. ")
@@ -164,8 +198,6 @@ class Mecha:
         print("Levioso, oh how far you’ve fallen.")
         input()
         print("Just when I thought he had only abandoned us for his own selfish pride, ")
-
-
         input()
         print("Muriel falls to the floor and starts the cry. Ragnar then comes downstairs.")
         input()
@@ -173,13 +205,14 @@ class Mecha:
             "\nWe had personally recommended him to the high deity in order to become the ruler of the mecha kingdom. "
             "\nAfter all this time, he had only gotten worse. ")
         input()
-        print("I’m so sorry Muriel and you [player] for having to deal with him I should have been a better judge of character")
+        print("I’m so sorry Muriel and you,JaJaWaWa, for having to deal with him. "
+              "\nI should have been a better judge of character when you first arrived")
         input()
-        print("That leaves only one kingdom left to go Keep going kid, you're in the endgame now!")
+        print("That leaves only one kingdom left to go. Keep going kid, you're in the endgame now!")
         input()
         print("")
 
-
+        return self.player()
 
 
 
