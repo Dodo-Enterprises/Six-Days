@@ -1,7 +1,7 @@
 # Allies
 Villager, 80, WARRIOR, [], NONE, Knife (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
 
-James, 200, WARRIOR, [], Health (M),Health (M),Health (M), Electric Spear (H), Electric Spear (H), Chain Helmet, Chain Tunic, Chain Trouser
+James, 200, WARRIOR, [], Health (M),Health (M),Health (M), Electric Spear (L), Electric Spear (H), Chain Helmet, Chain Tunic, Chain Trouser
 
 Gravriel-Utters, 10000, ANY, [Shotgun,Rifle], NONE, Gun (H), Silver Sword (M), Bare Head, Coat, Suit Pants
 
@@ -22,7 +22,7 @@ Alpha_Crystal_Golem_(Boss), 200, WARRIOR, [], NONE, Stone Hammer (L), Stone Hamm
 
 Cyber_Guard, 100, WARRIOR, [], Health (L), Sword (L), Sword (L), Leather Helmet, Leather Tunic, Leather Trousers
 
-Wingard_Levioso_(Boss), 300, MAGE, [Fireblast,Icespear,Lightingbolt], Health (M), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
+Wingard_Levioso_(Boss), 300, MAGE, [Fireblast,Icespear,Lightingbolt], Health (M),Health (M),Health (M),Health (M),Health (M), Staff of Wingard Levioso (H), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
 
 GravrielUtters, 200, ANY, [Shotgun], NONE, Gun(H), Silver Sword (M), Bare Head, Coat, Suit Pants
 

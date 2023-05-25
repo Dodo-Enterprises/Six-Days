@@ -15,7 +15,8 @@ Stone Hammer (L), WARRIOR, BLUNT, 40, 0, STUN, 10, 0
 Stone Hammer (M), WARRIOR, BLUNT, 70, 0, STUN, 10, 0
 
 # Pierce Weapons
-Electric Spear (H), WARRIOR, PIERCE, 80, 30, STUN, 50, 0
+Electric Spear (L), WARRIOR, PIERCE, 80, 30, STUN, 50, 0
+Electric Spear (M), WARRIOR, PIERCE, 60, 30, STUN, 20, 0
 
 # Staffs
 Wooden Staff (L), MAGE, STAFF, 0, 10, NONE, 100, 0
