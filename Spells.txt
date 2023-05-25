@@ -10,3 +10,4 @@ Dragonbreath, 40, True, BURN, 100, 10
 Disappear!, 0, True, DEATHTOUCH, 10, 0
 Freeze!, 50, False, FREEZE, 50, 0
 Burn!, 50, True, BURN, 100, 10
+???, 10, True, DEATHTOUCH, 100, 0
