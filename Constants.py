@@ -26,6 +26,7 @@ class Effects(Enum):
     STRENGTH = "STRENGTH"
     DEFENSE = "DEFENSE"
     MAGIC = "MAGIC"
+    DEATHTOUCH = "DEATHTOUCH"
 
 
 class ArmorTypes(Enum):
