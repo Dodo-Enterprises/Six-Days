@@ -1,7 +1,7 @@
 # Allies
 Villager, 80, WARRIOR, [], {}, Knife (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
 
-James, 200, WARRIOR, [], {Health (M): 3}, Electric Spear (H), Electric Spear (H), Chain Helmet, Chain Tunic, Chain Trouser
+James, 200, WARRIOR, [], Health (M),Health (M),Health (M), Electric Spear (H), Electric Spear (H), Chain Helmet, Chain Tunic, Chain Trouser
 
 Gravriel-Utters, 10000, ANY, [Shotgun,Rifle], {}, Gun (H), Silver Sword (M), Bare Head, Coat, Suit Pants
 
