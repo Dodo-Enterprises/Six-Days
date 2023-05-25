@@ -581,7 +581,7 @@ class Character:
                 f"{character_name} does not exist in Character_Presets.txt"
             character_arguments = character_arguments[first_item.index(character_name)]
             return Character(character_arguments[0], int(character_arguments[1]), Jobs[character_arguments[2]],
-                             [Spell.load_spell_from_file(i) for i in character_arguments[3][1:-1].split(",")],
+                             [Spell.load_spell_from_file(i) if i != "NONE" else None for i in character_arguments[3][1:-1].split(",")],
                              Potion.stack_potions(
                                  [Potion.load_potion_from_file(i) if i != "NONE" else None for i in character_arguments[4].split(",")]),
                              {}, arm1=Weapon.load_weapon_from_file(character_arguments[5]),

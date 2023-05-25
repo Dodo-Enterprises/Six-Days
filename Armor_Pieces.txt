@@ -1,20 +1,20 @@
 # Leather Helmets
-Leather Helmet, ANY, 10, 5, LEATHER, HELMET
+Leather Helmet, ANY, 90, 95, LEATHER, HELMET
 
 # Leather Breastplates
-Leather Tunic, ANY, 10, 5, LEATHER, BREASTPLATE
+Leather Tunic, ANY, 90, 95, LEATHER, BREASTPLATE
 
 # Leather Grieves
-Leather Trousers, ANY, 10, 5, LEATHER, GRIEVES
+Leather Trousers, ANY, 90, 95, LEATHER, GRIEVES
 
 # Chain Helmets
-Chain Helmet, ANY, 15, 20, CHAIN, HELMET
+Chain Helmet, ANY, 85, 85, CHAIN, HELMET
 
 # Chain Breastplates
-Chain Tunic, ANY, 15, 20, CHAIN, BREASTPLATE
+Chain Tunic, ANY, 85, 85, CHAIN, BREASTPLATE
 
 # Chain Grieves
-Chain Trouser, ANY, 15, 20, CHAIN, GRIEVES
+Chain Trouser, ANY, 85, 85, CHAIN, GRIEVES
 # Plate Helmets
 
 # Plate Breastplates
@@ -23,23 +23,23 @@ Chain Trouser, ANY, 15, 20, CHAIN, GRIEVES
 
 # Helmets
 Bare Head, ANY, 100, 100, NONE, HELMET
-Stone Head, ANY, 10, 10, PLATE, HELMET
-Magic Helmet, MAGE, 20, 40, LEATHER, HELMET
-Scale Helmet, ANY, 20, 20, PLATE, HELMET
-Helmet Of King, ANY, 30, 30, PLATE, HELMET
+Stone Head, ANY, 80, 80, PLATE, HELMET
+Magic Helmet, MAGE, 70, 65, LEATHER, HELMET
+Scale Helmet, ANY, 65,65, PLATE, HELMET
+Helmet Of King, ANY, 50, 50, PLATE, HELMET
 
 # Breastplates
 Bare Chest, ANY, 100, 100, NONE, BREASTPLATE
-Stone Chest, ANY, 10, 10, PLATE, BREASTPLATE
-Magic Chest, MAGE, 20, 40, LEATHER, BREASTPLATE
-Scale Chest, ANY, 20, 20, PLATE, BREASTPLATE
+Stone Chest, ANY, 80, 80, PLATE, BREASTPLATE
+Magic Chest, MAGE, 70, 65, LEATHER, BREASTPLATE
+Scale Chest, ANY, 65,65, PLATE, BREASTPLATE
 Coat, ANY, 50, 50, LEATHER, BREASTPLATE
-Breastplate Of King, ANY, 30, 30, PLATE, BREASTPLATE
+Breastplate Of King, ANY, 50, 50, PLATE, BREASTPLATE
 
 # Grieves
 Bare Legs, ANY, 100, 100, NONE, GRIEVES
-Stone Legs, ANY, 10, 10, PLATE, GRIEVES
-Magic Legs, MAGE, 20, 40, LEATHER, GRIEVES
-Scale Legs, ANY, 20,20, PLATE, GRIEVES
+Stone Legs, ANY, 80, 80, PLATE, GRIEVES
+Magic Legs, MAGE, 70, 65, LEATHER, GRIEVES
+Scale Legs, ANY, 65,65, PLATE, GRIEVES
 Suit Pants, ANY, 50, 50, LEATHER, GRIEVES
-Grieve Of King, ANY, 30, 30, PLATE, GRIEVES
+Grieve Of King, ANY, 50, 50, PLATE, GRIEVES

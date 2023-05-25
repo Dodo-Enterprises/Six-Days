@@ -1,28 +1,30 @@
 # Allies
-Villager, 80, WARRIOR, [], NONE, Knife (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
+Villager, 80, WARRIOR, [NONE], NONE, Knife (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
 
-James, 200, WARRIOR, [], Health (M),Health (M),Health (M), Electric Spear (L), Electric Spear (H), Chain Helmet, Chain Tunic, Chain Trouser
+James, 200, WARRIOR, [NONE], Health (M),Health (M),Health (M), Electric Spear (L), Electric Spear (H), Chain Helmet, Chain Tunic, Chain Trouser
 
 Gravriel-Utters, 10000, ANY, [Shotgun,Rifle], NONE, Gun (H), Silver Sword (M), Bare Head, Coat, Suit Pants
 
 Gravriel_Utters, 10000, ANY, [Death Shot], NONE, Gun (H), Death Sword (H), Bare Head, Coat, Suit Pants
 
 # Enemies
-Goblin, 60, WARRIOR, [], NONE, Wooden Club (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
+Goblin, 60, WARRIOR, [NONE], NONE, Wooden Club (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
 
-Demon_(L), 30, WARRIOR, [], NONE, Wooden Club (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
+Demon_(L), 30, WARRIOR, [NONE], NONE, Wooden Club (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
 
-Demon_(M), 150, MAGE, [Fireblast], NONE, Nice Wooden Staff (L), Sword (L), Chain Helmet, Chain Tunic, Chain Trouser
+Demon_(M), 150, ANY, [Fireblast], NONE, Nice Wooden Staff (L), Sword (L), Chain Helmet, Chain Tunic, Chain Trouser
 
-Crystal_Golem, 60, WARRIOR, [], NONE, Stone (L), Stone (L), Bare Head, Bare Chest, Bare Legs
+Crystal_Golem, 60, WARRIOR, [NONE], NONE, Stone (L), Stone (L), Bare Head, Bare Chest, Bare Legs
 
-Elite_Crystal_Golem, 60, WARRIOR, [], NONE, Stone (L), Stone (L), Stone Head, Stone Chest, Stone Legs
+Elite_Crystal_Golem, 60, WARRIOR, [NONE], NONE, Stone (L), Stone (L), Stone Head, Stone Chest, Stone Legs
 
-Alpha_Crystal_Golem_(Boss), 200, WARRIOR, [], NONE, Stone Hammer (L), Stone Hammer (L), Stone Head, Stone Chest, Stone Legs
+Alpha_Crystal_Golem_(Boss), 200, WARRIOR, [NONE], NONE, Stone Hammer (L), Stone Hammer (L), Stone Head, Stone Chest, Stone Legs
 
-Cyber_Guard, 100, WARRIOR, [], Health (L), Sword (L), Sword (L), Leather Helmet, Leather Tunic, Leather Trousers
+Cyber_Guard, 100, WARRIOR, [NONE], Health (L), Sword (L), Sword (L), Leather Helmet, Leather Tunic, Leather Trousers
 
 Wingard_Levioso_(Boss), 300, MAGE, [Fireblast,Icespear,Lightingbolt], Health (M),Health (M),Health (M),Health (M),Health (M), Staff of Wingard Levioso (H), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
+
+Wingard_Levioso-(Boss), 300, MAGE, [Lazer,Fireblast,Icespear,Lightingbolt], NONE, Staff of Wingard Levioso (H), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
 
 GravrielUtters, 200, ANY, [Shotgun], NONE, Gun(H), Silver Sword (M), Bare Head, Coat, Suit Pants
 

@@ -1,22 +1,22 @@
 # Slash Weapons
-Knife (L), WARRIOR, SLASH, 20, 0, NONE, 100, 0
-Sword (L), WARRIOR, SLASH, 50, 0, NONE, 100, 0
-Dragon Claw (M), WARRIOR, SLASH, 80, 0, NONE, 100, 0
-Silver Sword (M), WARRIOR, SLASH, 90, 0, NONE, 100, 0
+Knife (L), WARRIOR, SLASH, 10, 0, NONE, 100, 0
+Sword (L), WARRIOR, SLASH, 20, 0, NONE, 100, 0
+Dragon Claw (M), WARRIOR, SLASH, 30, 0, NONE, 100, 0
+Silver Sword (M), WARRIOR, SLASH, 45, 0, NONE, 100, 0
 Death Sword (H), ANY, SLASH, 10, 10, DEATHTOUCH, 30, 0
-Lighting Claw (H), WARRIOR, SLASH, 70, 0, STUN, 20, 0
-Sword Of Kangmar (H), WARRIOR, SLASH, 100, STUN, 100, 0
+Lighting Claw (H), WARRIOR, SLASH, 40, 0, STUN, 20, 0
+Sword Of Kangmar (H), WARRIOR, SLASH, 50, STUN, 100, 0
 
 # Blunt Weapons
-Bare Hands, WARRIOR, BLUNT, 10, 0, STUN, 0.2, 0
-Wooden Club (L), WARRIOR, BLUNT, 20, 0, STUN, 5, 0
-Stone (L), WARRIOR, BLUNT, 20, 0, NONE, 100, 0
-Stone Hammer (L), WARRIOR, BLUNT, 40, 0, STUN, 10, 0
-Stone Hammer (M), WARRIOR, BLUNT, 70, 0, STUN, 10, 0
+Bare Hands, WARRIOR, BLUNT, 1, 0, STUN, 0.2, 0
+Wooden Club (L), WARRIOR, BLUNT, 5, 0, STUN, 5, 0
+Stone (L), WARRIOR, BLUNT, 10, 0, NONE, 100, 0
+Stone Hammer (L), WARRIOR, BLUNT, 20, 0, STUN, 10, 0
+Stone Hammer (M), WARRIOR, BLUNT, 30, 0, STUN, 10, 0
 
 # Pierce Weapons
-Electric Spear (L), WARRIOR, PIERCE, 80, 30, STUN, 50, 0
-Electric Spear (M), WARRIOR, PIERCE, 60, 30, STUN, 20, 0
+Electric Spear (L), WARRIOR, PIERCE, 30, 30, STUN, 50, 0
+Electric Spear (M), WARRIOR, PIERCE, 15, 20, STUN, 20, 0
 
 # Staffs
 Wooden Staff (L), MAGE, STAFF, 0, 10, NONE, 100, 0

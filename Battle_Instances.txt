@@ -5,8 +5,9 @@ NONE Elite_Crystal_Golem,Alpha_Crystal_Golem_(Boss),Crystal_Golem
 James Cyber_Guard,Cyber_Guard,Cyber_Guard
 NONE Cyber_Guard,Cyber_Guard
 NONE Wingard_Levioso_(Boss)
-NONE Demon_(L),Demon_(M),Demon_(M),Demon_(M),Demon_(L)
-NONE Dragon,Dragon,Dragon
+NONE Wingard_Levioso-(Boss)
+NONE Demon_(L),Demon_(M),Demon_(M)
+NONE Dragon,Dragon
 NONE Dragon?
 NONE GravrielUtters
 Gravriel-Utters Fortissax
