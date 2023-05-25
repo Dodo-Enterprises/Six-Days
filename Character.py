@@ -485,8 +485,8 @@ class Character:
         print(f"Armament_1: {self.arm1.name}, Armament_2: {self.arm2.name}")
         print(f"Helmet: {self.helmet.name}, Breastplate: {self.breastplate.name}, Grieves: {self.grieves.name}")
         print([spell.name for spell in self.spells])
-        display_items_dict = sorted({key.name: self.items[key] for key in self.items})
-        display_potions_dict = sorted({key.name: self.potions[key] for key in self.potions})
+        display_items_dict = {key.name: value for key, value in self.items.items()}
+        display_potions_dict = sorted({key.name: value for key, value in self.potions.items()})
         print(f"Potions: {display_potions_dict}")
         print(f"Items: {display_items_dict}")
         while True:
@@ -535,7 +535,7 @@ class Character:
                     if cmd[1] in name_potion_dict:
                         for key in self.potions.keys():
                             if name_potion_dict[cmd[1]] == key:
-                                key.use(self)
+                                self.afflict(key.effect, key.effect_chance, key.effect_amt)
                                 return True
                         continue
                     print(f"{cmd[1]} does not exist in you potion inventory.")
