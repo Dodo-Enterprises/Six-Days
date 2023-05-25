@@ -18,7 +18,7 @@ Crystal_Golem, 60, WARRIOR, [], NONE, Stone (L), Stone (L), Bare Head, Bare Ches
 
 Elite_Crystal_Golem, 60, WARRIOR, [], NONE, Stone (L), Stone (L), Stone Head, Stone Chest, Stone Legs
 
-Alpha_Crystal_Golem_(Boss), 200, WARRIOR, [], NONE, Stone Hammer (M), Stone Hammer (M), Stone Head, Stone Chest, Stone Legs
+Alpha_Crystal_Golem_(Boss), 200, WARRIOR, [], NONE, Stone Hammer (L), Stone Hammer (L), Stone Head, Stone Chest, Stone Legs
 
 Cyber_Guard, 150, WARRIOR, [], Health (L), Sword (L), Sword (L), Leather Helmet, Leather Tunic, Leather Trousers
 
