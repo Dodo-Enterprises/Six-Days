@@ -11,8 +11,7 @@ class BattleSystem:
     """
     _path_to_battle_instances_file = os.getcwd() + "\\Battle_Instances.txt"
 
-    def __init__(self, players_team: list[Character], enemies: list[Character], loot: list[Item] = None,
-                 run_difficulty: int = 50):
+    def __init__(self, players_team: list[Character], enemies: list[Character]):
         """"""
         assert isinstance(players_team, list), f"Players-team expected to be a list type, got: {type(players_team)}"
         assert isinstance(enemies, list), f"Enemies expected to be a list type, got: {type(enemies)}"
@@ -24,17 +23,12 @@ class BattleSystem:
                 f"There should only be character types in enemies, got: {type(character)}"
         assert players_team[0].is_player, f"The first character in players_team should be the player, " \
                                           f"got: {players_team[0].name}"
-        assert isinstance(run_difficulty, int), f"Run_difficulty expected to be int type, got: {type(run_difficulty)}"
-        assert 100 >= run_difficulty >= 0, f"Run_difficulty expected to be inbetween " \
-                                           f"the number 0 to 100, got: {run_difficulty}"
 
         self.players_team = players_team
         self.enemies = enemies
         self.player = players_team[0]
         self.round = 0
         self.battle_ongoing = True
-        self.run_difficulty = float(run_difficulty / 100)
-        self.loot = loot
 
     def start(self):
         """"""
@@ -63,8 +57,8 @@ class BattleSystem:
             while True:
                 try:
                     print("Choose your action.")
-                    action = input("Physical attack (a), Cast Spell (s), Access inventory (i), or Run (r)")
-                    assert action == "a" or action == "s" or action == "i" or action == "r"
+                    action = input("Physical attack (a), Cast Spell (s), Access inventory (i)")
+                    assert action == "a" or action == "s" or action == "i"
                     break
                 except AssertionError:
                     print("The input was not recognized as a valid input. Please input a valid response. ry again...")
@@ -79,10 +73,6 @@ class BattleSystem:
                     self._cast_spell()
                 case "i":
                     self.player.open_inventory()
-                case "r":
-                    if self._run():
-                        return 2
-                    action_undecided = False
         return 3
 
     def _attack(self):
@@ -116,10 +106,14 @@ class BattleSystem:
             except AssertionError or ValueError:
                 print("The input was not recognized as a valid input. Please input a valid response. try again...")
         if armament == 1:
-            if self.player.phy_attack(self.player.arm1, self.enemies[target])[1] <= 0:
-                self.enemies.remove(self.enemies[target - 1])
-        if self.player.phy_attack(self.player.arm2, self.enemies[target])[1] <= 0:
-            self.enemies.remove(self.enemies[target - 1])
+            result = self.player.phy_attack(self.player.arm1, self.enemies[target])
+            print(f"You dealt {int(result[0])} points of damage.")
+            if result[1] <= 0:
+                print(self.enemies[target].name + " was defeated.")
+                self.enemies.remove(self.enemies[target])
+        result = self.player.phy_attack(self.player.arm2, self.enemies[target])
+        if result[1] <= 0:
+            self.enemies.remove(self.enemies[target])
         if len(self.enemies) == 0:
             return 2
         return 3
@@ -144,6 +138,10 @@ class BattleSystem:
                 print("The input was not recognized as a valid input. Please input a valid response. try again...")
         if spell_to_cast == "b":
             return 1
+        spell = Spell.load_spell_from_file(spell_to_cast)
+        if spell.is_AOE:
+            # TODO
+            return
         while True:
             try:
                 print("Which enemy would you like to attack?")
@@ -162,22 +160,26 @@ class BattleSystem:
             except AssertionError or ValueError:
                 print("The input was not recognized as a valid input. Please input a valid response. try again...")
         if self.player.arm1.wpn_type == WpnTypes.STAFF:
-            self.player.mag_attack(self.player.arm1, Spell.load_spell_from_file(spell_to_cast), self.enemies[target])
+            result = self.player.mag_attack(self.player.arm1, Spell.load_spell_from_file(spell_to_cast),
+                                   self.enemies[target])
+            print(f"You have dealt {int(result[0])} points of damage.")
+            if result[1] <= 0:
+                print(self.enemies[target].name + " was defeated.")
         elif self.player.arm2.wpn_type == WpnTypes.STAFF:
-            self.player.mag_attack(self.player.arm2, Spell.load_spell_from_file(spell_to_cast), self.enemies[target])
+            result = self.player.mag_attack(self.player.arm2, Spell.load_spell_from_file(spell_to_cast),
+                                   self.enemies[target])
+            print(f"You have dealt {int(result[0])} points of damage.")
+            if result[1] <= 0:
+                print(self.enemies[target].name + " was defeated.")
         if len(self.enemies) == 0:
             return 2
         return 3
 
-    def _run(self):
-        """"""
-        if random.random() <= self.run_difficulty:
-            return True
-        return False
-
     def _player_team_action(self):
         """"""
         for ally in self.players_team:
+            if ally.is_player:
+                continue
             if ally.job == Jobs.WARRIOR:
                 target = random.randrange(0, len(self.enemies))
                 if ally.phy_attack(ally.arm1, self.enemies[target])[1] <= 0:
