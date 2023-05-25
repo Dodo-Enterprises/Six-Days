@@ -399,9 +399,9 @@ class Character:
         assert isinstance(defender, Character), f"Defender expected to be Character type, got {type(defender)}"
         assert staff is self.arm1 or staff is self.arm2, "staff expected to be an equipped armament"
         if self.job == Jobs.MAGE or Jobs.ANY:
-            helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
-            breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
-            grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
+            helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg)
+            breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg)
+            grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg)
             total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
             defender.hurt(total_dmg)
             if spell.effect != Effects.NONE:
@@ -409,9 +409,9 @@ class Character:
                 defender.afflict(staff.effect, staff.effect_chance, staff.effect_amt)
             return total_dmg, defender.health
         else:
-            helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
-            breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
-            grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
+            helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg)
+            breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg)
+            grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg)
             total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg) / Character.type_advantage, 2)
             defender.hurt(total_dmg)
             return total_dmg, defender.health

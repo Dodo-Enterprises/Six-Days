@@ -1,25 +1,25 @@
 # Slash Weapons
 Knife (L), WARRIOR, SLASH, 20, 0, NONE, 100, 0
-Sword (L), WARRIOR, SLASH, 30, 0, NONE, 100, 0
-Dragon Claw (M), WARRIOR, SLASH, 40, 0, NONE, 100, 0
-Silver Sword (M), WARRIOR, SLASH, 50, 0, NONE, 100, 0
+Sword (L), WARRIOR, SLASH, 50, 0, NONE, 100, 0
+Dragon Claw (M), WARRIOR, SLASH, 80, 0, NONE, 100, 0
+Silver Sword (M), WARRIOR, SLASH, 90, 0, NONE, 100, 0
 Death Sword (H), ANY, SLASH, 10, 10, DEATHTOUCH, 30, 0
-Lighting Claw (H), WARRIOR, SLASH, 40, 0, STUN, 20, 0
-Sword Of Kangmar (H), WARRIOR, SLASH, 50, STUN, 100, 0
+Lighting Claw (H), WARRIOR, SLASH, 70, 0, STUN, 20, 0
+Sword Of Kangmar (H), WARRIOR, SLASH, 100, STUN, 100, 0
 
 # Blunt Weapons
 Bare Hands, WARRIOR, BLUNT, 10, 0, STUN, 0.2, 0
 Wooden Club (L), WARRIOR, BLUNT, 20, 0, STUN, 5, 0
-Stone (L), WARRIOR, BLUNT, 10, 0, NONE, 100, 0
-Stone Hammer (M), WARRIOR, BLUNT, 20, 0, STUN, 10, 0
+Stone (L), WARRIOR, BLUNT, 20, 0, NONE, 100, 0
+Stone Hammer (M), WARRIOR, BLUNT, 40, 0, STUN, 10, 0
 
 # Pierce Weapons
-Electric Spear (H), WARRIOR, PIERCE, 20, 20, STUN, 50, 0
+Electric Spear (H), WARRIOR, PIERCE, 40, 20, STUN, 50, 0
 
 # Staffs
-Wooden Staff (L), MAGE, STAFF, 0, 20, NONE, 100, 0
-Nice Wooden Staff (M), MAGE, STAFF, 0, 25, NONE, 100, 0
-Staff of Wingard Levioso (H), MAGE, STAFF, 0, 40, NONE, 100, 0
-Gun (H), MAGE, STAFF, 0, 80, STUN, 50, 0
+Wooden Staff (L), MAGE, STAFF, 0, 10, NONE, 100, 0
+Nice Wooden Staff (L), MAGE, STAFF, 0, 15, NONE, 100, 0
+Staff of Wingard Levioso (H), MAGE, STAFF, 0, 20, NONE, 100, 0
+Gun (H), MAGE, STAFF, 0, 40, STUN, 50, 0
 Staff of Dragon Lord (H), MAGE, STAFF, 0, 40, STUN, 20, 0
-Staff Of King (H), MAGE, STAFF, 0, 30, LIFESTEAL, 30, 0
+Staff Of King (H), MAGE, STAFF, 0, 20, LIFESTEAL, 30, 0
