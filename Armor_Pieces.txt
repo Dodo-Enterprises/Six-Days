@@ -8,13 +8,13 @@ Leather Tunic, ANY, 10, 5, LEATHER, BREASTPLATE
 Leather Trousers, ANY, 10, 5, LEATHER, GRIEVES
 
 # Chain Helmets
-Chain Helmet, ANY, 35, 20, CHAIN, HELMET
+Chain Helmet, ANY, 15, 20, CHAIN, HELMET
 
 # Chain Breastplates
-Chain Tunic, ANY, 35, 20, CHAIN, BREASTPLATE
+Chain Tunic, ANY, 15, 20, CHAIN, BREASTPLATE
 
 # Chain Grieves
-Chain Trouser, ANY, 35, 20, CHAIN, GRIEVES
+Chain Trouser, ANY, 15, 20, CHAIN, GRIEVES
 # Plate Helmets
 
 # Plate Breastplates
