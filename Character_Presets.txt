@@ -1,35 +1,33 @@
 # Allies
-Villager, 80, WARRIOR, [], {}, Knife (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
+Villager, 80, WARRIOR, [], NONE, Knife (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
 
-James, 200, WARRIOR, [], {Health (M): 3}, Electric Spear, Chain Helmet, Chain Tunic, Chain Trouser
+James, 200, WARRIOR, [], Health (M),Health (M),Health (M), Electric Spear (H), Electric Spear (H), Chain Helmet, Chain Tunic, Chain Trouser
 
-Gravriel-Utters, 10000, ANY, [Shotgun,Rifle], {}, Gun (H), Silver Sword (M), Bare Head, Coat, Suit Pants
+Gravriel-Utters, 10000, ANY, [Shotgun,Rifle], NONE, Gun (H), Silver Sword (M), Bare Head, Coat, Suit Pants
 
-Gravriel_Utters, 10000, ANY, [Death Shot], {}, Gun (H), Death Sword (H), Bare Head, Coat, Suit Pants
+Gravriel_Utters, 10000, ANY, [Death Shot], NONE, Gun (H), Death Sword (H), Bare Head, Coat, Suit Pants
 
 # Enemies
-Goblin, 60, WARRIOR, [], {}, Wooden Club (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
+Goblin, 60, WARRIOR, [], NONE, Wooden Club (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
 
-Demon_(L), 30, WARRIOR, [], {}, Wooden Club (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
+Demon_(L), 30, WARRIOR, [], NONE, Wooden Club (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
 
-Demon_(M), 150, MAGE, [Fireblast], {}, Wooden Staff (L), Sword (L), Chain Helmet, Chain Tunic, Chain Trouser
+Demon_(M), 150, MAGE, [Fireblast], NONE, Nice Wooden Staff (L), Sword (L), Chain Helmet, Chain Tunic, Chain Trouser
 
-Crystal_Golem, 60, WARRIOR, [], {}, Stone (L), Stone (L), Bare Head, Bare Chest, Bare Legs
+Crystal_Golem, 60, WARRIOR, [], NONE, Stone (L), Stone (L), Bare Head, Bare Chest, Bare Legs
 
-Elite_Crystal_Golem, 60 WARRIOR, [], {}, Stone (L), Stone(L), Stone Head, Stone Chest, Stone Legs
+Elite_Crystal_Golem, 60, WARRIOR, [], NONE, Stone (L), Stone (L), Stone Head, Stone Chest, Stone Legs
 
-Alpha_Crystal_Golem_(Boss), 200, WARRIOR, [], {}, Stone Hammer (M), Stone Hammer (M), Stone Head, Stone Chest, Stone Legs
+Alpha_Crystal_Golem_(Boss), 200, WARRIOR, [], NONE, Stone Hammer (L), Stone Hammer (L), Stone Head, Stone Chest, Stone Legs
 
-Cyber_Guard, 150, WARRIOR, [], {Health (L)}, Leather Helmet, Leather Tunic, Leather Trousers
+Cyber_Guard, 100, WARRIOR, [], Health (L), Sword (L), Sword (L), Leather Helmet, Leather Tunic, Leather Trousers
 
-Wingard_Levioso_(Boss), 300, MAGE, [Fireblast,Icespear,Lightingbolt], {Health (M)}, Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
+Wingard_Levioso_(Boss), 300, MAGE, [Fireblast,Icespear,Lightingbolt], Health (M), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
 
-GravrielUtters, 200, ANY, [Shotgun], {}, Gun(H), Silver Sword (M), Bare Head, Coat, Suit Pants
+GravrielUtters, 200, ANY, [Shotgun], NONE, Gun(H), Silver Sword (M), Bare Head, Coat, Suit Pants
 
-Dragon, 200, ANY, [Lightingbolt], {}, Nice Wooden Staff (M), Dragon Claw (M), Scale Helmet, Scale Chest, Scale Legs
+Dragon, 200, ANY, [Lightingbolt], NONE, Nice Wooden Staff (L), Dragon Claw (M), Scale Helmet, Scale Chest, Scale Legs
 
-Dragon?, 1000, ANY, [???], {}, Staff of Dragon Lord (H), Staff of Dragon Lord (H), Scale Helmet, Scale Chest, Scale Legs
+Fortissax, 600, ANY, [Death bolt,Lightingbolt,Dragonbreath], NONE, Staff of Dragon Lord (H), Lighting Claw (H), Scale Helmet, Scale Chest, Scale Legs
 
-Fortissax, 600, ANY, [Death bolt,Lightingbolt,Dragonbreath], {}, Staff of Dragon Lord (H), Lighting Claw (H), Scale Helmet, Scale Chest, Scale Legs
-
-Clockyll_Tymdal_(Boss), 1200, ANY [Disappear!,Freeze!,Burn!], {Health (H): 4}, Sword Of Kangmar (H), Staff Of King (H), Helmet Of King, Breastplate Of King, Grieve Of King
+Clockyll_Tymdal_(Boss), 1200, ANY, [Disappear!,Freeze!,Burn!], {Health (H): 4}, Sword Of Kangmar (H), Staff Of King (H), Helmet Of King, Breastplate Of King, Grieve Of King

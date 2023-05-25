@@ -28,31 +28,40 @@ class BattleSystem:
         self.enemies = enemies
         self.player = players_team[0]
         self.round = 0
-        self.battle_ongoing = True
 
     def start(self):
         """"""
-        while self.battle_ongoing:
+        player_won = False
+        while True:
             print("Player's Turn")
-            match self._player_action():
-                case 1:
-                    self.battle_ongoing = False
-                case 2:
-                    self.battle_ongoing = False
+            if Effects.STUN not in self.player.status.keys():
+                match self._player_action():
+                    case 2:
+                        player_won = True
+                        break
+            else:
+                del self.player.status[Effects.STUN]
             if len(self.players_team) > 1:
                 print("Allies Turn")
                 if not self._player_team_action():
-                    self.battle_ongoing = False
+                    player_won = True
+                    break
             print("Enemy's Turn")
             if not self._enemies_action():
-                self.battle_ongoing = False
-            self._effects_applied()
+                break
+            if self._effects_applied() == "Game Over":
+                break
+            if len(self.enemies) == 0:
+                player_won = True
+                break
         print("Battle Over")
+        return player_won
+
 
     def _player_action(self):
         """"""
         action_undecided = True
-
+        print(f"Your health is {self.player.health}")
         while action_undecided:
             while True:
                 try:
@@ -66,11 +75,15 @@ class BattleSystem:
                 case "a":
                     value = self._attack()
                     if value == 2:
-                        return 1
+                        return 2
                     elif value == 3:
                         return 3
                 case "s":
-                    self._cast_spell()
+                    value = self._cast_spell()
+                    if value == 2:
+                        return 2
+                    elif value == 3:
+                        return 3
                 case "i":
                     self.player.open_inventory()
         return 3
@@ -86,7 +99,7 @@ class BattleSystem:
             except AssertionError:
                 print("The input was not recognized as a valid input. Please input a valid response. try again...")
         if armament == "b":
-            return
+            return 1
         armament = int(armament)
         while True:
             try:
@@ -111,9 +124,12 @@ class BattleSystem:
             if result[1] <= 0:
                 print(self.enemies[target].name + " was defeated.")
                 self.enemies.remove(self.enemies[target])
-        result = self.player.phy_attack(self.player.arm2, self.enemies[target])
-        if result[1] <= 0:
-            self.enemies.remove(self.enemies[target])
+        else:
+            result = self.player.phy_attack(self.player.arm2, self.enemies[target])
+            print(f"You dealt {int(result[0])} points of damage.")
+            if result[1] <= 0:
+                print(self.enemies[target].name + " was defeated.")
+                self.enemies.remove(self.enemies[target])
         if len(self.enemies) == 0:
             return 2
         return 3
@@ -131,17 +147,40 @@ class BattleSystem:
                 for spell in self.player.spells:
                     spells += f"{spell.name} ({i})"
                     i += 1
-                spell_to_cast = input()
-                assert int(spell_to_cast) - 1 in range(i) or spell_to_cast == "b"
+                spell_to_cast = int(input(spells)) - 1
+                assert spell_to_cast in range(i) or spell_to_cast == "b"
                 break
             except AssertionError or ValueError:
                 print("The input was not recognized as a valid input. Please input a valid response. try again...")
         if spell_to_cast == "b":
             return 1
-        spell = Spell.load_spell_from_file(spell_to_cast)
+        spell = self.player.spells[spell_to_cast]
+        try:
+            assert self.player.arm1.wpn_type == WpnTypes.STAFF or self.player.arm2.wpn_type == WpnTypes.STAFF, \
+                "No staff equipped."
+        except AssertionError:
+            print("No staff equipped.")
+            return 1
         if spell.is_AOE:
-            # TODO
-            return
+            msg = "You dealt "
+            if self.player.arm1.wpn_type == WpnTypes.STAFF:
+                armament = self.player.arm1
+            elif self.player.arm2.wpn_type == WpnTypes.STAFF:
+                armament = self.player.arm2
+            for enemy in self.enemies:
+                result = self.player.mag_attack(armament, spell,
+                                                enemy)
+                if enemy == self.enemies[0]:
+                    msg += f"{result[0]} damage to {enemy.name}"
+                else:
+                    msg += f" and {result[0]} damage to {enemy.name}"
+                if result[1] <= 0:
+                    print(enemy.name + " was defeated.")
+                    del enemy
+            print(msg)
+            if len(self.enemies) == 0:
+                return 2
+            return 3
         while True:
             try:
                 print("Which enemy would you like to attack?")
@@ -171,6 +210,7 @@ class BattleSystem:
             print(f"You have dealt {int(result[0])} points of damage.")
             if result[1] <= 0:
                 print(self.enemies[target].name + " was defeated.")
+                del self.enemies[target]
         if len(self.enemies) == 0:
             return 2
         return 3
@@ -180,15 +220,23 @@ class BattleSystem:
         for ally in self.players_team:
             if ally.is_player:
                 continue
+            print(f"{ally.name} has {ally.health} health.")
+            if Effects.STUN in ally.status.keys():
+                print(f"{ally.name} was stunned.")
+                continue
             if ally.job == Jobs.WARRIOR:
                 target = random.randrange(0, len(self.enemies))
-                if ally.phy_attack(ally.arm1, self.enemies[target])[1] <= 0:
+                result = ally.phy_attack(ally.arm1, self.enemies[target])
+                print(f"{ally.name} dealt {result[0]} points of damage to {self.enemies[target].name}")
+                if result[1] <= 0:
                     self.enemies.remove(self.enemies[target])
                 if len(self.enemies) == 0:
                     return False
             else:
                 target = random.randrange(0, len(self.enemies))
-                if ally.mag_attack(ally.arm1, ally.spells[0], self.enemies[target])[1] <= 0:
+                result = ally.mag_attack(ally.arm1, ally.spells[0], self.enemies[target])
+                print(f"{ally.name} dealt {result[0]} points of damage to {self.enemies[target].name}")
+                if result[1] <= 0:
                     self.enemies.remove(self.enemies[target])
                 if len(self.enemies) == 0:
                     return False
@@ -203,23 +251,79 @@ class BattleSystem:
     def _enemies_action(self):
         """"""
         for enemy in self.enemies:
+            if Effects.STUN in enemy.status.keys():
+                print(f"{enemy.name} was stunned.")
+                continue
             if enemy.job == Jobs.WARRIOR:
                 target = random.randrange(0, len(self.players_team))
-                enemy.phy_attack(enemy.arm1, self.players_team[target])
-                if self.player.health <= 0:
-                    print("Game Over")
-                    return False
+                result = enemy.phy_attack(enemy.arm1, self.players_team[target])
+                print(f"{enemy.name} dealt {result[0]} points of damage to {self.players_team[target].name}")
+                if result[1] <= 0:
+                    if self.player.health <= 0:
+                        print("Game Over")
+                        return False
+                    print(f"{self.players_team[target]} died.")
+                    del self.players_team[target]
             else:
                 target = random.randrange(0, len(self.players_team))
-                enemy.mag_attack(enemy.arm1, enemy.spells[0], self.players_team[target])
-                if self.player.health <= 0:
-                    print("Game Over")
-                    return False
+                result = enemy.mag_attack(enemy.arm1, enemy.spells[0], self.players_team[target])
+                print(f"{enemy.name} dealt {result[0]} points of damage to {self.players_team[target].name}")
+                if result[1] <= 0:
+                    if self.player.health <= 0:
+                        print("Game Over")
+                        return False
+                print(f"{self.players_team[target]} died.")
+                del self.players_team[target]
         return True
 
     def _effects_applied(self):
         """"""
-        # TODO
+        for team in [self.players_team, self.enemies]:
+            for character in team:
+                for effect, (amt, duration) in character.status.items():
+                    if duration == Character.effect_duration:
+                        match effect:
+                            case Effects.BURN:
+                                character.hurt(float(amt))
+                                print(f"{character.name} had {amt} damage dealt from burns.")
+                            case Effects.HEALTH:
+                                character.hurt(-float(amt))
+                                print(f"{character.name} had {amt} health restored.")
+                            case Effects.STRENGTH:
+                                character.arm1.phy_damage += amt
+                                character.arm2.phy_damage += amt
+                                print(f"{character.name}'s strength rose.")
+                            case Effects.DEFENSE:
+                                character.helmet.phy_neg += amt
+                                character.helmet.magic_neg += amt
+                                character.breastplate.phy_neg += amt
+                                character.breastplate.magic_neg += amt
+                                character.grieves.phy_neg += amt
+                                character.grieves.magic_neg += amt
+                                print(f"{character.name}'s defense rose.")
+                            case Effects.MAGIC:
+                                character.arm1.mag_damage += amt
+                                character.arm2.mag_damage += amt
+                                print(f"{character.name}'s magic rose.")
+                            case Effects.DEATHTOUCH:
+                                del character.status[(amt, duration)]
+                                if character.hurt(2000) <= 0:
+                                    print(character.name + " died.")
+                                    if character.is_player:
+                                        character.remove_effects()
+                                        return "Game Over"
+                                    team.remove(character)
+                    duration -= 1
+                    if duration == 0:
+                        character.remove_effects(effect)
+                        del character.status[(amt, duration + 1)]
+                if character.health <= 0:
+                    print(character.name + " was defeated.")
+                    if character.is_player:
+                        character.remove_effects()
+                        return "Game Over"
+                    team.remove(character)
+        return True
 
     @classmethod
     def load_battle_from_file(cls, player: Character, battle_index: int):
@@ -244,6 +348,5 @@ class BattleSystem:
                     allies.append(Character.load_character_from_file(ally))
             for enemy in enemies_str_list:
                 enemies.append(Character.load_character_from_file(enemy))
-            run_difficulty = int(data[2])
 
-            return BattleSystem(allies, enemies, run_difficulty=run_difficulty)
+            return BattleSystem(allies, enemies)

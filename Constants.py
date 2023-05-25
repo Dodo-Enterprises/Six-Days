@@ -19,14 +19,13 @@ class WpnTypes(Enum):
 class Effects(Enum):
     NONE = "NONE"
     BURN = "BURN"
-    FREEZE = "FREEZE"
     STUN = "STUN"
-    LIFESTEAL = "LIFESTEAL"
     HEALTH = "HEALTH"
     STRENGTH = "STRENGTH"
     DEFENSE = "DEFENSE"
     MAGIC = "MAGIC"
     DEATHTOUCH = "DEATHTOUCH"
+    LIFESTEAL = "LIFESTEAL"
 
 
 class ArmorTypes(Enum):
