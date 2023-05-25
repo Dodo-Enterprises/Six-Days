@@ -155,6 +155,8 @@ class BattleSystem:
         if spell_to_cast == "b":
             return 1
         spell = self.player.spells[spell_to_cast]
+        print(spell)
+        print(spell_to_cast)
         try:
             assert self.player.arm1.wpn_type == WpnTypes.STAFF or self.player.arm2.wpn_type == WpnTypes.STAFF, \
                 "No staff equipped."
@@ -199,13 +201,13 @@ class BattleSystem:
             except AssertionError or ValueError:
                 print("The input was not recognized as a valid input. Please input a valid response. try again...")
         if self.player.arm1.wpn_type == WpnTypes.STAFF:
-            result = self.player.mag_attack(self.player.arm1, Spell.load_spell_from_file(spell_to_cast),
+            result = self.player.mag_attack(self.player.arm1, spell,
                                    self.enemies[target])
             print(f"You have dealt {int(result[0])} points of damage.")
             if result[1] <= 0:
                 print(self.enemies[target].name + " was defeated.")
         elif self.player.arm2.wpn_type == WpnTypes.STAFF:
-            result = self.player.mag_attack(self.player.arm2, Spell.load_spell_from_file(spell_to_cast),
+            result = self.player.mag_attack(self.player.arm2, spell,
                                    self.enemies[target])
             print(f"You have dealt {int(result[0])} points of damage.")
             if result[1] <= 0:
