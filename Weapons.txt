@@ -22,4 +22,4 @@ Nice Wooden Staff (M), MAGE, STAFF, 0, 15, NONE, 100, 0
 Staff of Wingard Levioso (H), MAGE, STAFF, 0, 20, NONE, 100, 0
 Gun (H), MAGE, STAFF, 0, 40, STUN, 50, 0
 Staff of Dragon Lord (H), MAGE, STAFF, 0, 15, STUN, 20, 0
-Staff Of King (H), MAGE, STAFF, 0, 10, LIFESTEAL, 100, 0
+Staff Of King (H), MAGE, STAFF, 0, 10, HEALTH, 100, 30
