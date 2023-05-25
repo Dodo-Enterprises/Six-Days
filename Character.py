@@ -51,7 +51,8 @@ class Character:
         assert isinstance(potions, dict), f"Potions list expected to be dictionary type, got: {type(potions)}"
         if len(potions.items()) != 0:
             for potion in potions.keys():
-                assert isinstance(potion, Potion), f"Potion element expected to be potion type, got: {type(potion)}"
+                if potion is not None:
+                    assert isinstance(potion, Potion), f"Potion element expected to be potion type, got: {type(potion)}"
         assert isinstance(items, dict), f"Items list expected to be dict type, got: {type(items)}"
         if len(items.items()) != 0:
             for item in items.keys():
@@ -579,12 +580,10 @@ class Character:
             assert character_name in first_item, \
                 f"{character_name} does not exist in Character_Presets.txt"
             character_arguments = character_arguments[first_item.index(character_name)]
-            print(character_arguments)
-            print(character_arguments[4][1:-1].split(","))
             return Character(character_arguments[0], int(character_arguments[1]), Jobs[character_arguments[2]],
                              [Spell.load_spell_from_file(i) for i in character_arguments[3][1:-1].split(",")],
                              Potion.stack_potions(
-                                 [Potion.load_potion_from_file(i) for i in character_arguments[4].split(",")]),
+                                 [Potion.load_potion_from_file(i) if i != "NONE" else None for i in character_arguments[4].split(",")]),
                              {}, arm1=Weapon.load_weapon_from_file(character_arguments[5]),
                              arm2=Weapon.load_weapon_from_file(character_arguments[6]),
                              helmet=Armor.load_armor_from_file(character_arguments[7]),
