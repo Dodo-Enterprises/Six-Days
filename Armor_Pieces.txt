@@ -1,5 +1,5 @@
 # Leather Helmets
-Leather Helmet, ANY, 10 5, LEATHER, HELMET
+Leather Helmet, ANY, 10, 5, LEATHER, HELMET
 
 # Leather Breastplates
 Leather Tunic, ANY, 10, 5, LEATHER, BREASTPLATE

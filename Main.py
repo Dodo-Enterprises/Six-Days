@@ -1,5 +1,5 @@
 import Crystal
-import Character
+from Character import Character
 from Items import *
 
 
@@ -50,10 +50,12 @@ while True:
                   print("You are now a Warrior!")
                   player = Character("JaJaWaWa", 100, Jobs.WARRIOR, [], {}, {},
                                      arm1=Weapon.load_weapon_from_file("Knife (L)"), is_player=True)
+                  break
             else:
                   print("You are a Mage!")
             player = Character("JaJaWaWa", 100, Jobs.MAGE, [Spell.load_spell_from_file("Fireball")], {}, {},
                                arm1=Weapon.load_weapon_from_file("Wooden Staff"), is_player=True)
+            break
       except AssertionError:
             print("Invalid")
             continue
@@ -78,7 +80,7 @@ while True:
             continue
       if ans == "skip" and i == 1:
             print("Muriel: Oh so you are already pretty knowledgeable about these kingdoms. I see. Well, ok.")
-      break
+            break
       i += 1
       match ans:
             case "1":

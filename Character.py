@@ -49,12 +49,12 @@ class Character:
                     assert isinstance(spell, Spell), f"Spell element expected to be spell type, got: {type(spell)}"
                 self.spells = spells
         assert isinstance(potions, dict), f"Potions list expected to be dictionary type, got: {type(potions)}"
-        if len(potions.values()) != 0:
-            for potion in potions.values():
+        if len(potions.items()) != 0:
+            for potion in potions.keys():
                 assert isinstance(potion, Potion), f"Potion element expected to be potion type, got: {type(potion)}"
         assert isinstance(items, dict), f"Items list expected to be dict type, got: {type(items)}"
-        if len(items.values()) != 0:
-            for item in items.values():
+        if len(items.items()) != 0:
+            for item in items.keys():
                 assert isinstance(item, Weapon) or isinstance(item, Armor), \
                     f"Item element expected to be Weapon or Armor type, got: {type(item)}"
 
@@ -78,8 +78,11 @@ class Character:
         :param item: the item to be equipped
         :return: Nothing
         """
-        assert isinstance(item, Weapon) or isinstance(item, Armor) or isinstance(item, str), \
-            f"Item expected to be Weapon, Armor, or string type, got: {type(item)}"
+        try:
+            assert isinstance(item, Weapon) or isinstance(item, Armor) or isinstance(item, str), \
+                f"Item expected to be Weapon, Armor, or string type, got: {type(item)}"
+        except AssertionError:
+            print("please")
         if isinstance(item, Weapon):
             # Equipping a weapon to the armament slot
             while True:
@@ -134,16 +137,16 @@ class Character:
                         self.remove_from_inventory(item)
                         break
         elif isinstance(item, str):
-            assert True if item in [i.name for i in self.items.keys()] else False, \
+            assert item in [i.name for i in self.items.keys()], \
                 f"That item does not exist in your inventory."
             name_instance_dict = {i.name: i for i in self.items.keys()}
-            for key, value in name_instance_dict:
+            for key, value in name_instance_dict.items():
                 if item == key:
                     self.equip(value)
         else:
             # Equipping an armor piece to an armor slot
             while True:
-                if item.armor_type is ArmorPieces.HELMET:
+                if item.armor_piece == ArmorPieces.HELMET:
                     if self.helmet != Character.def_helmet:
                         while True:
                             try:
@@ -163,7 +166,7 @@ class Character:
                         self.helmet = item
                         self.remove_from_inventory(item)
                         break
-                elif item.armor_type is ArmorPieces.BREASTPLATE:
+                elif item.armor_piece == ArmorPieces.BREASTPLATE:
                     if self.breastplate != Character.def_breastplate:
                         while True:
                             try:
@@ -318,7 +321,7 @@ class Character:
                         grieves_adv = True
         # Calculating the attack done on defender
         if self.job == Jobs.WARRIOR or Jobs.ANY:
-            if weapon.effect != Effects.NONE and random.random() <= weapon.effect_chance:
+            if weapon.effect != Effects.NONE:
                 if helmet_adv:
                     helmet_dmg = float((Character.type_advantage * weapon.phy_damage * defender.helmet.phy_neg)
                                        + (weapon.mag_damage * defender.helmet.magic_neg))
@@ -344,7 +347,7 @@ class Character:
                     defender.afflict(weapon.effect, weapon.effect_chance, weapon.effect_amt)
                     return total_dmg, defender.health
                 else:
-                    self.health += total_dmg * weapon.effect_amt
+                    self.hurt(-float(total_dmg * weapon.effect_amt))
                     return total_dmg, defender.health
             else:
                 if helmet_adv:
@@ -400,6 +403,9 @@ class Character:
             grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
             total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
             defender.hurt(total_dmg)
+            if spell.effect != Effects.NONE:
+                defender.afflict(spell.effect, spell.effect_chance, spell.effect_amt)
+                defender.afflict(staff.effect, staff.effect_chance, staff.effect_amt)
             return total_dmg, defender.health
         else:
             helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
@@ -418,27 +424,84 @@ class Character:
         assert isinstance(effect, Effects), f"Expected an effect type, got: {type(effect)}"
         assert isinstance(effect_amt, int), f"effect_amt is expected to be int type, got {type(effect_amt)}"
         assert isinstance(effect_chance, float), f"Effect_chance expected to be float type, got {type(effect_chance)}"
-        if random.randint(1, 100) > effect_chance * 100:
-            return
+        if effect == Effects.NONE:
+            return False
+        if random.random() > effect_chance:
+            return False
+        print(f"{effect.value} was successful afflicted on {self.name}")
         for key in self.status:
             if effect == key:
                 del self.status[key]
-                self.status.update({effect: (effect_amt, Character.effect_duration)})
-                return
+                self.status.update({effect: (effect_amt,
+                                             Character.effect_duration)})
+                return True
         self.status.update({effect: (effect_amt, Character.effect_duration)})
-        return
+        return True
+
+    def remove_effects(self, effect: Effects = None):
+        """Removes the symptoms of the effect does not change the character's status"""
+        if effect is not None:
+            for effect_2, (amt, duration) in self.status:
+                if effect_2 == effect:
+                    match effect_2:
+                        case Effects.STRENGTH:
+                            self.arm1.phy_damage -= amt
+                            self.arm2.phy_damage -= amt
+                        case Effects.DEFENSE:
+                            self.helmet.phy_neg -= amt
+                            self.helmet.magic_neg -= amt
+                            self.breastplate.phy_neg -= amt
+                            self.breastplate.magic_neg -= amt
+                            self.grieves.phy_neg -= amt
+                            self.grieves.magic_neg -= amt
+                        case Effects.MAGIC:
+                            self.arm1.mag_damage -= amt
+                            self.arm2.mag_damage -= amt
+            return True
+        for effect_2, (amt, duration) in self.status:
+            match effect_2:
+                case Effects.STRENGTH:
+                    self.arm1.phy_damage -= amt
+                    self.arm2.phy_damage -= amt
+                case Effects.DEFENSE:
+                    self.helmet.phy_neg -= amt
+                    self.helmet.magic_neg -= amt
+                    self.breastplate.phy_neg -= amt
+                    self.breastplate.magic_neg -= amt
+                    self.grieves.phy_neg -= amt
+                    self.grieves.magic_neg -= amt
+                case Effects.MAGIC:
+                    self.arm1.mag_damage -= amt
+                    self.arm2.mag_damage -= amt
+        return True
 
     def open_inventory(self):
         """Displays the inventory information.
 
         return True if player used a potion. False if they did not.
         """
+        print(f"Current Health: {self.health}")
+        print(f"Armament_1: {self.arm1.name}, Armament_2: {self.arm2.name}")
+        print(f"Helmet: {self.helmet.name}, Breastplate: {self.breastplate.name}, Grieves: {self.grieves.name}")
+        print([spell.name for spell in self.spells])
         display_items_dict = sorted({key.name: self.items[key] for key in self.items})
         display_potions_dict = sorted({key.name: self.potions[key] for key in self.potions})
         print(f"Potions: {display_potions_dict}")
         print(f"Items: {display_items_dict}")
         while True:
             cmd = input().split(" ")
+            if len(cmd) > 2:
+                command = cmd.pop(0)
+                temp = ""
+                i = 0
+                for arg in cmd:
+                    i += 1
+                    if i == 1:
+                        temp += arg
+                        continue
+                    temp += " " + arg
+                cmd = [command, temp]
+                print(cmd)
             try:
                 assert cmd[0] in Commands._value2member_map_, f"Command expected to be of approved type, got: {cmd[0]}"
             except AssertionError:

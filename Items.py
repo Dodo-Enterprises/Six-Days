@@ -95,6 +95,7 @@ class Armor:
         self.phy_neg = float(phy_neg / 100)
         self.magic_neg = float(magic_neg / 100)
         self.armor_type = armor_type
+        self.armor_piece = armor_piece
 
     @classmethod
     def load_armor_from_file(cls, armor_name: str):
