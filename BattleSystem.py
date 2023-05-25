@@ -233,7 +233,7 @@ class BattleSystem:
             data = f.read().splitlines()[battle_index - 1]
             data = data.split(" ")
             allies_present = False
-            if data[0] != "null":
+            if data[0] != "NONE":
                 allies_str_list = data[0].split(",")
                 allies_present = True
             enemies_str_list = data[1].split(",")

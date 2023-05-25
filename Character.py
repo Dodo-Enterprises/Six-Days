@@ -9,11 +9,11 @@ class Character:
     """"""
     _path_to_character_preset_file = os.getcwd() + "\\Character_Presets.txt"
     type_advantage = 2
-    def_arm = Weapon("Bare Hands", 0, Jobs.WARRIOR, WpnTypes.BLUNT, 10, effect=Effects.STUN, effect_chance=0.2,
+    def_arm = Weapon("Bare Hands", Jobs.WARRIOR, WpnTypes.BLUNT, 10, effect=Effects.STUN, effect_chance=0.2,
                      effect_amt=0)
-    def_helmet = Armor("Bare Head", 0, Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.HELMET)
-    def_breastplate = Armor("Bare Chest", 0, Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.BREASTPLATE)
-    def_grieves = Armor("Bare Legs", 0, Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.GRIEVES)
+    def_helmet = Armor("Bare Head", Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.HELMET)
+    def_breastplate = Armor("Bare Chest", Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.BREASTPLATE)
+    def_grieves = Armor("Bare Legs", Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.GRIEVES)
     effect_duration = 3
 
     def __init__(self, name: str, health: int, job: Jobs, spells: list[Spell], potions: dict[Potion, int],
@@ -286,7 +286,7 @@ class Character:
         helmet_adv = False
         breastplate_adv = False
         grieves_adv = False
-        if self.job == Jobs.WARRIOR:
+        if self.job == Jobs.WARRIOR or Jobs.ANY:
             match weapon.wpn_type:
                 case WpnTypes.BLUNT:
                     if defender.helmet.armor_type == ArmorTypes.PLATE:
@@ -317,7 +317,7 @@ class Character:
                     if defender.grieves.armor_type == ArmorTypes.PLATE:
                         grieves_adv = True
         # Calculating the attack done on defender
-        if self.job == Jobs.WARRIOR:
+        if self.job == Jobs.WARRIOR or Jobs.ANY:
             if weapon.effect != Effects.NONE and random.random() <= weapon.effect_chance:
                 if helmet_adv:
                     helmet_dmg = float((Character.type_advantage * weapon.phy_damage * defender.helmet.phy_neg)
@@ -394,7 +394,7 @@ class Character:
         assert isinstance(spell, Spell), f"Spell expected to be Spell type, got {type(spell)}"
         assert isinstance(defender, Character), f"Defender expected to be Character type, got {type(defender)}"
         assert staff is self.arm1 or staff is self.arm2, "staff expected to be an equipped armament"
-        if self.job == Jobs.MAGE:
+        if self.job == Jobs.MAGE or Jobs.ANY:
             helmet_dmg = float((staff.mag_damage + spell.mag_damage) * defender.helmet.magic_neg / 100)
             breastplate_dmg = float((staff.mag_damage + spell.mag_damage) * defender.breastplate.magic_neg / 100)
             grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg / 100)
