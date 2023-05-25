@@ -20,7 +20,7 @@ Elite_Crystal_Golem, 60, WARRIOR, [], NONE, Stone (L), Stone (L), Stone Head, St
 
 Alpha_Crystal_Golem_(Boss), 200, WARRIOR, [], NONE, Stone Hammer (L), Stone Hammer (L), Stone Head, Stone Chest, Stone Legs
 
-Cyber_Guard, 150, WARRIOR, [], Health (L), Sword (L), Sword (L), Leather Helmet, Leather Tunic, Leather Trousers
+Cyber_Guard, 100, WARRIOR, [], Health (L), Sword (L), Sword (L), Leather Helmet, Leather Tunic, Leather Trousers
 
 Wingard_Levioso_(Boss), 300, MAGE, [Fireblast,Icespear,Lightingbolt], Health (M), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
 

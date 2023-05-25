@@ -12,10 +12,10 @@ Bare Hands, WARRIOR, BLUNT, 10, 0, STUN, 0.2, 0
 Wooden Club (L), WARRIOR, BLUNT, 20, 0, STUN, 5, 0
 Stone (L), WARRIOR, BLUNT, 20, 0, NONE, 100, 0
 Stone Hammer (L), WARRIOR, BLUNT, 40, 0, STUN, 10, 0
-Stone Hammer (M), WARRIOR, BLUNT, 60, 0, STUN, 10, 0
+Stone Hammer (M), WARRIOR, BLUNT, 70, 0, STUN, 10, 0
 
 # Pierce Weapons
-Electric Spear (H), WARRIOR, PIERCE, 40, 20, STUN, 50, 0
+Electric Spear (H), WARRIOR, PIERCE, 80, 30, STUN, 50, 0
 
 # Staffs
 Wooden Staff (L), MAGE, STAFF, 0, 10, NONE, 100, 0
