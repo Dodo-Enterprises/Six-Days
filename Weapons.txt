@@ -2,7 +2,7 @@
 Knife (L), WARRIOR, SLASH, 20, 0, NONE, 100, 0
 Sword (L), WARRIOR, SLASH, 30, 0, NONE, 100, 0
 Dragon Claw (M), WARRIOR, SLASH, 40, 0, NONE, 100, 0
-Silver Sword (M), WARRIOR, SLASH, 50, 0, FREEZE, 50, 0
+Silver Sword (M), WARRIOR, SLASH, 50, 0, STUN, 50, 0
 Death Sword (H), ANY, SLASH, 10, 10, DEATHTOUCH, 30, 0
 Lighting Claw (H), WARRIOR, SLASH, 40, 0, STUN, 20, 0
 Sword Of Kangmar (H), WARRIOR, SLASH, 50, STUN, 100, 0
