@@ -11,9 +11,9 @@ class Character:
     type_advantage = 2
     def_arm = Weapon("Bare Hands", Jobs.WARRIOR, WpnTypes.BLUNT, 10, effect=Effects.STUN, effect_chance=0.2,
                      effect_amt=0)
-    def_helmet = Armor("Bare Head", Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.HELMET)
-    def_breastplate = Armor("Bare Chest", Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.BREASTPLATE)
-    def_grieves = Armor("Bare Legs", Jobs.NONE, 1, 1, ArmorTypes.NONE, ArmorPieces.GRIEVES)
+    def_helmet = Armor("Bare Head", Jobs.NONE, 100, 100, ArmorTypes.NONE, ArmorPieces.HELMET)
+    def_breastplate = Armor("Bare Chest", Jobs.NONE, 100, 100, ArmorTypes.NONE, ArmorPieces.BREASTPLATE)
+    def_grieves = Armor("Bare Legs", Jobs.NONE, 100, 100, ArmorTypes.NONE, ArmorPieces.GRIEVES)
     effect_duration = 3
 
     def __init__(self, name: str, health: int, job: Jobs, spells: list[Spell], potions: dict[Potion, int],

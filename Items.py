@@ -140,7 +140,7 @@ class Spell:
         self.mag_damage = mag_damage
         self.is_AOE = is_area_of_effect_damage
         self.effect = effect
-        self.effect_chance = effect_chance
+        self.effect_chance = float(effect_chance) / 100
         self.effect_amt = effect_amt
 
     @classmethod
@@ -181,7 +181,7 @@ class Potion:
         assert isinstance(effect_amt, int), f"Effect_Amount expected to be integer type, got: {type(effect_amt)}"
         self.name = name
         self.effect = effect
-        self.effect_chance = effect_chance
+        self.effect_chance = float(effect_chance) / 100
         self.effect_amt = effect_amt
 
     def use(self, character):

@@ -9,7 +9,7 @@ Sword Of Kangmar (H), WARRIOR, SLASH, 50, STUN, 100, 0
 
 # Blunt Weapons
 Bare Hands, WARRIOR, BLUNT, 10, 0, STUN, 0.2, 0
-Wooden Club (L), WARRIOR, BLUNT, 20, 0, STUN, 30, 0
+Wooden Club (L), WARRIOR, BLUNT, 20, 0, STUN, 5, 0
 Stone (L), WARRIOR, BLUNT, 10, 0, NONE, 100, 0
 Stone Hammer (M), WARRIOR, BLUNT, 20, 0, STUN, 10, 0
 

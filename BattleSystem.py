@@ -79,7 +79,11 @@ class BattleSystem:
                     elif value == 3:
                         return 3
                 case "s":
-                    self._cast_spell()
+                    value = self._cast_spell()
+                    if value == 2:
+                        return 2
+                    elif value == 3:
+                        return 3
                 case "i":
                     self.player.open_inventory()
         return 3
@@ -122,7 +126,9 @@ class BattleSystem:
                 self.enemies.remove(self.enemies[target])
         else:
             result = self.player.phy_attack(self.player.arm2, self.enemies[target])
+            print(f"You dealt {int(result[0])} points of damage.")
             if result[1] <= 0:
+                print(self.enemies[target].name + " was defeated.")
                 self.enemies.remove(self.enemies[target])
         if len(self.enemies) == 0:
             return 2
@@ -239,16 +245,24 @@ class BattleSystem:
         for enemy in self.enemies:
             if enemy.job == Jobs.WARRIOR:
                 target = random.randrange(0, len(self.players_team))
-                enemy.phy_attack(enemy.arm1, self.players_team[target])
-                if self.player.health <= 0:
-                    print("Game Over")
-                    return False
+                result = enemy.phy_attack(enemy.arm1, self.players_team[target])
+                print(f"{enemy.name} dealt {result[0]} points of damage to {self.players_team[target].name}")
+                if result[1] <= 0:
+                    if self.player.health <= 0:
+                        print("Game Over")
+                        return False
+                    print(f"{self.players_team[target]} died.")
+                    del self.players_team[target]
             else:
                 target = random.randrange(0, len(self.players_team))
-                enemy.mag_attack(enemy.arm1, enemy.spells[0], self.players_team[target])
-                if self.player.health <= 0:
-                    print("Game Over")
-                    return False
+                result = enemy.mag_attack(enemy.arm1, enemy.spells[0], self.players_team[target])
+                print(f"{enemy.name} dealt {result[0]} points of damage to {self.players_team[target].name}")
+                if result[1] <= 0:
+                    if self.player.health <= 0:
+                        print("Game Over")
+                        return False
+                print(f"{self.players_team[target]} died.")
+                del self.players_team[target]
         return True
 
     def _effects_applied(self):
@@ -293,10 +307,10 @@ class BattleSystem:
                         character.remove_effects(effect)
                         del character.status[(amt, duration + 1)]
                 if character.health <= 0:
+                    print(character.name + " was defeated.")
                     if character.is_player:
                         character.remove_effects()
                         return "Game Over"
-                    print(character.name + " was defeated.")
                     team.remove(character)
         return True
 
