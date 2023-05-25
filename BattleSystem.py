@@ -145,7 +145,7 @@ class BattleSystem:
                 i = 1
                 spells = ''
                 for spell in self.player.spells:
-                    spells += f"{spell.name} ({i})"
+                    spells += f"{spell.name} ({i}) "
                     i += 1
                 spell_to_cast = int(input(spells)) - 1
                 assert spell_to_cast in range(i) or spell_to_cast == "b"
@@ -155,8 +155,6 @@ class BattleSystem:
         if spell_to_cast == "b":
             return 1
         spell = self.player.spells[spell_to_cast]
-        print(spell)
-        print(spell_to_cast)
         try:
             assert self.player.arm1.wpn_type == WpnTypes.STAFF or self.player.arm2.wpn_type == WpnTypes.STAFF, \
                 "No staff equipped."
@@ -264,7 +262,7 @@ class BattleSystem:
                     if self.player.health <= 0:
                         print("Game Over")
                         return False
-                    print(f"{self.players_team[target]} died.")
+                    print(f"{self.players_team[target].name} died.")
                     del self.players_team[target]
             else:
                 target = random.randrange(0, len(self.players_team))
@@ -274,8 +272,8 @@ class BattleSystem:
                     if self.player.health <= 0:
                         print("Game Over")
                         return False
-                print(f"{self.players_team[target]} died.")
-                del self.players_team[target]
+                    print(f"{self.players_team[target].name} died.")
+                    del self.players_team[target]
         return True
 
     def _effects_applied(self):
@@ -310,12 +308,13 @@ class BattleSystem:
                             case Effects.DEATHTOUCH:
                                 del character.status[(amt, duration)]
                                 if character.hurt(2000) <= 0:
+                                    print("DeathTouch!!!")
                                     print(character.name + " died.")
                                     if character.is_player:
                                         character.remove_effects()
                                         return "Game Over"
                                     team.remove(character)
-                    duration -= 1
+                    character.status[effect] = (amt, duration - 1)
                     if duration == 0:
                         character.remove_effects(effect)
                         del character.status[(amt, duration + 1)]
