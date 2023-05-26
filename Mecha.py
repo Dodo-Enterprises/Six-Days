@@ -14,7 +14,7 @@ class Mecha:
         # Also change the range if need be. I don't know the numbers. This is for the rest going on
         :return: player
         """
-        self.player.add_to_inventory([Potion.load_potion_from_file("Health (L)") for i in range(5)])
+        self.player.add_to_inventory([Potion.load_potion_from_file("Health (M)") for i in range(5)])
         print("Player received 5 Potions (L)")
         print("\nYou enter the Mecha Kingdom. "
             "\nYou see a huge plane with a beautiful sky. It was hard to believe that this is a land that no one leaves.")

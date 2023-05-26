@@ -70,6 +70,10 @@ class Crystal:
         self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 3).start():
             print("You Won")
+            self.player.add_to_inventory(Armor.load_armor_from_file("Stone Head"))
+            self.player.add_to_inventory(Armor.load_armor_from_file("Stone Chest"))
+            self.player.add_to_inventory(Armor.load_armor_from_file("Stone Legs"))
+            print("Player received the stone set of armor")
             if self.player.job == Jobs.WARRIOR:
                 self.player.add_to_inventory(Weapon.load_weapon_from_file("Stone Hammer (L)"))
                 print("Player received a Stone Hammer (L)")
