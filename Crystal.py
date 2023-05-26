@@ -1,4 +1,6 @@
-import Character
+from Character import Character
+from BattleSystem import BattleSystem
+from Items import *
 class Crystal:
     """"""
 
@@ -7,6 +9,10 @@ class Crystal:
 
     def start(self):
         """
+
+        #IMPORTANT Also need to add specific weapons for the mage class after winning a fight
+        # and all armor for both classes. Add whatever you think is appropriate.
+        #Also change the range if need be. I don't know the numbers. This is for the rest going on
 
         :return: player
         """
@@ -20,7 +26,23 @@ class Crystal:
             "\nYou feel a swell of sorrow and anger toward the king for allowing this to happen to his kingdom." 
             "\nYou then come across bigger crystals that then come alive and attack you. "
             "\nThey seem to be possessed by the demon king’s minions.")
-        #Tis is supposed to be
+        #Battle 1
+        if BattleSystem.load_battle_from_file(self.player, 1).start():
+            self.player.add_to_inventory([Weapon.load_weapon_from_file("Sword (L)") for i in range(5)])
+            print("You Won")
+            print("Player received a Sword (L)")
+        else:
+            print("You Lose")
+            return False
+        input()
+        #Battle 2
+        if BattleSystem.load_battle_from_file(self.player, 2).start():
+            self.player.add_to_inventory([Potion.load_potion_from_file("Health (L)") for i in range(5)])
+            print("You Won")
+            print("Player received Potions (L)")
+        else:
+            print("You Lose")
+            return False
         input()
         print("It seems these demons are pretty weak. Anyone with decent skills could get past these.")
         input()
@@ -39,19 +61,28 @@ class Crystal:
         input()
         print("You turn around and you see a giant crystal golem ready to fight.")
         input()
+        #Battle 3 (Boss)
+        if BattleSystem.load_battle_from_file(self.player, 3).start():
+            self.player.add_to_inventory([Weapon.load_weapon_from_file("Stone Hammer (L)") for i in range(5)])
+            print("You Won")
+            print("Player received a Stone Hammer (L)")
+        else:
+            print("You Lose")
+            return False
+        input()
+        input()
         print("After a victorious cheer, you make your way to the king still frozen, "
-            "\nand take the crystal from his cold hands.")
+            "\n and take the crystal from his cold hands.")
         input()
         print("It seem the king had perished while being frozen by his own hand. "
-            "\nAfter you take the artifact you use its power to revert the townspeople back to normal and "
-            "\nthen they evacuate to another kingdom.  ")
+            "\n After you take the artifact you use its power to revert the townspeople back to normal and "
+            "\n then they evacuate to another kingdom.  ")
         input()
         print("The player goes back to town and talks to Muriel and Ragnar. ")
         input()
-        # If the player defeated the first kingdom
+        #The player defeated the first kingdom
         print("Muriel: Oh why if it isn’t JajaWawa, it has been a while. How’ve you been?")
         input()
-        #Options
         print("Muriel: Oh you got the Crystal of Perpetuation! This is marvelous! I just knew you could do it! "
             "\nRagnar come see this!")
         input()
@@ -65,7 +96,6 @@ class Crystal:
         print("Muriel: It seems Ragnar is starting to warm up to you. If you keep it up, "
             "\nI’m sure you’ll become good friends! ")
         input()
-        self.player.add_to_inventory(self, )
         print("Muriel: So now you have only two kingdoms left! Keep it up! ")
         input()
         print("")
