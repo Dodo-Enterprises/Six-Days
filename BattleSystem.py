@@ -231,6 +231,14 @@ class BattleSystem:
                 spell = ally.spells[0]
                 if len(ally.spells) > 1:
                     spell = ally.spells[random.randrange(0, len(ally.spells))]
+                if spell.is_AOE:
+                    for enemy in self.enemies:
+                        result = ally.mag_attack(armament, spell, enemy)
+                        print(f"{ally.name} dealt {result[0]} points of damage to {enemy.name}")
+                        if result[1] <= 0:
+                            self.enemies.remove(enemy)
+                        if len(self.enemies) == 0:
+                            return False
                 target = random.randrange(0, len(self.enemies))
                 result = ally.mag_attack(armament, spell, self.enemies[target])
                 print(f"{ally.name} dealt {result[0]} points of damage to {self.enemies[target].name}")
@@ -266,6 +274,17 @@ class BattleSystem:
                 spell = enemy.spells[0]
                 if len(enemy.spells) > 1:
                     spell = enemy.spells[random.randrange(0, len(enemy.spells))]
+                if spell.is_AOE:
+                    for good_guy in self.players_team:
+                        result = enemy.mag_attack(armament, spell, good_guy)
+                        if result[1] <= 0:
+                            if self.player.health <= 0:
+                                print("Game Over")
+                                return False
+                            print(f"{good_guy.name} died.")
+                            self.players_team.remove(good_guy)
+                            continue
+                    continue
                 target = random.randrange(0, len(self.players_team))
                 result = enemy.mag_attack(armament, spell, self.players_team[target])
                 print(f"{enemy.name} dealt {result[0]} points of damage to {self.players_team[target].name}")
