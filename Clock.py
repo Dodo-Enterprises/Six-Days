@@ -16,7 +16,8 @@ class Clock:
         #Also change the range if need be. I don't know the numbers. This is for the rest going on
             :return: True if beat game
             """
-
+        self.player.add_to_inventory([Potion.load_potion_from_file("Health (H)") for i in range(5)])
+        print("Player received 5 Potions(H)")
         # All the code for the clock arc
         print("\nYou enter the Clock Kingdom. Everything looks peaceful and no demons are attacking the kingdom. "
               "\nYou see a city in the distance. You walk towards the city doubting what is going on here. ")
@@ -84,10 +85,9 @@ class Clock:
         input()
         # Battle 8
         # Three demons at the same time
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 8).start():
-            self.player.add_to_inventory([Potion.load_potion_from_file("Health (M)") for i in range(5)])
             print("You Won")
-            print("Player received 5 Potions(M)")
         else:
             print("You Lose")
             return False
@@ -102,10 +102,19 @@ class Clock:
               "\nOne of its heads was cut out and its skin was ruined by unknown magic.")
         input()
         # Battle 9 against 2 dragons
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 9).start():
-            self.player.add_to_inventory(Weapon.load_weapon_from_file("Dragon Claw (M)"))
-            print("You Won")
-            print("Player received a Dragon Claw (M)")
+              print("You Won")
+              if self.player.job == Jobs.WARRIOR:
+                  self.player.add_to_inventory(Weapon.load_weapon_from_file("Dragon Claw (M)"))
+                  print("Player received a Dragon Claw (M)")
+              else:
+                    self.player.add_to_inventory(Spell.load_spell_from_file("Lightingbolt"))
+                    print("Player received lightingbolt spell")
+              print("Player received the scale set of armor")
+              self.player.add_to_inventory(Armor.load_armor_from_file("Scale Helmet"))
+              self.player.add_to_inventory(Armor.load_armor_from_file("Scale Chest"))
+              self.player.add_to_inventory(Armor.load_armor_from_file("Scale Legs"))
         else:
             print("You Lose")
             return False
@@ -201,8 +210,11 @@ class Clock:
                     input()
                     break
         # Battle 11 Fight against man
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 11).start():
             print("You Won")
+            self.player.add_to_inventory(Weapon.load_weapon_from_file("Silver Sword (M)"))
+            print("Player received Silver Sword")
         else:
             print("You Lose")
             return False
@@ -234,6 +246,7 @@ class Clock:
               "\nYou see many bodies of people everywhere in the city. ")
         # Battle 12 (Grab 8th battle)
         # Three demons at the same time
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 12).start():
             print("You Won")
         else:
@@ -250,12 +263,17 @@ class Clock:
               "\nFortissax also appeared with other dragons.")
         input()
         print("Gavriel Utterson joins and Fortissax flies down to you "
-              "/nthrowing lightning bolts that have the power of death.")
+              "\nthrowing lightning bolts that have the power of death.")
         input()
         # 2nd Battle against Fortissax this time with ally (Battle 13)
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 13).start():
-            self.player.add_to_inventory(Weapon.load_weapon_from_file("Lightning Claw (H)"))
-            print("Player received a Lightning Claw (H)")
+            if self.player.job == Jobs.WARRIOR:
+                  self.player.add_to_inventory(Weapon.load_weapon_from_file("Lightning Claw (H)"))
+                  print("Player received a Lightning Claw (H)")
+            else:
+                  self.player.add_to_inventory(Weapon.load_weapon_from_file("Staff of Dragon Lord (H)"))
+                  print("Player received Staff of Dragon Lord")
         else:
             print("You Lose")
             return False
@@ -273,6 +291,7 @@ class Clock:
         print("Gavriel Utterson: Clockyll Tymdal…")
         input()
         # Batte (14) It's the Boss with ally
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 14).start():
             self.player.add_to_inventory(Weapon.load_weapon_from_file("Sword of Kangmar (H)"))
             print("You Won")

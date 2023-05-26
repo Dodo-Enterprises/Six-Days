@@ -14,6 +14,8 @@ class Mecha:
         # Also change the range if need be. I don't know the numbers. This is for the rest going on
         :return: player
         """
+        self.player.add_to_inventory([Potion.load_potion_from_file("Health (L)") for i in range(5)])
+        print("Player received 5 Potions (L)")
         print("\nYou enter the Mecha Kingdom. "
             "\nYou see a huge plane with a beautiful sky. It was hard to believe that this is a land that no one leaves.")
         input()
@@ -114,19 +116,20 @@ class Mecha:
             "\nYou are attacked by cyberized guards!")
         input()
         #Battle 4
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 4).start():
-            self.player.add_to_inventory(Weapon.load_weapon_from_file("Electric Spear (M)"))
             print("You Won")
-            print("Player received an Electric Spear(M)")
+            if self.player.job == Jobs.WARRIOR:
+                self.player.add_to_inventory(Weapon.load_weapon_from_file("Electric Spear (M)"))
+                print("Player received an Electric Spear(M)")
         else:
             print("You Lose")
             return False
         input()
         #Battle 5
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 5).start():
-            self.player.add_to_inventory([Potion.load_potion_from_file("Health (L)") for i in range(5)])
             print("You Won")
-            print("Player received 5 Potions (L)")
         else:
             print("You Lose")
             return False
@@ -149,8 +152,9 @@ class Mecha:
             "\nYou will die like everyone in the town who tried to help you! ")
         input()
         #Battle 6 (Boss)
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 6).start():
-                print("You Won, or did you?")
+            print("You Won, or did you?")
         else:
             print("You Lose")
             return False
@@ -171,10 +175,17 @@ class Mecha:
             "\nEveryone who helps you will die along with you. ")
         input()
         #Boss. Battle #7
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 7).start():
-            self.player.add_to_inventory(Weapon.load_weapon_from_file("Silver Sword (M)"))
             print("You Won")
-            print("Player received a Silver Sword (M)")
+            self.player.add_to_inventory(Armor.load_armor_from_file("Magic Helmet"))
+            self.player.add_to_inventory(Armor.load_armor_from_file("Magic Chest"))
+            self.player.add_to_inventory(Armor.load_armor_from_file("Magic Legs"))
+            print("Player received Magic armor set")
+            if self.player.job == Jobs.MAGE:
+                self.player.add_to_inventory(Weapon.load_weapon_from_file("Staff of Wingard Levioso (M)"))
+                self.player.add_to_inventory(Spell.load_spell_from_file("Lazer"))
+                print("Player received Staff of Wingard Levioso and the Lazer spell")
         else:
             print("You Lose")
             return False
