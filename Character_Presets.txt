@@ -20,11 +20,11 @@ Elite_Crystal_Golem, 60, WARRIOR, [NONE], NONE, Stone (L), Stone (L), Stone Head
 
 Alpha_Crystal_Golem_(Boss), 100, WARRIOR, [NONE], NONE, Stone Hammer (L), Stone Hammer (L), Stone Head, Stone Chest, Stone Legs
 
-Cyber_Guard, 100, WARRIOR, [NONE], Health (L), Sword (L), Sword (L), Leather Helmet, Leather Tunic, Leather Trousers
+Cyber_Guard, 100, WARRIOR, [NONE], Health (L), Sword (L), Sword (L), Cyber Helmet, Cyber Tunic, Cyber Trousers
 
-Wingard_Levioso_(Boss), 300, MAGE, [Fireblast,Icespear,Lightingbolt], Health (M),Health (M),Health (M),Health (M),Health (M), Staff of Wingard Levioso (H), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
+Wingard_Levioso_(Boss), 150, MAGE, [Fireblast,Icespear,Lightingbolt], Health (M),Health (M),Health (M),Health (M),Health (M), Staff of Wingard Levioso (H), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
 
-Wingard_Levioso-(Boss), 300, MAGE, [Lazer,Fireblast,Icespear,Lightingbolt], NONE, Staff of Wingard Levioso (H), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
+Wingard_Levioso-(Boss), 150, MAGE, [Lazer,Fireblast,Lightingbolt], NONE, Staff of Wingard Levioso (H), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
 
 GravrielUtters, 200, ANY, [Shotgun], NONE, Gun(H), Silver Sword (M), Bare Head, Coat, Suit Pants
 

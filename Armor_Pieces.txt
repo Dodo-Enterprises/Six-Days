@@ -1,11 +1,14 @@
 # Leather Helmets
 Leather Helmet, ANY, 90, 95, LEATHER, HELMET
+Cyber Helmet, ANY, 90, 75, LEATHER, HELMET
 
 # Leather Breastplates
 Leather Tunic, ANY, 90, 95, LEATHER, BREASTPLATE
+Cyber Tunic, ANY, 90, 75, LEATHER, BREASTPLATE
 
 # Leather Grieves
 Leather Trousers, ANY, 90, 95, LEATHER, GRIEVES
+Cyber Trousers, ANY, 90, 75, LEATHER, GRIEVES
 
 # Chain Helmets
 Chain Helmet, ANY, 85, 85, CHAIN, HELMET
