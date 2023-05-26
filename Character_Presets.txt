@@ -26,10 +26,10 @@ Wingard_Levioso_(Boss), 150, MAGE, [Fireblast,Icespear,Lightingbolt], Health (M)
 
 Wingard_Levioso-(Boss), 150, MAGE, [Lazer,Fireblast,Lightingbolt], NONE, Staff of Wingard Levioso (H), Staff of Wingard Levioso (H), Magic Helmet, Magic Chest, Magic Legs
 
-GravrielUtters, 200, ANY, [Shotgun], NONE, Gun(H), Silver Sword (M), Bare Head, Coat, Suit Pants
+GravrielUtters, 200, ANY, [Shotgun], NONE, Gun (H), Silver Sword (M), Bare Head, Coat, Suit Pants
 
 Dragon, 200, ANY, [Lightingbolt], NONE, Nice Wooden Staff (L), Dragon Claw (M), Scale Helmet, Scale Chest, Scale Legs
 
 Fortissax, 600, ANY, [Death bolt,Lightingbolt,Dragonbreath], NONE, Staff of Dragon Lord (H), Lighting Claw (H), Scale Helmet, Scale Chest, Scale Legs
 
-Clockyll_Tymdal_(Boss), 1200, ANY, [Disappear!,Freeze!,Burn!], {Health (H): 4}, Staff Of King (H), Sword Of Transcendence (H), Helmet Of King, Breastplate Of King, Grieve Of King
+Clockyll_Tymdal_(Boss), 1200, ANY, [Disappear!,Freeze!,Burn!], Health (H), Staff Of King (H), Sword Of Transcendence (H), Helmet Of King, Breastplate Of King, Grieve Of King

@@ -91,7 +91,7 @@ class Clock:
                   print("You Won")
               else:
                   print("You Lose")
-                  return False
+                  continue
               print("Knights and wizards of Clock Kingdom also start to fight against demons. "
                     "\nAll the knights and wizards were so strong that they were able "
                     "\nto kill every demon that invaded the kingdom. "
@@ -118,7 +118,7 @@ class Clock:
                     self.player.add_to_inventory(Armor.load_armor_from_file("Scale Legs"))
               else:
                   print("You Lose")
-                  return False
+                  continue
               print("Player received Dragon Scale Armor")
               input()
               print("The dragons were so strong that knights and wizards of the clock kingdom died one by one. "

@@ -2,7 +2,7 @@ Fireball, 5, True, BURN, 50, 10
 Fireblast, 10, True, BURN, 100, 10
 Icespear, 5, False, STUN, 10, 0
 Lazer, 20, False, STUN, 50, 0
-Lightingbolt, 10, False, STUN, 30, 0
+Lightingbolt, 10, False, STUN, 15, 0
 Shotgun, 15, True, BURN, 100, 10
 Rifle, 40, False, BURN, 100, 10
 Death Shot, 1, True, DEATHTOUCH, 20, 0

@@ -150,7 +150,7 @@ class BattleSystem:
                 spell_to_cast = int(input(spells)) - 1
                 assert spell_to_cast in range(i) or spell_to_cast == "b"
                 break
-            except AssertionError or ValueError:
+            except Exception:
                 print("The input was not recognized as a valid input. Please input a valid response. try again...")
         if spell_to_cast == "b":
             return 1
@@ -277,6 +277,7 @@ class BattleSystem:
                 if spell.is_AOE:
                     for good_guy in self.players_team:
                         result = enemy.mag_attack(armament, spell, good_guy)
+                        print(f"{enemy.name} dealt {result[0]} points of damage to {good_guy.name}")
                         if result[1] <= 0:
                             if self.player.health <= 0:
                                 print("Game Over")
@@ -295,6 +296,7 @@ class BattleSystem:
                     print(f"{self.players_team[target].name} died.")
                     del self.players_team[target]
                     continue
+                continue
             target = random.randrange(0, len(self.players_team))
             result = enemy.phy_attack(armament, self.players_team[target])
             print(f"{enemy.name} dealt {result[0]} points of damage to {self.players_team[target].name}")
@@ -310,12 +312,14 @@ class BattleSystem:
         """"""
         for team in [self.players_team, self.enemies]:
             for character in team:
+                character_effects_to_be_removed = []
                 for effect, (amt, duration) in character.status.items():
+                    if effect == Effects.BURN:
+                        character.hurt(float(amt))
+                        print(f"{character.name} had {amt} damage dealt from burns. Current Health: "
+                              f"{character.health}")
                     if duration == Character.effect_duration:
                         match effect:
-                            case Effects.BURN:
-                                character.hurt(float(amt))
-                                print(f"{character.name} had {amt} damage dealt from burns.")
                             case Effects.HEALTH:
                                 character.hurt(-float(amt))
                                 print(f"{character.name} had {amt} health restored.")
@@ -348,14 +352,16 @@ class BattleSystem:
                                     team.remove(character)
                     character.status[effect] = (amt, duration - 1)
                     if duration == 0:
-                        character.remove_effects(effect)
-                        del character.status[(amt, duration + 1)]
+                        character_effects_to_be_removed.append(effect)
                 if character.health <= 0:
                     print(character.name + " was defeated.")
                     if character.is_player:
                         character.remove_effects()
                         return "Game Over"
                     team.remove(character)
+                if len(character_effects_to_be_removed) > 0:
+                    for effect in character_effects_to_be_removed:
+                        character.remove_effects(effect)
         return True
 
     @classmethod

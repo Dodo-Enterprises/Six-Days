@@ -159,12 +159,9 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            print("First step")
                             self.add_to_inventory(self.helmet)
                             self.helmet = item
-                            print("second step")
                             self.remove_from_inventory(item)
-                            print("Finish?")
                             break
                     else:
                         self.helmet = item
@@ -397,7 +394,6 @@ class Character:
         """
         assert isinstance(staff, Weapon), f"Staff expected to be Weapon type, got {type(staff)}"
         assert staff.wpn_type == WpnTypes.STAFF, f"Staff expected to be a staff, got {staff.wpn_type}"
-        assert staff.effect == Effects.NONE, f"Staff expected to not have any effects, got {staff.effect}"
         assert isinstance(spell, Spell), f"Spell expected to be Spell type, got {type(spell)}"
         assert isinstance(defender, Character), f"Defender expected to be Character type, got {type(defender)}"
         assert staff is self.arm1 or staff is self.arm2, "staff expected to be an equipped armament"
@@ -407,8 +403,8 @@ class Character:
             grieves_dmg = float((staff.mag_damage + spell.mag_damage) * defender.grieves.magic_neg)
             total_dmg = round((helmet_dmg + breastplate_dmg + grieves_dmg), 2)
             defender.hurt(total_dmg)
-            if spell.effect != Effects.NONE:
-                defender.afflict(spell.effect, spell.effect_chance, spell.effect_amt)
+            defender.afflict(spell.effect, spell.effect_chance, spell.effect_amt)
+            if staff.effect != Effects.NONE:
                 defender.afflict(staff.effect, staff.effect_chance, staff.effect_amt)
             return total_dmg, defender.health
         else:
@@ -445,7 +441,7 @@ class Character:
     def remove_effects(self, effect: Effects = None):
         """Removes the symptoms of the effect does not change the character's status"""
         if effect is not None:
-            for effect_2, (amt, duration) in self.status:
+            for effect_2, (amt, duration) in self.status.items():
                 if effect_2 == effect:
                     match effect_2:
                         case Effects.STRENGTH:
@@ -461,8 +457,9 @@ class Character:
                         case Effects.MAGIC:
                             self.arm1.mag_damage -= amt
                             self.arm2.mag_damage -= amt
+            self.status.clear()
             return True
-        for effect_2, (amt, duration) in self.status:
+        for effect_2, (amt, duration) in self.status.items():
             match effect_2:
                 case Effects.STRENGTH:
                     self.arm1.phy_damage -= amt
@@ -477,6 +474,7 @@ class Character:
                 case Effects.MAGIC:
                     self.arm1.mag_damage -= amt
                     self.arm2.mag_damage -= amt
+        self.status.clear()
         return True
 
     def open_inventory(self):
@@ -505,7 +503,6 @@ class Character:
                         continue
                     temp += " " + arg
                 cmd = [command, temp]
-                print(cmd)
             try:
                 assert cmd[0] in Commands._value2member_map_, f"Command expected to be of approved type, got: {cmd[0]}"
             except AssertionError:

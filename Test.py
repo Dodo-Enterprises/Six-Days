@@ -15,8 +15,11 @@ from Character import *
 #player = Character("Jajawawa", 200, Jobs.MAGE, [Spell.load_spell_from_file("Fireball"),Spell.load_spell_from_file("Icespear")], {Potion.load_potion_from_file("Health (M)"):5}, {}, arm1=Weapon.load_weapon_from_file("Nice Wooden Staff (L)"), arm2=Weapon.load_weapon_from_file("Bare Hands"), helmet=Armor.load_armor_from_file("Stone Head"), breastplate=Armor.load_armor_from_file("Stone Chest"), grieves=Armor.load_armor_from_file("Stone Legs"), is_player=True)
 
 #player = Character("Jajawawa", 200, Jobs.WARRIOR, [], {Potion.load_potion_from_file("Health (M)"):5}, {}, arm1=Weapon.load_weapon_from_file("Stone Hammer (M)"), arm2=Weapon.load_weapon_from_file("Electric Spear (M)"), helmet=Armor.load_armor_from_file("Stone Head"), breastplate=Armor.load_armor_from_file("Stone Chest"), grieves=Armor.load_armor_from_file("Stone Legs"), is_player=True)
-player = Character("Jajawawa", 200, Jobs.MAGE, [Spell.load_spell_from_file("Fireball"),Spell.load_spell_from_file("Icespear")], {Potion.load_potion_from_file("Health (M)"):5}, {}, arm1=Weapon.load_weapon_from_file("Nice Wooden Staff (L)"), arm2=Weapon.load_weapon_from_file("Bare Hands"), helmet=Armor.load_armor_from_file("Stone Head"), breastplate=Armor.load_armor_from_file("Stone Chest"), grieves=Armor.load_armor_from_file("Stone Legs"), is_player=True)
+#player = Character("Jajawawa", 200, Jobs.MAGE, [Spell.load_spell_from_file("Fireball"),Spell.load_spell_from_file("Icespear")], {Potion.load_potion_from_file("Health (M)"):5}, {}, arm1=Weapon.load_weapon_from_file("Nice Wooden Staff (L)"), arm2=Weapon.load_weapon_from_file("Bare Hands"), helmet=Armor.load_armor_from_file("Stone Head"), breastplate=Armor.load_armor_from_file("Stone Chest"), grieves=Armor.load_armor_from_file("Stone Legs"), is_player=True)
+x = [5]
+for i in x:
+    print("hi")
+    continue
+print("end")
 
-
-
-BattleSystem.load_battle_from_file(player,9).start()
+#BattleSystem.load_battle_from_file(player,6).start()

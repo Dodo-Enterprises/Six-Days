@@ -5,7 +5,7 @@ Dragon Claw (M), WARRIOR, SLASH, 30, 0, NONE, 100, 0
 Silver Sword (M), WARRIOR, SLASH, 45, 0, NONE, 100, 0
 Death Sword (H), ANY, SLASH, 10, 10, DEATHTOUCH, 30, 0
 Lighting Claw (H), WARRIOR, SLASH, 40, 0, STUN, 20, 0
-Sword Of Transcendence (H), WARRIOR, SLASH, 50, STUN, 100, 0
+Sword Of Transcendence (H), WARRIOR, SLASH, 50, 0, STUN, 100, 0
 
 # Blunt Weapons
 Bare Hands, WARRIOR, BLUNT, 1, 0, STUN, 0.2, 0
