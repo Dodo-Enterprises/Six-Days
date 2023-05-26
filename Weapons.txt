@@ -22,6 +22,6 @@ Electric Spear (M), WARRIOR, PIERCE, 15, 20, STUN, 20, 0
 Wooden Staff (L), MAGE, STAFF, 0, 10, NONE, 100, 0
 Nice Wooden Staff (L), MAGE, STAFF, 0, 15, NONE, 100, 0
 Staff of Wingard Levioso (H), MAGE, STAFF, 0, 20, NONE, 100, 0
-Gun (H), MAGE, STAFF, 0, 40, STUN, 50, 0
-Staff of Dragon Lord (H), MAGE, STAFF, 0, 40, STUN, 20, 0
+Gun (H), MAGE, STAFF, 0, 20, STUN, 50, 0
+Staff of Dragon Lord (H), MAGE, STAFF, 0, 20, STUN, 20, 0
 Staff Of King (H), MAGE, STAFF, 0, 20, LIFESTEAL, 30, 0
