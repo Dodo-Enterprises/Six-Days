@@ -111,6 +111,7 @@ class Armor:
         self.phy_neg = float(phy_neg / 100)
         self.magic_neg = float(magic_neg / 100)
         self.armor_type = armor_type
+        self.armor_piece = armor_piece
 
     @classmethod
     def load_armor_from_file(cls, armor_name: str):
@@ -187,7 +188,7 @@ class Spell:
                     f"{spell_name} does not exist in Character_Presets.txt"
                 spell_arguments = spell_arguments[first_item.index(spell_name)]
                 return Spell(spell_arguments[0], int(spell_arguments[1]),
-                bool(spell_arguments[2]), effect=Effects[spell_arguments[3]],
+                True if spell_arguments[2] == "TRUE" else False, effect=Effects[spell_arguments[3]],
                                 effect_chance=float(spell_arguments[4]), effect_amt=int(spell_arguments[5]))
         except FileNotFoundError:
             with open(cls._path_to_spell_preset_file_mac, 'r') as f:
@@ -200,7 +201,7 @@ class Spell:
                     f"{spell_name} does not exist in Character_Presets.txt"
                 spell_arguments = spell_arguments[first_item.index(spell_name)]
                 return Spell(spell_arguments[0], int(spell_arguments[1]),
-                             bool(spell_arguments[2]), effect=Effects[spell_arguments[3]],
+                             True if spell_arguments[2] == "True" else False, effect=Effects[spell_arguments[3]],
                              effect_chance=float(spell_arguments[4]), effect_amt=int(spell_arguments[5]))
 
 class Potion:

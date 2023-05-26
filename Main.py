@@ -157,14 +157,14 @@ while True:
             "\n So make sure you’re prepared before going into a kingdom. Please be careful and may Kangmar be with you always "
             "\n on your travels. (Muriel leaves).")
       input()
-player = Crystal(player).start()
-if player == False:
-      continue
-player = Mecha(player).start()
-      if player == False:
+      player = Crystal(player).start()
+      if not player:
             continue
-player = Clock(player).start()
-      if player == False
+      player = Mecha(player).start()
+      if not player:
+            continue
+      player = Clock(player).start()
+      if not player:
             break
 
 #The Ending

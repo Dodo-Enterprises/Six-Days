@@ -10,3 +10,4 @@ class Commands(Enum):
     TRASH = "trash"
     USE = "use"
     EXIT = "exit"
+    INFO = "info"

@@ -165,7 +165,7 @@ class BattleSystem:
             msg = "You dealt "
             if self.player.arm1.wpn_type == WpnTypes.STAFF:
                 armament = self.player.arm1
-            elif self.player.arm2.wpn_type == WpnTypes.STAFF:
+            else:
                 armament = self.player.arm2
             for enemy in self.enemies:
                 result = self.player.mag_attack(armament, spell,
@@ -289,6 +289,8 @@ class BattleSystem:
                             case Effects.HEALTH:
                                 character.hurt(-float(amt))
                                 print(f"{character.name} had {amt} health restored.")
+                                if character.is_player:
+                                    print(f"Current health: {character.health}")
                             case Effects.STRENGTH:
                                 character.arm1.phy_damage += amt
                                 character.arm2.phy_damage += amt
