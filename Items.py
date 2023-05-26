@@ -188,7 +188,7 @@ class Spell:
                     f"{spell_name} does not exist in Character_Presets.txt"
                 spell_arguments = spell_arguments[first_item.index(spell_name)]
                 return Spell(spell_arguments[0], int(spell_arguments[1]),
-                True if spell_arguments[2] == "TRUE" else False, effect=Effects[spell_arguments[3]],
+                True if spell_arguments[2] == "True" else False, effect=Effects[spell_arguments[3]],
                                 effect_chance=float(spell_arguments[4]), effect_amt=int(spell_arguments[5]))
         except FileNotFoundError:
             with open(cls._path_to_spell_preset_file_mac, 'r') as f:
