@@ -115,7 +115,7 @@ class Mecha:
         input()
         #Battle 4
         if BattleSystem.load_battle_from_file(self.player, 4).start():
-            self.player.add_to_inventory([Weapon.load_weapon_from_file("Electric Spear (M)") for i in range(5)])
+            self.player.add_to_inventory(Weapon.load_weapon_from_file("Electric Spear (M)"))
             print("You Won")
             print("Player received an Electric Spear(M)")
         else:
@@ -126,7 +126,7 @@ class Mecha:
         if BattleSystem.load_battle_from_file(self.player, 5).start():
             self.player.add_to_inventory([Potion.load_potion_from_file("Health (L)") for i in range(5)])
             print("You Won")
-            print("Player received Potions(L)")
+            print("Player received 5 Potions (L)")
         else:
             print("You Lose")
             return False
@@ -172,7 +172,7 @@ class Mecha:
         input()
         #Boss. Battle #7
         if BattleSystem.load_battle_from_file(self.player, 7).start():
-            self.player.add_to_inventory([Weapon.load_weapon_from_file("Silver Sword (M)") for i in range(5)])
+            self.player.add_to_inventory(Weapon.load_weapon_from_file("Silver Sword (M)"))
             print("You Won")
             print("Player received a Silver Sword (M)")
         else:
@@ -212,7 +212,7 @@ class Mecha:
         input()
         print("")
 
-        return self.player()
+        return self.player
 
 
 
