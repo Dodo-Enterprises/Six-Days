@@ -107,7 +107,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.add_to_inventory(self, self.arm1)
+                            self.add_to_inventory(self.arm1)
                             self.arm1 = item
                             self.remove_from_inventory(item)
                         else:
@@ -128,7 +128,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.add_to_inventory(self, self.arm2)
+                            self.add_to_inventory(self.arm2)
                             self.arm2 = item
                             self.remove_from_inventory(item)
                         else:
@@ -159,9 +159,12 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.add_to_inventory(self, self.helmet)
+                            print("First step")
+                            self.add_to_inventory(self.helmet)
                             self.helmet = item
+                            print("second step")
                             self.remove_from_inventory(item)
+                            print("Finish?")
                             break
                     else:
                         self.helmet = item
@@ -180,7 +183,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.add_to_inventory(self, self.breastplate)
+                            self.add_to_inventory(self.breastplate)
                             self.breastplate = item
                             self.remove_from_inventory(item)
                             break
@@ -200,7 +203,7 @@ class Character:
                                 print("The input was not recognized as a valid input. Please input a valid response. "
                                       "Try again...")
                         if ans == "y":
-                            self.add_to_inventory(self, self.grieves)
+                            self.add_to_inventory(self.grieves)
                             self.grieves = item
                             self.remove_from_inventory(item)
                             break
@@ -264,10 +267,10 @@ class Character:
 
     def remove_from_inventory(self, item):
         """Removes the specified item from the player's inventory"""
-        assert isinstance(item, Item) and isinstance(item, Weapon) and isinstance(item, Armor) and \
-               isinstance(item, Potion) and isinstance(item, Spell), f"Item expected to be of Item, Weapon, Armor, " \
+        assert isinstance(item, Item) or isinstance(item, Weapon) or isinstance(item, Armor) or \
+               isinstance(item, Potion) or isinstance(item, Spell), f"Item expected to be of Item, Weapon, Armor, " \
                                                                      f"Potion, or Spell type, got: {type(item)}"
-        for key, value in self.items:
+        for key, value in self.items.items():
             if item != key:
                 continue
             if value > 1:
@@ -508,7 +511,7 @@ class Character:
             except AssertionError:
                 print("Invalid command, Please try again.")
                 print(f"list of helpful commands:\n{Commands.HELP.value}\n{Commands.EQUIP.value}"
-                      f"\n{Commands.UNEQUIP.value}\n{Commands.USE.value}\n{Commands.TRASH.value}"
+                      f"\n{Commands.UNEQUIP.value}\n{Commands.USE.value}\n{Commands.TRASH.value}\n{Commands.INFO.value}"
                       f"\n{Commands.EXIT.value}")
                 continue
             match cmd[0]:
@@ -518,6 +521,7 @@ class Character:
                     continue
                 case Commands.EQUIP.value:
                     try:
+                        print(cmd[1])
                         self.equip(cmd[1])
                         continue
                     except AssertionError:
@@ -560,6 +564,16 @@ class Character:
                                 continue
                             del self.potions[key]
                             break
+                case Commands.INFO.value:
+                    print(f"Current Health: {self.health}")
+                    print(f"Current Status: {self.status}")
+                    print(f"Armament_1: {self.arm1.name}, Armament_2: {self.arm2.name}")
+                    print(f"Helmet: {self.helmet.name}, Breastplate: {self.breastplate.name}, Grieves: {self.grieves.name}")
+                    print(f"Spells: {[spell.name for spell in self.spells]}")
+                    display_items_dict = {key.name: value for key, value in self.items.items()}
+                    display_potions_dict = {key.name: value for key, value in self.potions.items()}
+                    print(f"Potions: {display_potions_dict}")
+                    print(f"Items: {display_items_dict}")
                 case Commands.EXIT.value:
                     break
         return False
