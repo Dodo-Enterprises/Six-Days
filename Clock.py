@@ -49,7 +49,7 @@ class Clock:
                   if ans == "1":
                       print("You go talk with children about their king")
                       input()
-                      print("Player: Mind if I join you?")
+                      print("JajaWawa: Mind if I join you?")
                       input()
                       print("Boy 1: Sure! You can be Gavriel Utterson and I will be mighty Clockyll Tymdal")
                       input()
@@ -57,7 +57,7 @@ class Clock:
                       print("\nI want to be Clockyll Tymdal!")
                       print("Girl 1: I will be the princess ")
                       input()
-                      print("Player (stopping the fight between boys 1 and 2): Kids, who is Gavriel Utterson? ")
+                      print("JajaWawa (stopping the fight between boys 1 and 2): Kids, who is Gavriel Utterson? ")
                       input()
                       print("Girl 1: You don’t know Gavriel Utterson?")
                       input()
@@ -122,7 +122,7 @@ class Clock:
               print("Player received Dragon Scale Armor")
               input()
               print("The dragons were so strong that knights and wizards of the clock kingdom died one by one. "
-                    "\nThe gigantic dragon attacks the player ")
+                    "\nThe gigantic dragon attacks JajaWawa ")
               # Battle 10 ???
               # Battle
               input()

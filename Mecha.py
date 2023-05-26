@@ -198,14 +198,14 @@ class Mecha:
             print("You look at James’s lifeless body and mourn. You are then determined to bring an end to all of this.")
             input()
             'Go back to town and talk to NPCs'
-            print("Muriel: Oh welcome back, [player]! "
+            print("Muriel: Oh welcome back, JajaWawa! "
                 "\nWith that fire in your eyes, I can already tell that you conquered another kingdom. Which one was it?")
             input()
             print("Oh, it was the Mecha kingdom ")
             input()
             print("Please …tell me, what happened with the king")
             input()
-            print("Player explains everything")
+            print("JajaWawa explains everything")
             input()
             print("Levioso, oh how far you’ve fallen.")
             input()

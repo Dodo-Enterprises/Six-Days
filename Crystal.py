@@ -92,7 +92,7 @@ class Crystal:
             "\n After you take the artifact you use its power to revert the townspeople back to normal and "
             "\n then they evacuate to another kingdom.  ")
         input()
-        print("The player goes back to town and talks to Muriel and Ragnar. ")
+        print("Jajawawa goes back to town and talks to Muriel and Ragnar. ")
         input()
         #The player defeated the first kingdom
         print("Muriel: Oh why if it isn’t JajaWawa, it has been a while. How’ve you been?")
@@ -100,7 +100,7 @@ class Crystal:
         print("Muriel: Oh you got the Crystal of Perpetuation! This is marvelous! I just knew you could do it! "
             "\nRagnar come see this!")
         input()
-        print("Ragnar: Hmm call me impressed [player] it seems I’ve underestimated you. "
+        print("Ragnar: Hmm call me impressed JajaWawa it seems I’ve underestimated you. "
             "\nYes, it seems you may really have the tenacity to defeat the demon king. "
             "\nDon’t get too comfortable though, you’ve still got more kingdoms to do. "
             "\nDon’t lose that fire of yours, we’ll need it till the very end! ")

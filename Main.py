@@ -203,7 +203,7 @@ print("Everyone celebrated as the demon king was no more!")
 input()
 print("After returning to town you find a note in Muriel and Ragnar’s house")
 input()
-print("Dear [player],"
+print("Dear JajaWawa,"
         "\nWe cannot thank you enough for all the hard work you put into saving the nation and its people! "
         "\nWe would like to thank you from the bottom of our hearts. "
         "\nThere is one more thing we forgot to mention to you in person. "
