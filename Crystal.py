@@ -17,7 +17,8 @@ class Crystal:
         :return: player
         """
         #All the code for the crystal arc
-
+        self.player.add_to_inventory([Potion.load_potion_from_file("Health (L)") for i in range(5)])
+        print("Player received 5 Potions (L)")
         print("You enter the Crystal Kingdom."
             "The crystals are everywhere and they are bright, "
             "fluorescent purple and it feels cold and lifeless inside. "
@@ -27,19 +28,23 @@ class Crystal:
             "\nYou then come across bigger crystals that then come alive and attack you. "
             "\nThey seem to be possessed by the demon king’s minions.")
         #Battle 1
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 1).start():
-            self.player.add_to_inventory(Weapon.load_weapon_from_file("Sword (L)"))
             print("You Won")
-            print("Player received a Sword (L)")
+            if self.player.job == Jobs.WARRIOR:
+                self.player.add_to_inventory(Weapon.load_weapon_from_file("Sword (L)"))
+                print("Player received a Sword (L)")
+            else:
+                self.player.add_to_inventory(Weapon.load_weapon_from_file("Nice Wooden Staff (L)"))
+                print("Player received a Nice Wooden Staff (L)")
         else:
             print("You Lose")
             return False
         input()
         #Battle 2
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 2).start():
-            self.player.add_to_inventory([Potion.load_potion_from_file("Health (L)") for i in range(5)])
             print("You Won")
-            print("Player received 5 Potions (L)")
         else:
             print("You Lose")
             return False
@@ -62,10 +67,15 @@ class Crystal:
         print("You turn around and you see a giant crystal golem ready to fight.")
         input()
         #Battle 3 (Boss)
+        self.player.health = 200
         if BattleSystem.load_battle_from_file(self.player, 3).start():
-            self.player.add_to_inventory(Weapon.load_weapon_from_file("Stone Hammer (L)"))
             print("You Won")
-            print("Player received a Stone Hammer (L)")
+            if self.player.job == Jobs.WARRIOR:
+                self.player.add_to_inventory(Weapon.load_weapon_from_file("Stone Hammer (L)"))
+                print("Player received a Stone Hammer (L)")
+            else:
+                self.player.add_to_inventory(Spell.load_spell_from_file("Icespear"))
+                print("Player received Icespear spell")
         else:
             print("You Lose")
             return False

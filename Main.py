@@ -71,14 +71,20 @@ while True:
                   assert ans == "1" or ans == "2", "stuff"
                   if ans == "1":
                         print("You are now a Warrior!")
-                        player = Character("JaJaWaWa", 100, Jobs.WARRIOR, [], {}, {},
-                                           arm1=Weapon.load_weapon_from_file("Knife (L)"), is_player=True)
+                        player = Character("JaJaWaWa", 200, Jobs.WARRIOR, [], {}, {},
+                                           arm1=Weapon.load_weapon_from_file("Knife (L)"),
+                                           helmet=Armor.load_armor_from_file("Leather Helmet"),
+                                           breastplate=Armor.load_armor_from_file("Leather Tunic"),
+                                           grieves=Armor.load_armor_from_file("Leather Trousers"), is_player=True)
                         break
       #Staff is not working
                   elif ans == "2":
                         print("You are a Mage!")
                         player = Character("JaJaWaWa", 200, Jobs.MAGE, [Spell.load_spell_from_file("Fireball")], {}, {},
-                                          arm1=Weapon.load_weapon_from_file("Wooden Staff (L)"), is_player=True)
+                                          arm1=Weapon.load_weapon_from_file("Wooden Staff (L)"),
+                                           helmet=Armor.load_armor_from_file("Leather Helmet"),
+                                           breastplate=Armor.load_armor_from_file("Leather Tunic"),
+                                           grieves=Armor.load_armor_from_file("Leather Trousers"), is_player=True)
                         break
             except AssertionError:
                   print("Invalid")
