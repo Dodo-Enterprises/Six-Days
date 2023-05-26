@@ -1,14 +1,14 @@
 Fireball, 5, True, BURN, 50, 10
-Fireblast, 30, True, BURN, 100, 10
-Icespear, 40, False, STUN, 10, 0
-Lazer, 40, False, STUN, 100, 0
-Lightingbolt, 20, False, STUN, 30, 0
+Fireblast, 10, True, BURN, 100, 10
+Icespear, 5, False, STUN, 10, 0
+Lazer, 20, False, STUN, 100, 0
+Lightingbolt, 10, False, STUN, 30, 0
 Shotgun, 15, True, BURN, 100, 10
 Rifle, 40, False, BURN, 100, 10
 Death Shot, 1, True, DEATHTOUCH, 20, 0
-Death bolt, 40, True, DEATHTOUCH, 5, 0
-Dragonbreath, 35, True, BURN, 100, 10
-Disappear!, 0, True, DEATHTOUCH, 5, 0
-Freeze!, 35, False, STUN, 80, 0
-Burn!, 35, True, BURN, 100, 10
+Death bolt, 20, True, DEATHTOUCH, 5, 0
+Dragonbreath, 25, True, BURN, 100, 10
+Disappear!, 10, True, DEATHTOUCH, 5, 0
+Freeze!, 25, False, STUN, 80, 0
+Burn!, 25, True, BURN, 100, 10
 ???, 10, True, DEATHTOUCH, 100, 0
