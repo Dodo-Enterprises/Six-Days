@@ -224,22 +224,27 @@ class BattleSystem:
             if Effects.STUN in ally.status.keys():
                 print(f"{ally.name} was stunned.")
                 continue
-            if ally.job == Jobs.WARRIOR:
+            armament = ally.arm2
+            if random.randrange(1,2) == 1:
+                armament = ally.arm1
+            if armament.wpn_type == WpnTypes.STAFF:
+                spell = ally.spells[0]
+                if len(ally.spells) > 1:
+                    spell = ally.spells[random.randrange(0, len(ally.spells))]
                 target = random.randrange(0, len(self.enemies))
-                result = ally.phy_attack(ally.arm1, self.enemies[target])
+                result = ally.mag_attack(armament, spell, self.enemies[target])
                 print(f"{ally.name} dealt {result[0]} points of damage to {self.enemies[target].name}")
                 if result[1] <= 0:
                     self.enemies.remove(self.enemies[target])
                 if len(self.enemies) == 0:
                     return False
-            else:
-                target = random.randrange(0, len(self.enemies))
-                result = ally.mag_attack(ally.arm1, ally.spells[0], self.enemies[target])
-                print(f"{ally.name} dealt {result[0]} points of damage to {self.enemies[target].name}")
-                if result[1] <= 0:
-                    self.enemies.remove(self.enemies[target])
-                if len(self.enemies) == 0:
-                    return False
+            target = random.randrange(0, len(self.enemies))
+            result = ally.phy_attack(armament, self.enemies[target])
+            print(f"{ally.name} dealt {result[0]} points of damage to {self.enemies[target].name}")
+            if result[1] <= 0:
+                self.enemies.remove(self.enemies[target])
+            if len(self.enemies) == 0:
+                return False
         enemy_team = ""
         i = 1
         for enemy in self.enemies:
@@ -254,9 +259,15 @@ class BattleSystem:
             if Effects.STUN in enemy.status.keys():
                 print(f"{enemy.name} was stunned.")
                 continue
-            if enemy.job == Jobs.WARRIOR:
+            armament = enemy.arm2
+            if random.randrange(1,2) == 1:
+                armament = enemy.arm1
+            if armament.wpn_type == WpnTypes.STAFF:
+                spell = enemy.spells[0]
+                if len(enemy.spells) > 1:
+                    spell = enemy.spells[random.randrange(0, len(enemy.spells))]
                 target = random.randrange(0, len(self.players_team))
-                result = enemy.phy_attack(enemy.arm1, self.players_team[target])
+                result = enemy.mag_attack(armament, spell, self.players_team[target])
                 print(f"{enemy.name} dealt {result[0]} points of damage to {self.players_team[target].name}")
                 if result[1] <= 0:
                     if self.player.health <= 0:
@@ -264,16 +275,16 @@ class BattleSystem:
                         return False
                     print(f"{self.players_team[target].name} died.")
                     del self.players_team[target]
-            else:
-                target = random.randrange(0, len(self.players_team))
-                result = enemy.mag_attack(enemy.arm1, enemy.spells[0], self.players_team[target])
-                print(f"{enemy.name} dealt {result[0]} points of damage to {self.players_team[target].name}")
-                if result[1] <= 0:
-                    if self.player.health <= 0:
-                        print("Game Over")
-                        return False
-                    print(f"{self.players_team[target].name} died.")
-                    del self.players_team[target]
+                    continue
+            target = random.randrange(0, len(self.players_team))
+            result = enemy.phy_attack(armament, self.players_team[target])
+            print(f"{enemy.name} dealt {result[0]} points of damage to {self.players_team[target].name}")
+            if result[1] <= 0:
+                if self.player.health <= 0:
+                    print("Game Over")
+                    return False
+                print(f"{self.players_team[target].name} died.")
+                del self.players_team[target]
         return True
 
     def _effects_applied(self):
