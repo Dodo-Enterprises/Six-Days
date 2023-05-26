@@ -1,7 +1,7 @@
 # Allies
 Villager, 80, WARRIOR, [NONE], NONE, Knife (L), Bare Hands, Bare Head, Leather Tunic, Leather Trousers
 
-James, 200, WARRIOR, [NONE], Health (M),Health (M),Health (M), Electric Spear (L), Electric Spear (H), Chain Helmet, Chain Tunic, Chain Trouser
+James, 200, WARRIOR, [NONE], Health (M),Health (M),Health (M), Electric Spear (L), Electric Spear (L), Chain Helmet, Chain Tunic, Chain Trouser
 
 Gravriel-Utters, 10000, ANY, [Shotgun,Rifle], NONE, Gun (H), Silver Sword (M), Bare Head, Coat, Suit Pants
 
@@ -18,7 +18,7 @@ Crystal_Golem, 60, WARRIOR, [NONE], NONE, Stone (L), Stone (L), Bare Head, Bare 
 
 Elite_Crystal_Golem, 60, WARRIOR, [NONE], NONE, Stone (L), Stone (L), Stone Head, Stone Chest, Stone Legs
 
-Alpha_Crystal_Golem_(Boss), 200, WARRIOR, [NONE], NONE, Stone Hammer (L), Stone Hammer (L), Stone Head, Stone Chest, Stone Legs
+Alpha_Crystal_Golem_(Boss), 100, WARRIOR, [NONE], NONE, Stone Hammer (L), Stone Hammer (L), Stone Head, Stone Chest, Stone Legs
 
 Cyber_Guard, 100, WARRIOR, [NONE], Health (L), Sword (L), Sword (L), Leather Helmet, Leather Tunic, Leather Trousers
 

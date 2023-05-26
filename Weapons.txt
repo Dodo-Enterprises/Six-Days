@@ -11,11 +11,11 @@ Sword Of Kangmar (H), WARRIOR, SLASH, 50, STUN, 100, 0
 Bare Hands, WARRIOR, BLUNT, 1, 0, STUN, 0.2, 0
 Wooden Club (L), WARRIOR, BLUNT, 5, 0, STUN, 5, 0
 Stone (L), WARRIOR, BLUNT, 10, 0, NONE, 100, 0
-Stone Hammer (L), WARRIOR, BLUNT, 20, 0, STUN, 10, 0
-Stone Hammer (M), WARRIOR, BLUNT, 30, 0, STUN, 10, 0
+Stone Hammer (L), WARRIOR, BLUNT, 10, 0, STUN, 5, 0
+Stone Hammer (M), WARRIOR, BLUNT, 25, 0, STUN, 20, 0
 
 # Pierce Weapons
-Electric Spear (L), WARRIOR, PIERCE, 30, 30, STUN, 50, 0
+Electric Spear (L), WARRIOR, PIERCE, 15, 15, STUN, 50, 0
 Electric Spear (M), WARRIOR, PIERCE, 15, 20, STUN, 20, 0
 
 # Staffs
