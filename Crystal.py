@@ -28,7 +28,7 @@ class Crystal:
             "\nThey seem to be possessed by the demon king’s minions.")
         #Battle 1
         if BattleSystem.load_battle_from_file(self.player, 1).start():
-            self.player.add_to_inventory([Weapon.load_weapon_from_file("Sword (L)") for i in range(5)])
+            self.player.add_to_inventory(Weapon.load_weapon_from_file("Sword (L)"))
             print("You Won")
             print("Player received a Sword (L)")
         else:
@@ -39,7 +39,7 @@ class Crystal:
         if BattleSystem.load_battle_from_file(self.player, 2).start():
             self.player.add_to_inventory([Potion.load_potion_from_file("Health (L)") for i in range(5)])
             print("You Won")
-            print("Player received Potions (L)")
+            print("Player received 5 Potions (L)")
         else:
             print("You Lose")
             return False
@@ -63,7 +63,7 @@ class Crystal:
         input()
         #Battle 3 (Boss)
         if BattleSystem.load_battle_from_file(self.player, 3).start():
-            self.player.add_to_inventory([Weapon.load_weapon_from_file("Stone Hammer (L)") for i in range(5)])
+            self.player.add_to_inventory(Weapon.load_weapon_from_file("Stone Hammer (L)"))
             print("You Won")
             print("Player received a Stone Hammer (L)")
         else:
@@ -100,4 +100,4 @@ class Crystal:
         input()
         print("")
 
-        return self.player()
+        return self.player

@@ -163,8 +163,9 @@ while True:
       player = Mecha(player).start()
       if not player:
             continue
-      player = Clock(player).start()
-      if not player:
+      if not Clock(player).start():
+            continue
+      else:
             break
 
 #The Ending
